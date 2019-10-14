@@ -1,8 +1,37 @@
 CMake for GDAL
 ==============
 
-.. image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master
+.. |macos| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=macOS
    :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |ubuntu1804| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Ubuntu_1804
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |ubuntu1604gcc| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Ubuntu_1604_gcc
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |ubuntu1604clang| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Ubuntu_1604_clang
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |mingw| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=MinGW
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |windows32| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Windows32
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |windows64| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Windows64
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+
+
++--------+------------------------+
+| Jobs   | Mac                    |
+|        | Ubuntu 18.04           |
+|        | Ubuntu 16.04 (GCC)     |
+|        | Ubuntu 16.04 (CLang)   |
+|        | Windows 32bit          |
+|        | Windows 64bit          |
++--------+------------------------+
+| Status | |macos|                |
+|        | |ubuntu1804|           |
+|        | |ubuntu1604gcc|        |
+|        | |ubuntu1604clang|      |
+|        | |windows32|            |
+|        | |windows64|            |
++--------+------------------------+
 
 Cmake script set for GDAL developer, who can use modern IDEs such as CLion, VS, VSCode and XCode.
 
