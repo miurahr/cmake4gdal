@@ -90,7 +90,7 @@ add_library(ogr OBJECT
             ogrpgeogeometry.h
             ogr_geo_utils.h
             ogr_srs_esri_names.h
-            swq.h
+            ogr_swq.h
             ogr_expat.h
             ogr_sfcgal.h
             ogr_geocoding.h

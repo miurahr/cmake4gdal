@@ -10,4 +10,4 @@ if __name__ == "__main__":
     for cur, _, files in os.walk(listpath):
         if 'CMakeLists.txt' in files:
             target = os.path.join(parent_dir, os.path.relpath(cur, start=listpath))
-            os.link(os.path.join(cur, 'CMakeLists.txt'), os.path.join(target, 'CMakeLists.txt'))
+            os.symlink(os.path.join(cur, 'CMakeLists.txt'), os.path.join(target, 'CMakeLists.txt'))
