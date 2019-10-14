@@ -9,11 +9,16 @@ steps:
     wget https://cmake.org/files/v$(CMAKEVER)/cmake-$(CMAKEVER).$(CMAKEREV)-Linux-x86_64.sh
     sudo bash ./cmake-$(CMAKEVER).$(CMAKEREV)-Linux-x86_64.sh --prefix=/usr --exclude-subdir
   displayName: cmake-install
+- bash: |
+    git clone https://github.com/osgeo/gdal.git
+    ln -s $(Build.SourcesDirectory) $(Build.BinariesDirectory)/gdal/cmake4gdal
+    python $(Build.BinariesDirectory)/gdal/cmake4gdal/deploy.py
+  workingDirectory: '$(Build.BinariesDirectory)'
 - task: CMake@1
   displayName: configure
   inputs:
     workingDirectory: '$(Build.BinariesDirectory)/build'
-    cmakeArgs: -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=$(Build.BinariesDirectory)/${{parameters.ANDROID_NDK}}/build/cmake/android.toolchain.cmake -DANDROID_TOOLCHAIN=${{parameters.ANDROID_TOOLCHAIN}} -DSWIG_PYTHON=OFF -C${{parameters.CONFIGURATIONS}} $(Build.SourcesDirectory)
+    cmakeArgs: -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=$(Build.BinariesDirectory)/${{parameters.ANDROID_NDK}}/build/cmake/android.toolchain.cmake -DANDROID_TOOLCHAIN=${{parameters.ANDROID_TOOLCHAIN}} -DSWIG_PYTHON=OFF -C${{parameters.CONFIGURATIONS}} $(Build.BinariesDirectory)/gdal
 - task: CMake@1
   displayName: build
   inputs:

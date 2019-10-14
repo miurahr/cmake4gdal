@@ -4,6 +4,11 @@ steps:
     sudo $(Build.SourcesDirectory)/ci/azure-pipelines/linux-install.sh
     sudo $(Build.SourcesDirectory)/ci/azure-pipelines/mingw-install.sh
   displayName: install dependencies
+- bash: |
+    git clone https://github.com/osgeo/gdal.git
+    ln -s $(Build.SourcesDirectory) $(Build.BinariesDirectory)/gdal/cmake4gdal
+    python $(Build.BinariesDirectory)/gdal/cmake4gdal/deploy.py
+  workingDirectory: '$(Build.BinariesDirectory)'
 - task: CMake@1
   displayName: configure
   inputs:
