@@ -1,7 +1,4 @@
 
-trigger:
-- devel*
-
 variables:
   CMAKEVER: 3.13
   CMAKEREV: 3
