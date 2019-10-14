@@ -30,8 +30,8 @@ jobs:
         dockerFile: Dockerfile-bionic
         scriptFile: linux-run.sh
         environmentVariables: |
-          CC=clang
-          CXX=clang++
+          CC=clang-8
+          CXX=clang++-8
           LANG=C.UTF-8
           BUILD_TYPE=Debug
           CMAKE_OPTIONS=-C/src/configurations/full_drivers.cmake
