@@ -41,19 +41,15 @@ def create_links():
 def main(arg=None):
     parser = argparse.ArgumentParser(prog='package.py', description='cmake for gdal packager',
                                      formatter_class=argparse.RawTextHelpFormatter, add_help=True)
-    parser.add_argument("-c", "--create", action='store_true', help="Create symbolic links of CMakeLists.txt")
     parser.add_argument("-t", "--test", action='store_true', help="Check cmakefile integrity.")
     args = parser.parse_args(arg)
 
-    if args.create:
-        create_links()
-    elif args.test:
+    if args.test:
         check_folders()
     else:
-        args.print_help()
-        return 1
+        create_links()
     return 0
 
 
 if __name__ == "__main__":
-    exit(main())
+    main()

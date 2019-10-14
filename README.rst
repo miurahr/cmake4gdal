@@ -15,7 +15,7 @@ How to use
   $ git clone https://github.com/osgeo/gdal.git
   $ cd gdal
   $ git clone https://github.com/miurahr/cmake4gdal
-  $ python cmake4gdal/deploy.py -c
+  $ python cmake4gdal/deploy.py
 
 2. Check integrity of cmake scripts
 
