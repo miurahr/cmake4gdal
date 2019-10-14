@@ -88,7 +88,9 @@ The cmake related files are located in following directories;
 
 ```
 <root>
- - cmake:   cmake modules and helper scripts
+ - cmake4gdal:   cmake modules and helper scripts
+   - ci: ci script to test a gdal build with cmake
+   - cmakelists: build scripts to deploy gdal source.
    - helpers:  helpers for gdal compilation
    - configurations:  inital cmake cache configuration examples
    - platforms: toolschain files for cross compilation
@@ -97,10 +99,8 @@ The cmake related files are located in following directories;
      - 3.12: backported modules from specified cmake version
      - 3.9:
    - templates: template source files to generate when configure
- - autotest: test suites
- - gdal: source files
-   - ci/travis
-   - scripts/vagrant
+ - autotest: gdal test suites
+ - gdal: gdal source files
 ```
 
 Build configuration files
