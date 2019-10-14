@@ -8,7 +8,7 @@ steps:
     ln -s $(Build.SourcesDirectory) $(Build.BinariesDirectory)/gdal/cmake4gdal
     python $(Build.BinariesDirectory)/gdal/cmake4gdal/deploy.py
   workingDirectory: '$(Build.BinariesDirectory)'
--- task: CMake@1
+- task: CMake@1
   displayName: configure gdal
   inputs:
       workingDirectory: '$(Build.BinariesDirectory)/build'
