@@ -1,5 +1,5 @@
 add_gdal_driver(TARGET ogr_WFS
-                SOURCES ogr_wfs.h ogrwfs3driver.cpp ogrwfsdatasource.cpp ogrwfsdriver.cpp
+                SOURCES ogr_wfs.h ogrwfsdatasource.cpp ogrwfsdriver.cpp
                 ogrwfsfilter.cpp ogrwfsjoinlayer.cpp ogrwfslayer.cpp
                 BUILTIN)
 gdal_standard_includes(ogr_WFS)
