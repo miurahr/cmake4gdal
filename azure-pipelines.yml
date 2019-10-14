@@ -1,13 +1,10 @@
 
-trigger:
-- devel*
-
 variables:
-  CMAKEVER: 3.13
-  CMAKEREV: 3
+  CMAKEVER: 3.15
+  CMAKEREV: 4
 
 jobs:
-- job: Ubuntu_1804
+- job: Ubuntu_1804_gcc
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
@@ -15,7 +12,7 @@ jobs:
     parameters:
       imageName: 'gdal-bionic'
       dockerFile: Dockerfile-bionic
-      scriptFile: docker-run.sh
+      scriptFile: linux-run.sh
       environmentVariables: |
         CC=gcc
         CXX=g++
@@ -23,39 +20,37 @@ jobs:
         BUILD_TYPE=Debug
         CMAKE_OPTIONS=-C/src/configurations/full_drivers.cmake
 
-- job: Ubuntu_1604_gcc
+- job: Ubuntu_1804_clang
   pool:
     vmImage: 'ubuntu-16.04'
-  variables:
-    CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/full_drivers.cmake
   steps:
-  - template: ci/azure-pipelines/linux.yml
-    parameters:
-      CC: gcc
-      CXX: g++
-
-- job: Ubuntu_1604_clang
-  pool:
-    vmImage: 'ubuntu-16.04'
-  variables:
-    CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/full_drivers.cmake
-  steps:
-    - template: ci/azure-pipelines/linux.yml
+    - template: ci/azure-pipelines/docker.yml
       parameters:
-        CC: clang
-        CXX: clang++
+        imageName: 'gdal-bionic'
+        dockerFile: Dockerfile-bionic
+        scriptFile: linux-run.sh
+        environmentVariables: |
+          CC=clang-8
+          CXX=clang++-8
+          LANG=C.UTF-8
+          BUILD_TYPE=Debug
+          CMAKE_OPTIONS=-C/src/configurations/full_drivers.cmake
 
 - job: MinGW
   pool:
     vmImage: 'ubuntu-16.04'
-  variables:
-    SOURCE_DIR: $(Build.SourcesDirectory)
-    BINARY_DIR: $(Build.BinariesDirectory)
   steps:
-    - template: ci/azure-pipelines/mingw.yml
+    - template: ci/azure-pipelines/docker.yml
       parameters:
-        CXX: x86_64-w64-mingw32-g++-posix
-        CC: x86_64-w64-mingw32-gcc-posix
+        imageName: 'gdal-bionic'
+        dockerFile: Dockerfile-bionic
+        scriptFile: mingw-run.sh
+        environmentVariables: |
+          CXX=x86_64-w64-mingw32-g++-posix
+          CC=x86_64-w64-mingw32-gcc-posix
+          LANG=C.UTF-8
+          BUILD_TYPE=Debug
+          CMAKE_OPTIONS=-C/src/configurations/full_drivers.cmake
 
 #- job: Android
 #  pool:

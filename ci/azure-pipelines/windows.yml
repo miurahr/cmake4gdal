@@ -37,6 +37,11 @@ steps:
   inputs:
     workingDirectory: '$(Build.BinariesDirectory)/build-proj'
     cmakeArgs: --build . --target install --config Release
+- script: |
+    git clone https://github.com/osgeo/gdal.git
+    ln -s $(Build.SourcesDirectory) $(Build.BinariesDirectory)/gdal/cmake4gdal
+    python $(Build.BinariesDirectory)/gdal/cmake4gdal/deploy.py
+  workingDirectory: '$(Build.BinariesDirectory)'
 - task: CMake@1
   displayName: configure gdal
   inputs:

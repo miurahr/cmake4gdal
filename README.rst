@@ -1,8 +1,30 @@
 CMake for GDAL
 ==============
 
-.. image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master
+.. |macos| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=macOS
    :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |ubuntu1804gcc| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Ubuntu_1804_gcc
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |ubuntu1804clang| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Ubuntu_1804_clang
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |mingw| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=MinGW
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |windows32| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Windows32
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+.. |windows64| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Windows64
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+
+
+================== =================
+Jobs               Status
+------------------ -----------------
+Mac                |macos|
+Ubuntu18.04(gcc)   |ubuntu1804gcc|
+Ubuntu18.04(clang) |ubuntu1804clang|
+MinGW              |mingw|
+Windows32          |windows32|
+Windows64          |windows64|
+================== =================
 
 Cmake script set for GDAL developer, who can use modern IDEs such as CLion, VS, VSCode and XCode.
 
