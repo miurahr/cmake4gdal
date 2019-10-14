@@ -1,6 +1,9 @@
 CMake for GDAL
 ==============
 
+.. image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master
+   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
+
 Cmake script set for GDAL developer, who can use modern IDEs such as CLion, VS, VSCode and XCode.
 
 

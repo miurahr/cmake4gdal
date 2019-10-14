@@ -8,10 +8,10 @@ echo ${TZ} > /etc/timezone
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
-apt-get -y -q install software-properties-common apt-transport-https
+apt-get -y -q install software-properties-common apt-transport-https curl
 add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
-wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
 if [ $(lsb_release -sc) = "bionic" ]; then
   add-apt-repository -y 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main'
