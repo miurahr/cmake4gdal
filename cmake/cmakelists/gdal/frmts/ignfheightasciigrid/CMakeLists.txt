@@ -1,0 +1,2 @@
+add_gdal_driver(TARGET gdal_IGNFHeightASCIIGrid SOURCES ignfheightasciigrid.cpp)
+gdal_standard_includes(gdal_IGNFHeightASCIIGrid)

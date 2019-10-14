@@ -1,0 +1,23 @@
+steps:
+- bash: sudo gdal/ci/azure-pipelines/linux-install.sh
+  displayName: install dependencies
+- task: CMake@1
+  displayName: configure gdal
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build'
+    cmakeArgs: -DSWIG_PYTHON=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=${{parameters.CXX}} -DCMAKE_C_COMPILER=${{parameters.CC}} -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_INSTALL_PREFIX=/usr -C$(CONFIGURATIONS) $(Build.SourcesDirectory)
+- task: CMake@1
+  displayName: build gdal
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build'
+    cmakeArgs: --build $(Build.BinariesDirectory)/build
+- task: CMake@1
+  displayName: run quicktest
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build'
+    cmakeArgs: --build  $(Build.BinariesDirectory)/build --target quicktest
+- task: CMake@1
+  displayName: run autotest
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build'
+    cmakeArgs: --build  $(Build.BinariesDirectory)/build --target autotest

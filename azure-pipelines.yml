@@ -1,0 +1,108 @@
+
+trigger:
+- devel*
+
+variables:
+  CMAKEVER: 3.13
+  CMAKEREV: 3
+
+jobs:
+- job: Ubuntu_1804
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+  - template: cmake/ci/azure-pipelines/docker.yml
+    parameters:
+      imageName: 'gdal-bionic'
+      dockerFile: Dockerfile-bionic
+      scriptFile: docker-run.sh
+      environmentVariables: |
+        CC=gcc
+        CXX=g++
+        LANG=C.UTF-8
+        BUILD_TYPE=Debug
+        CMAKE_OPTIONS=-C/src/cmake/configurations/full_drivers.cmake
+
+- job: Ubuntu_1604_gcc
+  pool:
+    vmImage: 'ubuntu-16.04'
+  variables:
+    CONFIGURATIONS: $(Build.SourcesDirectory)/cmake/configurations/full_drivers.cmake
+  steps:
+  - template: cmake/ci/azure-pipelines/linux.yml
+    parameters:
+      CC: gcc
+      CXX: g++
+
+- job: Ubuntu_1604_clang
+  pool:
+    vmImage: 'ubuntu-16.04'
+  variables:
+    CONFIGURATIONS: $(Build.SourcesDirectory)/cmake/configurations/full_drivers.cmake
+  steps:
+    - template: cmake/ci/azure-pipelines/linux.yml
+      parameters:
+        CC: clang
+        CXX: clang++
+
+- job: MinGW
+  pool:
+    vmImage: 'ubuntu-16.04'
+  variables:
+    SOURCE_DIR: $(Build.SourcesDirectory)
+    BINARY_DIR: $(Build.BinariesDirectory)
+  steps:
+    - template: cmake/ci/azure-pipelines/mingw.yml
+      parameters:
+        CXX: x86_64-w64-mingw32-g++-posix
+        CC: x86_64-w64-mingw32-gcc-posix
+
+#- job: Android
+#  pool:
+#    vmImage: 'ubuntu-16.04'
+#  steps:
+#    - template: gdal/ci/azure-pipelines/android.yml
+#      parameters:
+#        ANDROID_NDK: android-ndk-r17b
+#        CONFIGURATIONS: $(Build.SourcesDirectory)/cmake/configurations/android.cmake
+#        ANDROID_TOOLCHAIN: clang
+
+- job: macOS
+  pool:
+    vmImage: 'macOS-10.13'
+  steps:
+    - template: cmake/ci/azure-pipelines/osx.yml
+      parameters:
+        CONFIGURATIONS: $(Build.SourcesDirectory)/cmake/configurations/osx.cmake
+
+- job: Windows32
+  pool:
+    vmImage: 'vs2017-win2016'
+  variables:
+    SDK: release-1911
+    SDK_ROOT: $(Build.BinariesDirectory)\$(SDK)
+  steps:
+    - template: cmake/ci/azure-pipelines/windows.yml
+      parameters:
+        sdk: $(SDK)
+        SDK_ZIP: $(SDK)-dev.zip
+        generator: Visual Studio 15 2017
+        architecture: x86
+        CMAKE_OPTIONS: -DIconv_ROOT=$(SDK_ROOT) -DPROJ_ROOT=$(SDK_ROOT) -DHDF4_ROOT=$(SDK_ROOT) -DGIF_ROOT=$(SDK_ROOT) -DPNG_ROOT=$(SDK_ROOT) -DJPEG_ROOT=$(SDK_ROOT) -DGEOS_ROOT=$(SDK_ROOT) -DPostgreSQL_ROOT=$(SDK_ROOT) -DCURL_ROOT=$(SDK_ROOT) -DXercesC_ROOT=$(SDK_ROOT) -DEXPAT_ROOT=$(SDK_ROOT) -DPoppler_ROOT=$(SDK_ROOT) -DOpenJPEG_ROOT=$(SDK_ROOT) -DECW_ROOT=$(SDK_ROOT) -DHDF5_ROOT=$(SDK_ROOT) -DKEA_ROOT=$(SDK_ROOT) -DNetCDF_ROOT=$(SDK_ROOT) -DLibXml2_ROOT=$(SDK_ROOT) -DOpenSSL_ROOT=$(SDK_ROOT) -DTIFF_ROOT=$(SDK_ROOT) -DZLIB_ROOT=$(SDK_ROOT)
+        CONFIGURATIONS: $(Build.SourcesDirectory)/cmake/configurations/windows.cmake
+
+- job: Windows64
+  pool:
+    vmImage: 'vs2017-win2016'
+  variables:
+    SDK: release-1911-x64
+    SDK_ROOT: $(Build.BinariesDirectory)\$(SDK)
+  steps:
+    - template: cmake/ci/azure-pipelines/windows.yml
+      parameters:
+        sdk: $(SDK)
+        SDK_ZIP: $(SDK)-dev.zip
+        generator: Visual Studio 15 2017 Win64
+        architecture: x64
+        CMAKE_OPTIONS: -DIconv_ROOT=$(SDK_ROOT) -DHDF4_ROOT=$(SDK_ROOT) -DGIF_ROOT=$(SDK_ROOT) -DPNG_ROOT=$(SDK_ROOT) -DJPEG_ROOT=$(SDK_ROOT) -DGEOS_ROOT=$(SDK_ROOT) -DPostgreSQL_ROOT=$(SDK_ROOT) -DCURL_ROOT=$(SDK_ROOT) -DXercesC_ROOT=$(SDK_ROOT) -DEXPAT_ROOT=$(SDK_ROOT) -DOpenJPEG_ROOT=$(SDK_ROOT) -DECW_ROOT=$(SDK_ROOT) -DHDF5_ROOT=$(SDK_ROOT) -DKEA_ROOT=$(SDK_ROOT) -DNetCDF_ROOT=$(SDK_ROOT) -DLibXml2_ROOT=$(SDK_ROOT) -DOpenSSL_ROOT=$(SDK_ROOT) -DTIFF_ROOT=$(SDK_ROOT) -DZLIB_ROOT=$(SDK_ROOT)
+        CONFIGURATIONS: $(Build.SourcesDirectory)/cmake/configurations/windows.cmake

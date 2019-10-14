@@ -1,0 +1,21 @@
+steps:
+- bash: wget https://dl.google.com/android/repository/${{parameters.ANDROID_NDK}}-linux-x86_64.zip
+  displayName: Download Android NDK
+- task: ExtractFiles@1
+  inputs:
+    archiveFilePatterns: ${{parameters.ANDROID_NDK}}-linux-x86_64.zip
+    destinationFolder: $(Build.BinariesDirectory)
+- bash: |
+    wget https://cmake.org/files/v$(CMAKEVER)/cmake-$(CMAKEVER).$(CMAKEREV)-Linux-x86_64.sh
+    sudo bash ./cmake-$(CMAKEVER).$(CMAKEREV)-Linux-x86_64.sh --prefix=/usr --exclude-subdir
+  displayName: cmake-install
+- task: CMake@1
+  displayName: configure
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build'
+    cmakeArgs: -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=$(Build.BinariesDirectory)/${{parameters.ANDROID_NDK}}/build/cmake/android.toolchain.cmake -DANDROID_TOOLCHAIN=${{parameters.ANDROID_TOOLCHAIN}} -DSWIG_PYTHON=OFF -C${{parameters.CONFIGURATIONS}} $(Build.SourcesDirectory)
+- task: CMake@1
+  displayName: build
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build'
+    cmakeArgs: --build $(Build.BinariesDirectory)/build

@@ -1,0 +1,59 @@
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '2.7'
+    addToPath: true
+    architecture: ${{ parameters.architecture }}
+  name: install_python27
+  displayName: Install python 2.7
+- script: |
+    cinst -y --no-progress 7zip vcpython27 swig wget git
+    python -m pip install --upgrade pip setuptools wheel
+    python -m pip install numpy
+    cd $(Build.BinariesDirectory)
+    wget -q https://sqlite.org/2019/sqlite-amalgamation-3280000.zip
+    7z x sqlite-amalgamation-3280000.zip
+    copy sqlite-amalgamation-3280000/sqlite3.h $(Build.BinariesDirectory)
+    wget -q https://sqlite.org/2019/sqlite-dll-win64-x64-3280000.zip
+    7z x sqlite-dll-win64-x64-3280000.zip
+    wget -q https://sqlite.org/2019/sqlite-tools-win32-x86-3280000.zip
+    7z x sqlite-tools-win32-x86-3280000.zip
+    copy sqlite-tools-win32-x86-3250100/sqlite3.exe $(Build.BinariesDirectory)
+    wget -q http://download.gisinternals.com/sdk/downloads/${{parameters.sdk}}-dev.zip
+    7z x ${{parameters.sdk}}-dev.zip
+    rm ${{parameters.sdk}}/include/gdal*.h
+    rm ${{parameters.sdk}}/lib/gdal_i.lib
+    rm ${{parameters.sdk}}/include/ogr*.h
+    git clone --depth=1 https://github.com/OSGeo/proj.4 proj
+    mkdir build-proj
+  displayName: Install numpy, swig, sqlite and sdk
+- task: CMake@1
+  displayName: Configure proj-6
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build-proj'
+    cmakeArgs: -G "${{ parameters.generator }}" -DCMAKE_INSTALL_PREFIX="$(Build.BinariesDirectory)/install-proj" -DPROJ_TESTS=OFF -DBUILD_LIBPROJ_SHARED=ON -DEXE_SQLITE3=$(Build.BinariesDirectory)/sqlite3.exe -DSQLITE3_LIBRARY=$(Build.BinariesDirectory)/sqlite3.dll -DSQLITE3_INCLUDE_DIR=$(Build.BinariesDirectory) $(Build.BinariesDirectory)/proj
+- task: CMake@1
+  displayName: Build and install proj-6
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build-proj'
+    cmakeArgs: --build . --target install --config Release
+- task: CMake@1
+  displayName: configure gdal
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build'
+    cmakeArgs: -G "${{ parameters.generator }}" -DPROJ_ROOT=$(Build.BinariesDirectory)/install-proj ${{ parameters.CMAKE_OPTIONS }} -C ${{ parameters.CONFIGURATIONS }} $(Build.SourcesDirectory)
+- task: CMake@1
+  displayName: build gdal
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build'
+    cmakeArgs: --build . --config Release
+- task: CMake@1
+  displayName: run quicktest
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build'
+    cmakeArgs: --build . --config Release --target quicktest
+- task: CMake@1
+  displayName: run autotest
+  inputs:
+    workingDirectory: '$(Build.BinariesDirectory)/build'
+    cmakeArgs: --build . --target autotest
