@@ -15,8 +15,9 @@ curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
 if [ $(lsb_release -sc) = "bionic" ]; then
   add-apt-repository -y 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main'
+  add-apt-repository -y ppa:miurahr/gdal-depends-experimental
   apt-get update
-  apt-get install -y -q libjpeg-dev libgif-dev liblzma-dev libgeos-dev \
+  apt-get install -y -q libjpeg-dev libgif-dev liblzma-dev libgeos-dev git \
      libcurl4-gnutls-dev libproj-dev libxml2-dev  libxerces-c-dev libnetcdf-dev netcdf-bin \
      libpoppler-dev libpoppler-private-dev gpsbabel libhdf4-alt-dev libhdf5-serial-dev libpodofo-dev poppler-utils \
      libfreexl-dev unixodbc-dev libwebp-dev libepsilon-dev liblcms2-2 libcrypto++-dev libdap-dev libkml-dev \
@@ -29,7 +30,7 @@ if [ $(lsb_release -sc) = "bionic" ]; then
 elif [ $(lsb_release -sc) = "xenial" ]; then
   add-apt-repository -y 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-8 main'
   apt-get update
-  apt-get install -y -q libjpeg-dev libgif-dev liblzma-dev libgeos-dev \
+  apt-get install -y -q libjpeg-dev libgif-dev liblzma-dev libgeos-dev git\
      libcurl4-gnutls-dev libproj-dev libxml2-dev  libxerces-c-dev libnetcdf-dev netcdf-bin \
      libpoppler-dev libpoppler-private-dev gpsbabel libhdf4-alt-dev libhdf5-serial-dev libpodofo-dev poppler-utils \
      libfreexl-dev unixodbc-dev libwebp-dev libepsilon-dev liblcms2-2 libcrypto++-dev libdap-dev libkml-dev \
