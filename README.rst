@@ -3,11 +3,9 @@ CMake for GDAL
 
 .. |macos| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=macOS
    :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
-.. |ubuntu1804| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Ubuntu_1804
+.. |ubuntu1804gcc| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Ubuntu_1804_gcc
    :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
-.. |ubuntu1604gcc| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Ubuntu_1604_gcc
-   :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
-.. |ubuntu1604clang| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Ubuntu_1604_clang
+.. |ubuntu1804clang| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=Ubuntu_1804_clang
    :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
 .. |mingw| image:: https://dev.azure.com/miurahr/github/_apis/build/status/miurahr.cmake4gdal?branchName=master&jobName=MinGW
    :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
@@ -21,9 +19,8 @@ CMake for GDAL
 Jobs               Status
 ------------------ -----------------
 Mac                |macos|
-Ubuntu             |ubuntu1804|
-Ubuntu16.04(gcc)   |ubuntu1604gcc|
-Ubuntu16.04(clang) |ubuntu1604clang|
+Ubuntu18.04(gcc)   |ubuntu1804gcc|
+Ubuntu18.04(clang) |ubuntu1804clang|
 MinGW              |mingw|
 Windows32          |windows32|
 Windows64          |windows64|
