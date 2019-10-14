@@ -1,8 +1,8 @@
 # MinGW build template
 steps:
 - bash: |
-    sudo $(Build.SourcesDirectory)/gdal/ci/azure-pipelines/linux-install.sh
-    sudo $(Build.SourcesDirectory)/gdal/ci/azure-pipelines/mingw-install.sh
+    sudo $(Build.SourcesDirectory)/ci/azure-pipelines/linux-install.sh
+    sudo $(Build.SourcesDirectory)/ci/azure-pipelines/mingw-install.sh
   displayName: install dependencies
 - task: CMake@1
   displayName: configure

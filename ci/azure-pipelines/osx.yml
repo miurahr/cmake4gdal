@@ -1,5 +1,5 @@
 steps:
-- script: $(Build.SourcesDirectory)/gdal/ci/azure-pipelines/osx-install.sh
+- script: $(Build.SourcesDirectory)/ci/azure-pipelines/osx-install.sh
   displayName: install brew packages
 - script: ls /usr/local/opt
   displayName: list brew packages installed

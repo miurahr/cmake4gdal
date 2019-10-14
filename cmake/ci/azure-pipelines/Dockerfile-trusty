@@ -1,3 +1,0 @@
-FROM ubuntu:trusty
-COPY linux-install.sh ./
-RUN ./linux-install.sh

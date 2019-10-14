@@ -4,7 +4,7 @@ steps:
   inputs:
     command: build
     imageName: ${{ parameters.imageName }}
-    dockerFile: $(Build.SourcesDirectory)/gdal/ci/azure-pipelines/${{ parameters.dockerFile }}
+    dockerFile: $(Build.SourcesDirectory)/ci/azure-pipelines/${{ parameters.dockerFile }}
     volumes: |
       $(Build.SourcesDirectory):/src
       $(Build.BinariesDirectory):/build
@@ -18,5 +18,5 @@ steps:
       $(Build.SourcesDirectory):/src
       $(Build.BinariesDirectory):/build
     envVars: ${{ parameters.environmentVariables }}
-    containerCommand: /src/gdal/ci/azure-pipelines/${{parameters.scriptFile}}
+    containerCommand: /src/ci/azure-pipelines/${{parameters.scriptFile}}
     runInBackground: false

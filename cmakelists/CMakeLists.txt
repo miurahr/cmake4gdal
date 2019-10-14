@@ -75,7 +75,7 @@ endif()
 project(gdal LANGUAGES C CXX)
 
 # setup cmake modules paths
-include(cmake/modules/init.cmake)
+include(cmake4gdal/modules/init.cmake)
 
 # cotire cmake speedup addon
 include(cotire)
@@ -83,7 +83,7 @@ include(cotire)
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
 
 # template files path
-set(GDAL_CMAKE_TEMPLATE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/template)
+set(GDAL_CMAKE_TEMPLATE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake4gdal/template)
 
 ################################################################
 # Custom global properties
