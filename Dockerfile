@@ -1,3 +1,3 @@
 FROM ubuntu:bionic
-COPY linux-install.sh ./
+COPY ci/dockerhub/linux-install.sh ./
 RUN ./linux-install.sh

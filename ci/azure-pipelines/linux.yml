@@ -1,6 +1,4 @@
 steps:
-- script: ${{parameters.INSTALL_SCRIPT}}
-  displayName: install dependencies
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.6'
@@ -15,7 +13,7 @@ steps:
   inputs:
     workingDirectory: '$(Build.BinariesDirectory)/build'
     cmakeArgs: -DCMAKE_BUILD_TYPE=Debug ${{parameters.CMAKE_OPTIONS}} -C${{parameters.CONFIGURATIONS}} $(Build.BinariesDirectory)/gdal
-- task: CMake@1
+- task: Cmake@1
   displayName: build gdal
   inputs:
     cmakeArgs: --build $(Build.BinariesDirectory)/build
@@ -24,6 +22,6 @@ steps:
   inputs:
     cmakeArgs: --build $(Build.BinariesDirectory)/build --target quicktest
 - task: CMake@1
-  displayName: install gdal
+  displayName: run autotest
   inputs:
-    cmakeArgs: --build $(Build.BinariesDirectory)/build --target install
+    cmakeArgs: --build $(Build.BinariesDirectory)/build --target autotest

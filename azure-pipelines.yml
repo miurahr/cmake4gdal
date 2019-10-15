@@ -7,60 +7,22 @@ jobs:
 - job: Ubuntu_1804_gcc
   pool:
     vmImage: 'ubuntu-16.04'
+  container: miurahr/ubuntu-gdal-dev:latest
   steps:
-  - template: ci/azure-pipelines/docker.yml
-    parameters:
-      imageName: 'gdal-bionic'
-      dockerFile: Dockerfile-bionic
-      scriptFile: linux-run.sh
-      environmentVariables: |
-        CC=gcc
-        CXX=g++
-        LANG=C.UTF-8
-        BUILD_TYPE=Debug
-        CMAKE_OPTIONS=-C/src/configurations/full_drivers.cmake
+    - template: ci/azure-pipelines/linux.yml
+      parameters:
+        CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/full_drivers.cmake
+        CMAKE_OPTIONS: -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_COMPILER_LAUNCHER=ccache
 
 - job: Ubuntu_1804_clang
   pool:
     vmImage: 'ubuntu-16.04'
+  container: miurahr/ubuntu-gdal-dev:latest
   steps:
-    - template: ci/azure-pipelines/docker.yml
+    - template: ci/azure-pipelines/linux.yml
       parameters:
-        imageName: 'gdal-bionic'
-        dockerFile: Dockerfile-bionic
-        scriptFile: linux-run.sh
-        environmentVariables: |
-          CC=clang-8
-          CXX=clang++-8
-          LANG=C.UTF-8
-          BUILD_TYPE=Debug
-          CMAKE_OPTIONS=-C/src/configurations/full_drivers.cmake
-
-- job: MinGW
-  pool:
-    vmImage: 'ubuntu-16.04'
-  steps:
-    - template: ci/azure-pipelines/docker.yml
-      parameters:
-        imageName: 'gdal-bionic'
-        dockerFile: Dockerfile-bionic
-        scriptFile: mingw-run.sh
-        environmentVariables: |
-          CXX=x86_64-w64-mingw32-g++-posix
-          CC=x86_64-w64-mingw32-gcc-posix
-          LANG=C.UTF-8
-          BUILD_TYPE=Debug
-          CMAKE_OPTIONS=-C/src/configurations/full_drivers.cmake
-
-#- job: Android
-#  pool:
-#    vmImage: 'ubuntu-16.04'
-#  steps:
-#    - template: ci/azure-pipelines/android.yml
-#      parameters:
-#        ANDROID_NDK: android-ndk-r17b
-#        CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/android.cmake
-#        ANDROID_TOOLCHAIN: clang
+        CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/full_drivers.cmake
+        CMAKE_OPTIONS: -DCMAKE_C_COMPILER=clang-8 -DCMAKE_CXX_COMPILER=clang++-8 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_COMPILER_LAUNCHER=ccache
 
 - job: macOS
   pool:
@@ -68,7 +30,31 @@ jobs:
   steps:
     - template: ci/azure-pipelines/osx.yml
       parameters:
+        INSTALL_SCRIPT: $(Build.SourcesDirectory)/ci/azure-pipelines/osx-install.sh
         CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/osx.cmake
+        CMAKE_OPTIONS: -DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-gdal -DSWIG_PYTHON=OFF -DGDAL_USE_GIFLIB_INTERNAL=YES -DCFITSIO_ROOT=/usr/local/Cellar/cfitsio/3.450_1 -DPROJ_ROOT=/usr/local/Cellar/proj/6.2.0 -DLibXml2_ROOT=/usr/local/opt/libxml2 -DSPATIALITE_ROOT=/usr/local/opt/libspatialite/ -DPostgreSQL_ROOT=/usr/local/opt/libpq/ -DEXPAT_ROOT=/usr/local/opt/expat/ -DSQLite3_ROOT=/usr/local/opt/sqlite/ -DOpenSSL_ROOT=/usr/local/opt/openssl -DPNG_ROOT=/usr/local/Cellar/libpng/1.6.37 -DJPEG_ROOT=/usr/local/Cellar/jpeg/9c -DOpenJPEG_ROOT=/usr/local/Cellar/openjpeg/2.3.1
+
+#- job: MinGW
+#  pool:
+#    vmImage: 'ubuntu-16.04'
+#  container: ubuntu:18.04
+#  steps:
+# - template: ci/azure-pipelines/mingw.yml
+#    parameters
+#      CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/full_drivers.cmake
+#      CC: x86_64-w64-mingw32-gcc-posix
+#      CXX: x86_64-w64-mingw32-g++-posix
+#
+#- job: Android
+#  pool:
+#    vmImage: 'ubuntu-16.04'
+#  container: ubuntu:18.04
+#  steps:
+#    - template: ci/azure-pipelines/android.yml
+#      parameters:
+#        ANDROID_NDK: android-ndk-r17b
+#        CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/android.cmake
+#        ANDROID_TOOLCHAIN: clang
 
 - job: Windows32
   pool:
@@ -83,8 +69,8 @@ jobs:
         SDK_ZIP: $(SDK)-dev.zip
         generator: Visual Studio 15 2017
         architecture: x86
-        CMAKE_OPTIONS: -DIconv_ROOT=$(SDK_ROOT) -DPROJ_ROOT=$(SDK_ROOT) -DHDF4_ROOT=$(SDK_ROOT) -DGIF_ROOT=$(SDK_ROOT) -DPNG_ROOT=$(SDK_ROOT) -DJPEG_ROOT=$(SDK_ROOT) -DGEOS_ROOT=$(SDK_ROOT) -DPostgreSQL_ROOT=$(SDK_ROOT) -DCURL_ROOT=$(SDK_ROOT) -DXercesC_ROOT=$(SDK_ROOT) -DEXPAT_ROOT=$(SDK_ROOT) -DPoppler_ROOT=$(SDK_ROOT) -DOpenJPEG_ROOT=$(SDK_ROOT) -DECW_ROOT=$(SDK_ROOT) -DHDF5_ROOT=$(SDK_ROOT) -DKEA_ROOT=$(SDK_ROOT) -DNetCDF_ROOT=$(SDK_ROOT) -DLibXml2_ROOT=$(SDK_ROOT) -DOpenSSL_ROOT=$(SDK_ROOT) -DTIFF_ROOT=$(SDK_ROOT) -DZLIB_ROOT=$(SDK_ROOT)
-        CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/windows.cmake
+        CMAKE_OPTIONS: -DIconv_ROOT=$(SDK_ROOT) -DHDF4_ROOT=$(SDK_ROOT) -DGIF_ROOT=$(SDK_ROOT) -DPNG_ROOT=$(SDK_ROOT) -DJPEG_ROOT=$(SDK_ROOT) -DGEOS_ROOT=$(SDK_ROOT) -DPostgreSQL_ROOT=$(SDK_ROOT) -DCURL_ROOT=$(SDK_ROOT) -DXercesC_ROOT=$(SDK_ROOT) -DEXPAT_ROOT=$(SDK_ROOT) -DOpenJPEG_ROOT=$(SDK_ROOT) -DECW_ROOT=$(SDK_ROOT) -DHDF5_ROOT=$(SDK_ROOT) -DKEA_ROOT=$(SDK_ROOT) -DNetCDF_ROOT=$(SDK_ROOT) -DLibXml2_ROOT=$(SDK_ROOT) -DOpenSSL_ROOT=$(SDK_ROOT) -DTIFF_ROOT=$(SDK_ROOT) -DZLIB_ROOT=$(SDK_ROOT)
+        CONFIGURATIONS: $(Build.BinariesDirectory)/gdal/cmake4gdal/configurations/windows.cmake
 
 - job: Windows64
   pool:
@@ -100,4 +86,4 @@ jobs:
         generator: Visual Studio 15 2017 Win64
         architecture: x64
         CMAKE_OPTIONS: -DIconv_ROOT=$(SDK_ROOT) -DHDF4_ROOT=$(SDK_ROOT) -DGIF_ROOT=$(SDK_ROOT) -DPNG_ROOT=$(SDK_ROOT) -DJPEG_ROOT=$(SDK_ROOT) -DGEOS_ROOT=$(SDK_ROOT) -DPostgreSQL_ROOT=$(SDK_ROOT) -DCURL_ROOT=$(SDK_ROOT) -DXercesC_ROOT=$(SDK_ROOT) -DEXPAT_ROOT=$(SDK_ROOT) -DOpenJPEG_ROOT=$(SDK_ROOT) -DECW_ROOT=$(SDK_ROOT) -DHDF5_ROOT=$(SDK_ROOT) -DKEA_ROOT=$(SDK_ROOT) -DNetCDF_ROOT=$(SDK_ROOT) -DLibXml2_ROOT=$(SDK_ROOT) -DOpenSSL_ROOT=$(SDK_ROOT) -DTIFF_ROOT=$(SDK_ROOT) -DZLIB_ROOT=$(SDK_ROOT)
-        CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/windows.cmake
+        CONFIGURATIONS: $(Build.BinariesDirectory)/gdal/cmake4gdal/configurations/windows.cmake

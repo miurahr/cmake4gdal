@@ -24,7 +24,7 @@ if [ $(lsb_release -sc) = "bionic" ]; then
      libmysqlclient-dev libarmadillo-dev wget libfyba-dev libjsoncpp-dev libexpat1-dev \
      libclc-dev ocl-icd-opencl-dev libsqlite3-dev sqlite3-pcre libpcre3-dev libspatialite-dev libsfcgal-dev fossil libcairo2-dev libjson-c-dev \
      python-dev python3-dev python-numpy python3-numpy python-lxml python3-lxml pyflakes python3-setuptools python-setuptools python-pip python3-pip python-virtualenv python3-venv \
-     cmake ninja-build swig doxygen texlive-latex-base make cppcheck ccache g++ \
+      python3-pytest cmake ninja-build swig doxygen texlive-latex-base make cppcheck ccache g++ \
      clang-8 clang-tools-8 clang-8-doc libclang-common-8-dev libclang-8-dev libclang1-8 clang-format-8 python-clang-8 libfuzzer-8-dev lldb-8 lld-8 \
      libpq-dev postgresql-10 postgresql-client-10 postgresql-10-postgis-2.5 postgresql-10-postgis-scripts libgdal20
 elif [ $(lsb_release -sc) = "xenial" ]; then
