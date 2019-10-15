@@ -99,12 +99,6 @@ gdal_check_package(CryptoPP "Use crypto++ library for CPL.")
 option(CRYPTOPPL_USE_ONLY_CRYPTODLL_ALG "Use Only cryptoDLL alg. only work on dynamic DLL" OFF)
 
 find_package(PROJ 6.0 REQUIRED)
-option(PROJ_RENAME_SYMBOLS "Whether PROJ6 is compiled with -DPROJ_RENAME_SYMBOLS or not." ON)
-if(PROJ_RENAME_SYMBOLS)
-    set_property(TARGET PROJ::PROJ APPEND PROPERTY
-                 INTERFACE_COMPILE_DEFINITIONS PROJ_RENAME_SYMBOLS )
-    add_definitions(-DPROJ_RENAME_SYMBOLS)
-endif()
 
 find_package(TIFF 4.0)
 if(TIFF_FOUND)
