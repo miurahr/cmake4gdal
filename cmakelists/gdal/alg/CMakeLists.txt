@@ -77,7 +77,7 @@ if(HAVE_OPENCL)
 endif()
 
 target_compile_definitions(alg PRIVATE PROJ_RENAME_SYMBOLS)
-target_link_libraries(GDAL_LINK_LIBRARY PRIVATE PROJ::PROJ)
+target_link_libraries(GDAL_LINK_LIBRARY INTERFACE PROJ::PROJ)
 
 if(GDAL_ENABLE_QHULL)
     if(GDAL_USE_QHULL_INTERNAL)
@@ -91,7 +91,7 @@ if(GDAL_ENABLE_QHULL)
         else()
             target_compile_definitions(alg PRIVATE -DQHULL_INCLUDE_SUBDIR_IS_LIBQHULL=0)
         endif()
-        target_link_libraries(GDAL_LINK_LIBRARY PRIVATE ${QHULL_LIBRARY})
+        target_link_libraries(GDAL_LINK_LIBRARY INTERFACE ${QHULL_LIBRARY})
     endif()
 endif()
 
