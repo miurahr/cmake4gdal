@@ -27,21 +27,21 @@
 
 include(GdalStandardIncludes)
 add_library(appslib OBJECT
-    commonutils.h
-	gdal_utils.h
-	gdalinfo_lib.cpp
-	gdalbuildvrt_lib.cpp
-	gdal_grid_lib.cpp
-	gdal_translate_lib.cpp
-	gdal_rasterize_lib.cpp
-	gdalwarp_lib.cpp
-	commonutils.cpp
-	ogr2ogr_lib.cpp
-	gdaldem_lib.cpp
-    nearblack_lib.cpp
+            commonutils.h
+            gdal_utils.h
+            gdalinfo_lib.cpp
+            gdalbuildvrt_lib.cpp
+            gdal_grid_lib.cpp
+            gdal_translate_lib.cpp
+            gdal_rasterize_lib.cpp
+            gdalwarp_lib.cpp
+            commonutils.cpp
+            ogr2ogr_lib.cpp
+            gdaldem_lib.cpp
+            nearblack_lib.cpp
             gdalmdiminfo_lib.cpp
             gdalmdimtranslate_lib.cpp
-)
+            )
 target_sources(gdal PRIVATE $<TARGET_OBJECTS:appslib>)
 gdal_standard_includes(appslib)
 target_include_directories(appslib PRIVATE
@@ -61,6 +61,7 @@ endif()
 target_compile_options(appslib PRIVATE ${GDAL_ARCH_FLAG})
 
 if(BUILD_APPS)
+    # Default Apps
     add_executable(gdalinfo gdal_utils_priv.h gdalinfo_bin.cpp)
     add_executable(gdalbuildvrt gdal_utils_priv.h gdalbuildvrt_bin.cpp)
     add_executable(gdaladdo gdal_utils_priv.h gdaladdo.cpp)
@@ -84,14 +85,13 @@ if(BUILD_APPS)
     add_executable(nearblack nearblack_bin.cpp)
     add_executable(gdalmdiminfo gdalmdiminfo_bin.cpp)
     add_executable(gdalmdimtranslate gdalmdimtranslate_bin.cpp)
-
-    # Default Apps
     set(APPS_TARGETS
             gdalinfo gdalbuildvrt gdaladdo gdal_grid gdal_translate
             gdalserver gdal_rasterize  gdalsrsinfo
             gdalenhance gdalmanage gdaltransform gdaltindex
             gdaldem nearblack ogrlineref ogrtindex
-            gdalwarp gdal_contour gdallocationinfo ogrinfo ogr2ogr)
+            gdalwarp gdal_contour gdallocationinfo ogrinfo ogr2ogr
+            ogrlineref nearblack gdalmdiminfo gdalmdimtranslate)
     if(ENABLE_GNM)
         add_executable(gnmanalyse gnmanalyse.cpp)
         add_executable(gnmmanage gnmmanage.cpp)
@@ -122,6 +122,7 @@ if(BUILD_APPS)
             target_include_directories(${UTILCMD} PRIVATE ${JSONC_INCLUDE_DIRS})
             target_link_libraries(${UTILCMD} PRIVATE ${JSONC_LIBRARIES})
         endif()
+        target_include_directories(${UTILCMD} PRIVATE ${PROJ_INCLUDE_DIRS})
         target_link_libraries(${UTILCMD} PRIVATE $<TARGET_NAME:gdal>)
         ## Windows(Mingw/MSVC) link libraries
         if (CMAKE_SYSTEM_NAME MATCHES "Windows")
