@@ -5,14 +5,8 @@ steps:
   displayName: Create Anaconda environment
 - script: |
     call activate myEnvironment
-    conda install --yes --quiet --name myEnvironment python=3.7 numpy pytest
-  displayName: Install python packages
-- script: |
-    conda install --yes --quiet --name myEnvironment -c anaconda swig
-  displayName: Install swig packages
-- script: |
-    conda install --yes --quiet --name myEnvironment -c conda-forge proj
-  displayName: Install proj packages
+    conda install --yes --quiet --name myEnvironment -c conda-forge python=3.7 proj cmake swig numpy pytest
+  displayName: Install dependency packages
 - script: |
     cinst -y --no-progress 7zip wget git
     cd $(Build.BinariesDirectory)
@@ -23,29 +17,29 @@ steps:
     rm ${{parameters.sdk}}/include/ogr*.h
   displayName: Install sdk
 - script: |
+    cd $(Build.BinariesDirectory)
     git clone https://github.com/osgeo/gdal.git
     ln -s $(Build.SourcesDirectory) $(Build.BinariesDirectory)/gdal/cmake4gdal
     call activate myEnvironment
     python $(Build.BinariesDirectory)/gdal/cmake4gdal/deploy.py
-  workingDirectory: '$(Build.BinariesDirectory)'
-  displayName: clone git
-- task: CMake@1
+  displayName: clone gdal and deploy cmake scripts
+- script: |
+    call activate myEnvironment
+    cmake -G "${{ parameters.generator }}" -DPROJ_ROOT=$env:CONDA\Library ${{ parameters.CMAKE_OPTIONS }} -C ${{ parameters.CONFIGURATIONS }} $(Build.SourcesDirectory)
+  workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: configure gdal
-  inputs:
-    workingDirectory: '$(Build.BinariesDirectory)/build'
-    cmakeArgs: -G "${{ parameters.generator }}" -DPROJ_ROOT=$env:CONDA\Library ${{ parameters.CMAKE_OPTIONS }} -C ${{ parameters.CONFIGURATIONS }} $(Build.SourcesDirectory)
-- task: CMake@1
+- script: |
+    call activate myEnvironment
+    cmake --build . --config Release
+  workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: build gdal
-  inputs:
-    workingDirectory: '$(Build.BinariesDirectory)/build'
-    cmakeArgs: --build . --config Release
-- task: CMake@1
+- script: |
+    call activate myEnvironment
+    cmake --build . --config Release --target quicktest
+  workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: run quicktest
-  inputs:
-    workingDirectory: '$(Build.BinariesDirectory)/build'
-    cmakeArgs: --build . --config Release --target quicktest
-- task: CMake@1
+- script: |
+    call activate myEnvironment
+    cmake --build . --target autotest
+  workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: run autotest
-  inputs:
-    workingDirectory: '$(Build.BinariesDirectory)/build'
-    cmakeArgs: --build . --target autotest
