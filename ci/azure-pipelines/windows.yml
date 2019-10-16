@@ -6,12 +6,15 @@ steps:
 - script: |
     call activate myEnvironment
     conda install --yes --quiet --name myEnvironment python=3.7 numpy pytest
-    conda install --yes --quiet --name myEnvironment -c anaconda swig git wget
-    conda install --yes --quiet --name myEnvironment -c conda-forge proj
-  displayName: Install conda packages
+  displayName: Install python packages
 - script: |
-    call activate myEnvironment
-    cinst -y --no-progress 7zip
+    conda install --yes --quiet --name myEnvironment -c anaconda swig
+  displayName: Install swig packages
+- script: |
+    conda install --yes --quiet --name myEnvironment -c conda-forge proj
+  displayName: Install proj packages
+- script: |
+    cinst -y --no-progress 7zip wget git
     cd $(Build.BinariesDirectory)
     wget -q http://download.gisinternals.com/sdk/downloads/${{parameters.sdk}}-dev.zip
     7z x ${{parameters.sdk}}-dev.zip
@@ -20,11 +23,12 @@ steps:
     rm ${{parameters.sdk}}/include/ogr*.h
   displayName: Install sdk
 - script: |
-    call activate myEnvironment
     git clone https://github.com/osgeo/gdal.git
     ln -s $(Build.SourcesDirectory) $(Build.BinariesDirectory)/gdal/cmake4gdal
+    call activate myEnvironment
     python $(Build.BinariesDirectory)/gdal/cmake4gdal/deploy.py
   workingDirectory: '$(Build.BinariesDirectory)'
+  displayName: clone git
 - task: CMake@1
   displayName: configure gdal
   inputs:
