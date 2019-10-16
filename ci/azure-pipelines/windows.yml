@@ -22,6 +22,7 @@ steps:
     ln -s $(Build.SourcesDirectory) $(Build.BinariesDirectory)/gdal/cmake4gdal
     call activate myEnvironment
     python $(Build.BinariesDirectory)/gdal/cmake4gdal/deploy.py
+    mkdir $(Build.BinariesDirectory)/build
   displayName: clone gdal and deploy cmake scripts
 - script: |
     call activate myEnvironment
