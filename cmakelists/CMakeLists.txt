@@ -24,7 +24,7 @@
 # * DEALINGS IN THE SOFTWARE.
 # ******************************************************************************
 
-cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required (VERSION 3.5)  # a version of Ubuntu 16.04(LTS)
 cmake_policy(SET CMP0023 NEW)
 cmake_policy(SET CMP0025 NEW)
 cmake_policy(SET CMP0033 NEW)
@@ -45,6 +45,7 @@ cmake_policy(SET CMP0058 NEW)
 cmake_policy(SET CMP0062 NEW)
 cmake_policy(SET CMP0064 NEW)
 
+# cmake version 3.6 or later
 if (POLICY CMP0068)
     #mac os x rpath effect
     cmake_policy(SET CMP0068 NEW)
@@ -57,6 +58,7 @@ if (POLICY CMP0070)
     # file(GENERATE)
     cmake_policy(SET CMP0070 NEW)
 endif()
+# cmake version 3.11 or later
 if (POLICY CMP0073)
     # _LIB_DEPENDS
     cmake_policy(SET CMP0073 NEW)
@@ -70,6 +72,16 @@ if (POLICY CMP0075)
 endif()
 if (POLICY CMP0079)
     cmake_policy(SET CMP0079 OLD)
+endif()
+# cmake version 3.14 or later
+if (POLICY CMP0090)
+  cmake_policy(SET CMP0090 NEW)
+endif()
+if (POLICY CMP0092)
+  cmake_policy(SET CMP0092 NEW)
+endif()
+if (POLICY CMP0094)
+  cmake_policy(SET CMP0094 NEW)
 endif()
 
 project(gdal LANGUAGES C CXX)

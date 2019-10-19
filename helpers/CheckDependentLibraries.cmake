@@ -320,6 +320,8 @@ set_package_properties(SWIG PROPERTIES
                        URL "http://swig.org/"
                        TYPE RECOMMENDED)
 
+set(Python_FIND_STRATEGY LOCATION)
+# Developer may want to specify `Python_ROOT` variable to find proper version.
 find_package(Python COMPONENTS Interpreter Development NumPy)
 if(Python_FOUND)
     set(HAVE_PYTHON ON CACHE INTERNAL "HAVE_PYTHON")
