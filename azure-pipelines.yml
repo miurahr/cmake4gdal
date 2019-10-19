@@ -6,7 +6,7 @@ trigger:
       - docker
 
 schedules:
-- cron: 48 5 * * 7
+- cron: 48 5 * * 5
   displayName: Weekly test build
   branches:
     include:
