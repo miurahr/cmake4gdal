@@ -66,23 +66,8 @@ jobs:
 #        CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/android.cmake
 #        ANDROID_TOOLCHAIN: clang
 
-- job: Windows32
-  pool:
-    vmImage: 'vs2017-win2016'
-  variables:
-    SDK: release-1911
-    SDK_ROOT: $(Build.BinariesDirectory)\$(SDK)
-  steps:
-    - template: ci/azure-pipelines/windows.yml
-      parameters:
-        sdk: $(SDK)
-        SDK_ZIP: $(SDK)-dev.zip
-        generator: Visual Studio 15 2017
-        architecture: x86
-        CMAKE_OPTIONS: -DIconv_ROOT=$(SDK_ROOT) -DHDF4_ROOT=$(SDK_ROOT) -DGIF_ROOT=$(SDK_ROOT) -DPNG_ROOT=$(SDK_ROOT) -DJPEG_ROOT=$(SDK_ROOT) -DGEOS_ROOT=$(SDK_ROOT) -DPostgreSQL_ROOT=$(SDK_ROOT) -DCURL_ROOT=$(SDK_ROOT) -DXercesC_ROOT=$(SDK_ROOT) -DEXPAT_ROOT=$(SDK_ROOT) -DOpenJPEG_ROOT=$(SDK_ROOT) -DECW_ROOT=$(SDK_ROOT) -DHDF5_ROOT=$(SDK_ROOT) -DKEA_ROOT=$(SDK_ROOT) -DNetCDF_ROOT=$(SDK_ROOT) -DLibXml2_ROOT=$(SDK_ROOT) -DOpenSSL_ROOT=$(SDK_ROOT) -DTIFF_ROOT=$(SDK_ROOT) -DZLIB_ROOT=$(SDK_ROOT)
-        CONFIGURATIONS: $(Build.BinariesDirectory)/gdal/cmake4gdal/configurations/windows.cmake
 
-- job: Windows64
+- job: Windows
   pool:
     vmImage: 'vs2017-win2016'
   variables:
