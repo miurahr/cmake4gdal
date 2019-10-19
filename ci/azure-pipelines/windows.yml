@@ -26,7 +26,8 @@ steps:
   displayName: clone gdal and deploy cmake scripts
 - script: |
     call activate myEnvironment
-    cmake -G "${{ parameters.generator }}" -DPROJ_ROOT=$env:CONDA\Library ${{ parameters.CMAKE_OPTIONS }} -C ${{ parameters.CONFIGURATIONS }} $(Build.BinariesDirectory)/gdal
+    echo "##vso[task.setvariable variable=additionalOptions]-DPython_ROOT=$env:CONDA\envs\myEnvironment -DPROJ_ROOT=$env:CONDA\envs\myEnvironment\Library"
+    cmake -G "${{ parameters.generator }}" $(additionalOptions) ${{ parameters.CMAKE_OPTIONS }} -C ${{ parameters.CONFIGURATIONS }} $(Build.BinariesDirectory)/gdal
   workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: configure gdal
 - script: |
@@ -39,6 +40,11 @@ steps:
     cmake --build . --config Release --target quicktest
   workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: run quicktest
+- script: |
+    call activate myEnvironment
+    pip install -r autotest/requirements.txt
+  workingDirectory: '$(Build.BinariesDirectory)/gdal'
+  displayName: install python autotest requirements
 - script: |
     call activate myEnvironment
     cmake --build . --target autotest

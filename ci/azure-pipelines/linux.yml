@@ -2,11 +2,12 @@ steps:
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.6'
-- bash: |
+- script: |
     git clone https://github.com/osgeo/gdal.git
     ln -s $(Build.SourcesDirectory) $(Build.BinariesDirectory)/gdal/cmake4gdal
     python $(Build.BinariesDirectory)/gdal/cmake4gdal/deploy.py
     mkdir build
+  displayName: clone gdal
   workingDirectory: '$(Build.BinariesDirectory)'
 - task: CMake@1
   displayName: configure gdal
@@ -21,6 +22,9 @@ steps:
   displayName: run quicktest
   inputs:
     cmakeArgs: --build $(Build.BinariesDirectory)/build --target quicktest
+- script: |
+    pip install -r autotest/requirements.txt
+  displayName: install python test requirements
 - task: CMake@1
   displayName: run autotest
   inputs:
