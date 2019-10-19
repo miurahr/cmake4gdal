@@ -47,6 +47,6 @@ steps:
   displayName: install python autotest requirements
 - script: |
     call activate myEnvironment
-    cmake --build $(Build.BinariesDirectory)/build --target autotest
+    cmake --build $(Build.BinariesDirectory)/build --config Release --target autotest
   workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: run autotest
