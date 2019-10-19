@@ -1,5 +1,9 @@
 steps:
-- script: ${{parameters.INSTALL_SCRIPT}}
+- script: |
+    brew update
+    brew outdated
+    brew install freexl libxml2 libspatialite geos proj libpng openjpeg giflib jpeg szip postgresql postgis openssl poppler
+    brew install ccache swig
   displayName: install dependencies
 - task: UsePythonVersion@0
   inputs:

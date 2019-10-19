@@ -42,7 +42,7 @@ steps:
   displayName: run quicktest
 - script: |
     call activate myEnvironment
-    pip install -r autotest/requirements.txt
+    pip install -r $(Build.BinariesDirectory)/gdal/autotest/requirements.txt
   workingDirectory: '$(Build.BinariesDirectory)/gdal'
   displayName: install python autotest requirements
 - script: |
