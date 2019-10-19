@@ -9,6 +9,11 @@ set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH})
 
 # Backported modules from cmake versions
+if(CMAKE_VERSION VERSION_LESS 3.15)
+    set(CMAKE_MODULE_PATH
+        ${CMAKE_CURRENT_LIST_DIR}/3.15
+        ${CMAKE_MODULE_PATH})
+endif()
 if(CMAKE_VERSION VERSION_LESS 3.14)
     set(CMAKE_MODULE_PATH
         ${CMAKE_CURRENT_LIST_DIR}/3.14
