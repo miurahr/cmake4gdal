@@ -1,3 +1,13 @@
+trigger:
+  branches:
+    include: *
+    exclude: docker
+
+schedules:
+- cron: 48 5 * * 7
+  displayName: Weekly test build
+  branches:
+    include: master
 
 variables:
   CMAKEVER: 3.15
