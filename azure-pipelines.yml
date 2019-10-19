@@ -1,7 +1,9 @@
 trigger:
   branches:
-    include: *
-    exclude: docker
+    include:
+    - '*'
+    exclude:
+    - docker
 
 schedules:
 - cron: 48 5 * * 7
