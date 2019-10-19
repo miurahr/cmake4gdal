@@ -28,8 +28,7 @@ steps:
   displayName: run quicktest
   inputs:
     cmakeArgs: --build $(Build.BinariesDirectory)/build --target quicktest
-- script: |
-    pip install -r $(Build.BinariesDirectory)/gdal/autotest/requirements.txt
+- script: python -m pip install -r $(Build.BinariesDirectory)/gdal/autotest/requirements.txt
   workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: install python test requirements
 - task: CMake@1
