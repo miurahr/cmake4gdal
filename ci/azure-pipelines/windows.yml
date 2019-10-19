@@ -32,12 +32,12 @@ steps:
   displayName: configure gdal
 - script: |
     call activate myEnvironment
-    cmake --build . --config Release
+    cmake --build $(Build.BinariesDirectory)/build --config Release
   workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: build gdal
 - script: |
     call activate myEnvironment
-    cmake --build . --config Release --target quicktest
+    cmake --build $(Build.BinariesDirectory)/build --config Release --target quicktest
   workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: run quicktest
 - script: |
@@ -47,6 +47,6 @@ steps:
   displayName: install python autotest requirements
 - script: |
     call activate myEnvironment
-    cmake --build . --target autotest
+    cmake --build $(Build.BinariesDirectory)/build --target autotest
   workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: run autotest
