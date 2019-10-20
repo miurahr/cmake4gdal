@@ -61,6 +61,7 @@ CMake versions and limitations
 - 3.12.0: Introduce `<package>_ROOT` variable and environment
   variables to configure 3rd-party libraries.
 
+
 Using CMake
 ===========
 
@@ -116,8 +117,20 @@ For additional syntax and options, see the CMake website, FAQ and Wiki available
 <http://www.cmake.org>.
 
 
-Vagrant build automation environment
-====================================
+Build options
+=============
+
+There are several options to specify behavior while generation.
+
+* Python_LOOKUP_VERSION: specify minimum version to build with.
+
+
+Build Configuraitions
+=====================
+
+Build configuration is brings build to build as cache.
+See Appendix.
+
 
 Build targets
 =============
@@ -130,9 +143,7 @@ Build targets
 
 - apps: build utility applications
 
-- python2_bindings
-
-- python3_bindings
+- python_bindings
 
 - php_bindings
 
@@ -381,8 +392,12 @@ There are 5 language bindings are integrated into gdal source tree.
 
 - SWIG_PYTHON: python bindings, default ON, it is required to run autotest
 
-  * PYTHON_VERSION: specify what version to build module. if not specified, preferably search python3
-    then see python2.
+  * Python_FIND_VIRTUALENV=ONLY  to find python from venv
+    please activate venv before running cmake or
+    provide environment VIRTUAL_ENV for cmake
+  
+  * GDAL_SWIG_REGENERATE_PYTHON:  Generate python source with SWIG.
+  
 
 - SWIG_CSHARP: c# bindings built by .NET or MONO
 

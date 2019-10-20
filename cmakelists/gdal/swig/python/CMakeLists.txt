@@ -100,7 +100,8 @@ if(Python_EXECUTABLE)
     endif()
     file(TO_NATIVE_PATH "${gdal_python_csource_dir}" GDAL_PYTHON_EXT_SOURCE_DIR)
     configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/setup.py.in ${CMAKE_CURRENT_BINARY_DIR}/setup.py @ONLY)
-    # FIXME
+    # FIXME: python extension may have an extended abi filename. so we should determine it.
+    # now we use hard coded one.
     set(PY_EXT_EXT  "cpython-35m-x86_64-linux-gnu.so" )
     add_custom_target(python_ext COMMAND ${Python_EXECUTABLE} setup.py build_ext --inplace
                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}

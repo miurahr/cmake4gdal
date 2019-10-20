@@ -25,22 +25,10 @@
 # * DEALINGS IN THE SOFTWARE.
 # ******************************************************************************
 
-# alllow individual autotest tree
-cmake_minimum_required(VERSION 3.5)
-if (POLICY CMP0074)
-    # Packagename_ROOT
-    cmake_policy(SET CMP0074 NEW)
-endif ()
-project(gdal_autotest)
-
 option(AUTOTEST_DOWNLOAD_TEST_DATA "Autotest to download test data" OFF)
 option(AUTOTEST_SLOW_TEST "Autotest to run slow test" OFF)
 if (NOT DEFINED ENV{CTEST_PARALLEL_LEVEL})
     set(PARALLEL_OPTION "-j1")
-endif ()
-
-if (NOT Python_EXECUTABLE)
-    find_package(Python COMPONENTS Interpreter)
 endif ()
 
 if (Python_EXECUTABLE)
@@ -82,6 +70,7 @@ if (Python_EXECUTABLE)
         add_custom_target(autotest COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
                           DEPENDS gdal gdalapps python_binding)
     else ()
+        # Fall back to run test on source directory. FIXME: this breaks out-of-source build
         add_custom_target(autotest COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
                           WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/autotest
                           DEPENDS gdal gdalapps python_binding)

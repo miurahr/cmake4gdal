@@ -183,6 +183,7 @@ endif ()
 ################################################################
 add_subdirectory(gdal)
 
+# unit tests
 add_subdirectory(autotest/cpp)
 
 # please comment out if you want to exclude autotest from distribution.
