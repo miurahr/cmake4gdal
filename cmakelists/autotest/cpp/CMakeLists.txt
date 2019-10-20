@@ -3,7 +3,7 @@
 # * Purpose:  CMake build scripts
 # * Author: Hiroshi Miura, Dmitriy Baryshnikov (aka Bishop), polimax@mail.ru,
 # ******************************************************************************
-# * Copyright (C) 2017,2018 Hiroshi Miura
+# * Copyright (C) 2017-2019 Hiroshi Miura
 # *
 # * Permission is hereby granted, free of charge, to any person obtaining a
 # * copy of this software and associated documentation files (the "Software"),
@@ -27,13 +27,13 @@
 enable_testing()
 set(GDAL_ROOT_TEST_DIR "${CMAKE_SOURCE_DIR}/autotest")
 
-if(NOT CMAKE_CROSSCOMPILING)
-    if(LINUX)
+if (NOT CMAKE_CROSSCOMPILING)
+    if (LINUX)
         add_library(vsipreload MODULE
-                ${CMAKE_SOURCE_DIR}/gdal/port/vsipreload.cpp)
+                    ${CMAKE_SOURCE_DIR}/gdal/port/vsipreload.cpp)
         target_link_libraries(vsipreload PRIVATE $<TARGET_NAME:gdal>)
-    endif()
-endif()
+    endif ()
+endif ()
 
 add_executable(gdal_unit_test
                tut/tut.hpp
@@ -80,9 +80,9 @@ target_include_directories(gdal_unit_test PRIVATE
 target_compile_definitions(gdal_unit_test PRIVATE -DGDAL_TEST_ROOT_DIR="${GDAL_ROOT_TEST_DIR}" )
 add_test(NAME test-unit COMMAND gdal_unit_test)
 set(TEST_ENV)
-if(MINGW)
+if (MINGW)
     list(APPEND TEST_ENV SKIP_MEM_INTENSIVE_TEST=YES)
-endif()
+endif ()
 list(APPEND TEST_ENV
      LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/gdal:$ENV{LD_LIBRARY_PATH}
      GDAL_DRIVER_PATH=${CMAKE_BINARY_DIR}/gdal/gdalplugins
@@ -112,9 +112,9 @@ add_test(NAME test-block-cache-5
 add_test(NAME test-block-cache-6
          COMMAND testblockcache --config GDAL_BAND_BLOCK_CACHE HASHSET -check -co TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES --config GDAL_RB_LOCK_TYPE SPIN)
 
-foreach(tgt IN ITEMS test-block-cache-1 test-block-cache-2 test-block-cache-3 test-block-cache-4 test-block-cache-5)
+foreach (tgt IN ITEMS test-block-cache-1 test-block-cache-2 test-block-cache-3 test-block-cache-4 test-block-cache-5)
     set_tests_properties(${tgt} PROPERTIES ENVIRONMENT "${TEST_ENV}" WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
-endforeach()
+endforeach ()
 
 gdal_test_target(testsse1 testsse.cpp)
 target_compile_options(testsse1 PRIVATE ${GDAL_ARCH_FLAG})
@@ -136,12 +136,12 @@ set_tests_properties(testsse2 PROPERTIES ENVIRONMENT "${TEST_ENV}" WORKING_DIREC
 set_tests_properties(testsse3 PROPERTIES ENVIRONMENT "${TEST_ENV}" WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 
 macro(gdal_autotest_target _target testlabel _source options)
-    if(NOT CMAKE_CROSSCOMPILING OR CMAKE_CROSSCOMPILING_EMULATOR)
+    if (NOT CMAKE_CROSSCOMPILING OR CMAKE_CROSSCOMPILING_EMULATOR)
         gdal_test_target(${_target} ${_source})
         add_test(NAME ${testlabel}
-            COMMAND ${_target} ${options})
+                 COMMAND ${_target} ${options})
         set_tests_properties(${testlabel} PROPERTIES ENVIRONMENT "${TEST_ENV}")
-    endif()
+    endif ()
 endmacro()
 
 gdal_autotest_target(testcopywords test-copy-words testcopywords.cpp "")

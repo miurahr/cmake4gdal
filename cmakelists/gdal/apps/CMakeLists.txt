@@ -51,16 +51,16 @@ target_include_directories(appslib PRIVATE
                            $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>
                            )
 set_property(TARGET appslib PROPERTY POSITION_INDEPENDENT_CODE ON)
-if(GDAL_USE_LIBJSONC_INTERNAL)
+if (GDAL_USE_LIBJSONC_INTERNAL)
     target_include_directories(appslib PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)
-else()
+else ()
     target_include_directories(appslib PRIVATE ${JSONC_INCLUDE_DIRS})
     target_link_libraries(GDAL_LINK_LIBRARY INTERFACE ${JSONC_LIBRARIES})
-endif()
+endif ()
 
 target_compile_options(appslib PRIVATE ${GDAL_ARCH_FLAG})
 
-if(BUILD_APPS)
+if (BUILD_APPS)
     # Default Apps
     add_executable(gdalinfo gdal_utils_priv.h gdalinfo_bin.cpp)
     add_executable(gdalbuildvrt gdal_utils_priv.h gdalbuildvrt_bin.cpp)
@@ -86,55 +86,55 @@ if(BUILD_APPS)
     add_executable(gdalmdiminfo gdalmdiminfo_bin.cpp)
     add_executable(gdalmdimtranslate gdalmdimtranslate_bin.cpp)
     set(APPS_TARGETS
-            gdalinfo gdalbuildvrt gdaladdo gdal_grid gdal_translate
-            gdalserver gdal_rasterize  gdalsrsinfo
-            gdalenhance gdalmanage gdaltransform gdaltindex
-            gdaldem nearblack ogrlineref ogrtindex
-            gdalwarp gdal_contour gdallocationinfo ogrinfo ogr2ogr
-            ogrlineref nearblack gdalmdiminfo gdalmdimtranslate)
-    if(ENABLE_GNM)
+        gdalinfo gdalbuildvrt gdaladdo gdal_grid gdal_translate
+        gdalserver gdal_rasterize gdalsrsinfo
+        gdalenhance gdalmanage gdaltransform gdaltindex
+        gdaldem nearblack ogrlineref ogrtindex
+        gdalwarp gdal_contour gdallocationinfo ogrinfo ogr2ogr
+        ogrlineref nearblack gdalmdiminfo gdalmdimtranslate)
+    if (ENABLE_GNM)
         add_executable(gnmanalyse gnmanalyse.cpp)
         add_executable(gnmmanage gnmmanage.cpp)
         list(APPEND APPS_TARGETS gnmanalyse gnmmanage)
         target_include_directories(gnmanalyse PRIVATE $<TARGET_PROPERTY:gnm,SOURCE_DIR>)
         target_include_directories(gnmmanage PRIVATE $<TARGET_PROPERTY:gnm,SOURCE_DIR>)
-    endif()
+    endif ()
 
     add_custom_target(gdalapps DEPENDS ${APPS_TARGETS})
-    foreach(UTILCMD IN ITEMS ${APPS_TARGETS})
+    foreach (UTILCMD IN ITEMS ${APPS_TARGETS})
         gdal_standard_includes(${UTILCMD})
         target_include_directories(${UTILCMD} PRIVATE
-                           $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
-                           $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>
-                           $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>
-                           $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>
+                                   $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
+                                   $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>
+                                   $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>
+                                   $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>
                                    )
-        if(MSVC OR MINGW)
+        if (MSVC OR MINGW)
             target_compile_definitions(${UTILCMD} PRIVATE -DSUPPORTS_WMAIN)
-        endif()
-        if(HAVE_GEOS)
+        endif ()
+        if (HAVE_GEOS)
             target_include_directories(${UTILCMD} PRIVATE ${GEOS_INCLUDE_DIRS})
             target_compile_definitions(${UTILCMD} PRIVATE -DHAVE_GEOS=1)
-        endif()
-        if(GDAL_USE_LIBJSONC_INTERNAL)
+        endif ()
+        if (GDAL_USE_LIBJSONC_INTERNAL)
             target_include_directories(${UTILCMD} PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)
-        else()
+        else ()
             target_include_directories(${UTILCMD} PRIVATE ${JSONC_INCLUDE_DIRS})
             target_link_libraries(${UTILCMD} PRIVATE ${JSONC_LIBRARIES})
-        endif()
+        endif ()
         target_include_directories(${UTILCMD} PRIVATE ${PROJ_INCLUDE_DIRS})
         target_link_libraries(${UTILCMD} PRIVATE $<TARGET_NAME:gdal>)
         ## Windows(Mingw/MSVC) link libraries
         if (CMAKE_SYSTEM_NAME MATCHES "Windows")
             target_link_libraries(${UTILCMD} PRIVATE wsock32 ws2_32 psapi)
-        endif()
-    endforeach()
+        endif ()
+    endforeach ()
     install(TARGETS ${APPS_TARGETS}
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    )
+            )
 
     # NON-Default Apps
     add_executable(dumpoverviews EXCLUDE_FROM_ALL dumpoverviews.cpp)
@@ -142,30 +142,30 @@ if(BUILD_APPS)
     add_executable(gdaltorture EXCLUDE_FROM_ALL gdaltorture.cpp)
     add_executable(gdal2ogr EXCLUDE_FROM_ALL gdal2ogr.c)
     add_executable(gdalasyncread EXCLUDE_FROM_ALL gdalasyncread.cpp)
-    add_executable(gdalwarpsimple  EXCLUDE_FROM_ALL gdalwarpsimple.c)
+    add_executable(gdalwarpsimple EXCLUDE_FROM_ALL gdalwarpsimple.c)
     add_executable(multireadtest EXCLUDE_FROM_ALL multireadtest.cpp)
     add_executable(test_ogrsf test_ogrsf.cpp)
     add_executable(testepsg testepsg.cpp)
     add_executable(testreprojmulti EXCLUDE_FROM_ALL testreprojmulti.cpp)
 
-    foreach(UTILCMD IN ITEMS dumpoverviews
-            gdal2ogr gdalasyncread gdaltorture
-            gdalflattenmask gdalwarpsimple
-            multireadtest test_ogrsf testepsg testreprojmulti)
+    foreach (UTILCMD IN ITEMS dumpoverviews
+             gdal2ogr gdalasyncread gdaltorture
+             gdalflattenmask gdalwarpsimple
+             multireadtest test_ogrsf testepsg testreprojmulti)
         gdal_standard_includes(${UTILCMD})
         target_link_libraries(${UTILCMD} PRIVATE ${GDAL_LINK_LIBRARY})
-        if(MSVC OR MINGW)
+        if (MSVC OR MINGW)
             target_compile_definitions(${UTILCMD} PRIVATE -DSUPPORTS_WMAIN)
-        endif()
+        endif ()
         ## Windows(Mingw/MSVC) link libraries
         if (CMAKE_SYSTEM_NAME MATCHES "Windows")
             target_link_libraries(${UTILCMD} PRIVATE wsock32 ws2_32 psapi)
-        endif()
+        endif ()
         target_include_directories(${UTILCMD} PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
                                    $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>
                                    $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>
                                    $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>
                                    )
         target_link_libraries(${UTILCMD} PRIVATE $<TARGET_NAME:gdal>)
-    endforeach()
- endif()
+    endforeach ()
+endif ()

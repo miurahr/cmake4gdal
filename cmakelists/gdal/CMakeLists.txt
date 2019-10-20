@@ -40,15 +40,15 @@ option(GDAL_ENABLE_MACOSX_FRAMEWORK "Enable Framework on Mac OS X" OFF)
 # Default definitions during build
 add_definitions(-DGDAL_COMPILATION)
 
-if(ENABLE_LTO)
-    if (POLICY CMP0069)
-      include(CheckIPOSupported)
-      check_ipo_supported(RESULT result)
-      if(result)
-       set(CMAKE_INTERPROCEDURAL_OPTIMIZATION True)
-      endif()
-    endif()
-endif()
+if (ENABLE_LTO)
+  if (POLICY CMP0069)
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT result)
+    if (result)
+      set(CMAKE_INTERPROCEDURAL_OPTIMIZATION True)
+    endif ()
+  endif ()
+endif ()
 
 ################################################################################
 # generate ${CMAKE_CURRENT_BINARY_DIR}/gcore/gdal_version.h
@@ -82,39 +82,39 @@ set_target_properties(gdal PROPERTIES
                       CXX_STANDARD 11
                       CXX_STANDARD_REQUIRED YES)
 
-if(MINGW)
-    list(FIND CMAKE_EXE_LINKER_FLAGS "-municode" has_municode)
-    if(NOT has_unicode)
-        SET(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-municode")
-    endif()
-    if(TARGET_CPU MATCHES "x86_64")
-        add_definitions(-m64)
-    endif()
-endif()
+if (MINGW)
+  list(FIND CMAKE_EXE_LINKER_FLAGS "-municode" has_municode)
+  if (NOT has_unicode)
+    set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-municode")
+  endif ()
+  if (TARGET_CPU MATCHES "x86_64")
+    add_definitions(-m64)
+  endif ()
+endif ()
 
 ################################################################################
 # Install properties
-if(GDAL_ENABLE_MACOSX_FRAMEWORK)
-    set(INSTALL_PLUGIN_DIR "${CMAKE_INSTALL_PREFIX}/PlugIns"
-            CACHE PATH "Installation direcotry for plugins")
-    set(CMAKE_MACOSX_RPATH ON)
-    set_target_properties(gdal PROPERTIES
-                          FRAMEWORK TRUE
-                          FRAMEWORK_VERSION A
-                          MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GDAL_VERSION_MAJOR}.${GDAL_VERSION_MINOR}
-                          MACOSX_FRAMEWORK_BUNDLE_VERSION "GDAL ${GDAL_VERSION_MAJOR}.${GDAL_VERSION_MINOR}"
-                          MACOSX_FRAMEWORK_IDENTIFIER org.osgeo.libgdal
-                          XCODE_ATTRIBUTE_INSTALL_PATH "@rpath"
-                          INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}"
-                          BUILD_WITH_INSTALL_RPATH TRUE
-                          #MACOSX_FRAMEWORK_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/info.plist.in"
-                          )
-else()
-    include(GNUInstallDirs)
-    set(INSTALL_PLUGIN_DIR
-        "${CMAKE_INSTALL_PREFIX}/lib/gdalplugins/${GDAL_VERSION_MAJOR}.${GDAL_VERSION_MINOR}"
-        CACHE PATH "Installation direcotry for plugins")
-endif()
+if (GDAL_ENABLE_MACOSX_FRAMEWORK)
+  set(INSTALL_PLUGIN_DIR "${CMAKE_INSTALL_PREFIX}/PlugIns"
+      CACHE PATH "Installation direcotry for plugins")
+  set(CMAKE_MACOSX_RPATH ON)
+  set_target_properties(gdal PROPERTIES
+                        FRAMEWORK TRUE
+                        FRAMEWORK_VERSION A
+                        MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GDAL_VERSION_MAJOR}.${GDAL_VERSION_MINOR}
+                        MACOSX_FRAMEWORK_BUNDLE_VERSION "GDAL ${GDAL_VERSION_MAJOR}.${GDAL_VERSION_MINOR}"
+                        MACOSX_FRAMEWORK_IDENTIFIER org.osgeo.libgdal
+                        XCODE_ATTRIBUTE_INSTALL_PATH "@rpath"
+                        INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}"
+                        BUILD_WITH_INSTALL_RPATH TRUE
+                        #MACOSX_FRAMEWORK_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/info.plist.in"
+                        )
+else ()
+  include(GNUInstallDirs)
+  set(INSTALL_PLUGIN_DIR
+      "${CMAKE_INSTALL_PREFIX}/lib/gdalplugins/${GDAL_VERSION_MAJOR}.${GDAL_VERSION_MINOR}"
+      CACHE PATH "Installation direcotry for plugins")
+endif ()
 
 ###############################################################################
 # detect portability libs and set, so it should add at first
@@ -122,55 +122,55 @@ endif()
 add_subdirectory(port)
 
 # Configure internal libraries
-if(GDAL_ENABLE_QHULL AND GDAL_USE_QHULL_INTERNAL)
-    add_subdirectory(alg/internal_libqhull)
-endif()
-if(GDAL_USE_LIBZ_INTERNAL)
-    add_subdirectory(frmts/zlib)
-endif()
-if(GDAL_USE_LIBPCIDSK_INTERNAL)
-    add_subdirectory(frmts/pcidsk/sdk)
-    set(HAVE_PCIDSK ON)
-endif()
-if(GDAL_USE_LIBJSONC_INTERNAL)
-    add_subdirectory(ogr/ogrsf_frmts/geojson/libjson)
-endif()
-if(GDAL_USE_OPENCAD_INTERNAL AND OGR_ENABLE_CAD)
-    add_subdirectory(ogr/ogrsf_frmts/cad/libopencad)
-endif()
-if(GDAL_USE_LIBTIFF_INTERNAL)
-    option(RENAME_INTERNAL_LIBTIFF_SYMBOLS "Rename internal libtiff symbols" OFF)
-    add_subdirectory(frmts/gtiff/libtiff)
-endif()
-if(GDAL_USE_LIBGEOTIFF_INTERNAL)
-    add_subdirectory(frmts/gtiff/libgeotiff)
-endif()
-if(GDAL_USE_LIBJPEG_INTERNAL)
-    add_subdirectory(frmts/jpeg/libjpeg)
-endif()
-if(GDAL_USE_GIFLIB_INTERNAL)
-    add_subdirectory(frmts/gif/giflib)
-endif()
-if(GDAL_USE_LIBPNG_INTERNAL)
-    add_subdirectory(frmts/png/libpng)
-endif()
-if(GDAL_USE_LIBCSF_INTERNAL)
-    add_subdirectory(frmts/pcraster/libcsf)
-endif()
-if(GDAL_USE_LIBLERC_INTERNAL)
-    add_subdirectory(frmts/mrf/libLERC)
-    add_subdirectory(third_party/LercLib)
-endif()
-if(GDAL_USE_SHAPELIB_INTERNAL)
-    option(RENAME_INTERNAL_SHAPELIB_SYMBOLS "Rename internal Shapelib symbols" ON)
-endif()
+if (GDAL_ENABLE_QHULL AND GDAL_USE_QHULL_INTERNAL)
+  add_subdirectory(alg/internal_libqhull)
+endif ()
+if (GDAL_USE_LIBZ_INTERNAL)
+  add_subdirectory(frmts/zlib)
+endif ()
+if (GDAL_USE_LIBPCIDSK_INTERNAL)
+  add_subdirectory(frmts/pcidsk/sdk)
+  set(HAVE_PCIDSK ON)
+endif ()
+if (GDAL_USE_LIBJSONC_INTERNAL)
+  add_subdirectory(ogr/ogrsf_frmts/geojson/libjson)
+endif ()
+if (GDAL_USE_OPENCAD_INTERNAL AND OGR_ENABLE_CAD)
+  add_subdirectory(ogr/ogrsf_frmts/cad/libopencad)
+endif ()
+if (GDAL_USE_LIBTIFF_INTERNAL)
+  option(RENAME_INTERNAL_LIBTIFF_SYMBOLS "Rename internal libtiff symbols" OFF)
+  add_subdirectory(frmts/gtiff/libtiff)
+endif ()
+if (GDAL_USE_LIBGEOTIFF_INTERNAL)
+  add_subdirectory(frmts/gtiff/libgeotiff)
+endif ()
+if (GDAL_USE_LIBJPEG_INTERNAL)
+  add_subdirectory(frmts/jpeg/libjpeg)
+endif ()
+if (GDAL_USE_GIFLIB_INTERNAL)
+  add_subdirectory(frmts/gif/giflib)
+endif ()
+if (GDAL_USE_LIBPNG_INTERNAL)
+  add_subdirectory(frmts/png/libpng)
+endif ()
+if (GDAL_USE_LIBCSF_INTERNAL)
+  add_subdirectory(frmts/pcraster/libcsf)
+endif ()
+if (GDAL_USE_LIBLERC_INTERNAL)
+  add_subdirectory(frmts/mrf/libLERC)
+  add_subdirectory(third_party/LercLib)
+endif ()
+if (GDAL_USE_SHAPELIB_INTERNAL)
+  option(RENAME_INTERNAL_SHAPELIB_SYMBOLS "Rename internal Shapelib symbols" ON)
+endif ()
 
 # Core components
 add_subdirectory(alg)
 add_subdirectory(ogr)
-if(ENABLE_GNM)
-    add_subdirectory(gnm)
-endif()
+if (ENABLE_GNM)
+  add_subdirectory(gnm)
+endif ()
 add_subdirectory(gcore)
 
 # Raster/Vector drivers (built-in and plugins)
@@ -184,26 +184,26 @@ add_subdirectory(swig)
 add_subdirectory(apps)
 
 # Document/Manuals
-if(BUILD_DOCS)
-    add_subdirectory(doc)
-endif()
+if (BUILD_DOCS)
+  add_subdirectory(doc)
+endif ()
 
 ## MSVC spefific resource preparation
-if(MSVC)
-    target_sources(gdal PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/gcore/Version.rc)
-    source_group("Resource Files" FILES ${CMAKE_CURRENT_SOURCE_DIR}/gcore/Version.rc)
-    gdal_standard_includes(gdal)
-    if(CMAKE_CL_64)
-		set_target_properties(gdal PROPERTIES STATIC_LIBRARY_FLAGS "/machine:x64")
-    endif()
-endif()
+if (MSVC)
+  target_sources(gdal PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/gcore/Version.rc)
+  source_group("Resource Files" FILES ${CMAKE_CURRENT_SOURCE_DIR}/gcore/Version.rc)
+  gdal_standard_includes(gdal)
+  if (CMAKE_CL_64)
+    set_target_properties(gdal PROPERTIES STATIC_LIBRARY_FLAGS "/machine:x64")
+  endif ()
+endif ()
 
 ## Windows(Mingw/MSVC) link libraries
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
-    target_link_libraries(gdal PRIVATE wsock32 ws2_32 psapi)
-endif()
+  target_link_libraries(gdal PRIVATE wsock32 ws2_32 psapi)
+endif ()
 
-get_property(_plugins GLOBAL PROPERTY PLUGIN_MODULES )
+get_property(_plugins GLOBAL PROPERTY PLUGIN_MODULES)
 add_custom_target(gdal_plugins DEPENDS ${_plugins})
 
 ################################################################################
@@ -244,50 +244,50 @@ install(TARGETS gdal EXPORT gdal-export
         RESOURCE DESTINATION ${CMAKE_INSTALL_DATADIR}/gdal
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gdal
         FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
+        )
 
-if(UNIX AND NOT GDAL_ENABLE_MACOSX_FRAMEWORK)
-    # Genarate GdalConfig.cmake and GdalConfigVersion.cmake
-    export(EXPORT gdal-export
-           FILE gdal-export.cmake)
-    install(EXPORT gdal-export
-            FILE GdalConfig.cmake
-            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/gdal/
-            EXPORT_LINK_INTERFACE_LIBRARIES)
-    include(CMakePackageConfigHelpers)
-    write_basic_package_version_file(GdalConfigVersion.cmake
-                                     VERSION ${GDAL_VERSION}
-                                     ## SameMinorVersion compatibility are supported CMake > 3.10.1
-                                     ## so use ExactVersion instead.
-                                     # COMPATIBILITY SameMinorVersion)
-                                     COMPATIBILITY ExactVersion)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/GdalConfigVersion.cmake
-            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/gdal/)
+if (UNIX AND NOT GDAL_ENABLE_MACOSX_FRAMEWORK)
+  # Genarate GdalConfig.cmake and GdalConfigVersion.cmake
+  export(EXPORT gdal-export
+         FILE gdal-export.cmake)
+  install(EXPORT gdal-export
+          FILE GdalConfig.cmake
+          DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/gdal/
+          EXPORT_LINK_INTERFACE_LIBRARIES)
+  include(CMakePackageConfigHelpers)
+  write_basic_package_version_file(GdalConfigVersion.cmake
+                                   VERSION ${GDAL_VERSION}
+                                   ## SameMinorVersion compatibility are supported CMake > 3.10.1
+                                   ## so use ExactVersion instead.
+                                   # COMPATIBILITY SameMinorVersion)
+                                   COMPATIBILITY ExactVersion)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/GdalConfigVersion.cmake
+          DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/gdal/)
 
-    # gdal-config utility command generation
-    include(GenerateConfig)
-    set(CONFIG_DATA "${GDAL_PREFIX}/share/gdal/${GDAL_VERSION_MAJOR}.${GDAL_VERSION_MINOR}")
-    if(ENABLE_GNM)
-        set(CONFIG_GNM_ENABLED "yes")
-    else()
-        set(CONFIG_GNM_ENABLED "no")
-    endif()
-    get_property(_GDAL_FORMATS GLOBAL PROPERTY GDAL_FORMATS)
-    get_property(_OGR_FORMATS GLOBAL PROPERTY OGR_FORMATS)
-    string(REPLACE ";" " " CONFIG_FORMATS "${_GDAL_FORMATS} ${_OGR_FORMATS}")
-    generate_config(gdal GDAL_LINK_LIBRARY ${GDAL_CMAKE_TEMPLATE_PATH}/gdal-config.in
-                    ${CMAKE_BINARY_DIR}/gdal/apps/gdal-config)
-    add_custom_target(gdal_config ALL DEPENDS ${CMAKE_BINARY_DIR}/gdal/apps/gdal-config)
-    install(PROGRAMS ${CMAKE_BINARY_DIR}/gdal/apps/gdal-config
-            DESTINATION bin
-            PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-            COMPONENT applications)
-    # pkg-config resource
-    configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/gdal.pc.in
-                   ${CMAKE_CURRENT_BINARY_DIR}/gdal.pc @ONLY)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gdal.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
-            COMPONENT libraries)
-endif()
+  # gdal-config utility command generation
+  include(GenerateConfig)
+  set(CONFIG_DATA "${GDAL_PREFIX}/share/gdal/${GDAL_VERSION_MAJOR}.${GDAL_VERSION_MINOR}")
+  if (ENABLE_GNM)
+    set(CONFIG_GNM_ENABLED "yes")
+  else ()
+    set(CONFIG_GNM_ENABLED "no")
+  endif ()
+  get_property(_GDAL_FORMATS GLOBAL PROPERTY GDAL_FORMATS)
+  get_property(_OGR_FORMATS GLOBAL PROPERTY OGR_FORMATS)
+  string(REPLACE ";" " " CONFIG_FORMATS "${_GDAL_FORMATS} ${_OGR_FORMATS}")
+  generate_config(gdal GDAL_LINK_LIBRARY ${GDAL_CMAKE_TEMPLATE_PATH}/gdal-config.in
+                  ${CMAKE_BINARY_DIR}/gdal/apps/gdal-config)
+  add_custom_target(gdal_config ALL DEPENDS ${CMAKE_BINARY_DIR}/gdal/apps/gdal-config)
+  install(PROGRAMS ${CMAKE_BINARY_DIR}/gdal/apps/gdal-config
+          DESTINATION bin
+          PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+          COMPONENT applications)
+  # pkg-config resource
+  configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/gdal.pc.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/gdal.pc @ONLY)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gdal.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+          COMPONENT libraries)
+endif ()
 
 ################################################################################
 configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/uninstall.cmake.in

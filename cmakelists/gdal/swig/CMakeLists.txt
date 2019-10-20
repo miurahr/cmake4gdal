@@ -20,29 +20,29 @@ set(GDAL_SWIG_COMMON_INTERFACE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Transform.i
     ${CMAKE_CURRENT_SOURCE_DIR}/include/XMLNode.i
     ${CMAKE_CURRENT_SOURCE_DIR}/include/MutiDimensional.i
-)
+    )
 
 include(CMakeDependentOption)
 cmake_dependent_option(SWIG_PYTHON "Build the Python binding" ON "HAVE_PYTHON" OFF)
 add_feature_info(SWIG_PYTHON SWIG_PYTHON "Python binding")
-if(SWIG_PYTHON)
+if (SWIG_PYTHON)
     add_subdirectory(python)
-endif()
+endif ()
 
 cmake_dependent_option(SWIG_JAVA "Build the JAVA binding" OFF "HAVE_JAVA" OFF)
 add_feature_info(SWIG_JAVA SWIG_JAVA "Java binding")
-if(SWIG_JAVA)
+if (SWIG_JAVA)
     add_subdirectory(java)
-endif()
+endif ()
 
 cmake_dependent_option(SWIG_PERL "Build the Perl binding" OFF "HAVE_PERL" OFF)
-if(SWIG_PERL)
+if (SWIG_PERL)
     add_feature_info(SWIG_PERL SWIG_PERL "Perl binding")
     add_subdirectory(perl)
-endif()
+endif ()
 
 cmake_dependent_option(SWIG_CSHARP "Build the C# binding" OFF "HAVE_CSHARP" OFF)
 add_feature_info(SWIG_CSHARP SWIG_CSHARP "CSHARP binding")
-if(SWIG_CSHARP)
+if (SWIG_CSHARP)
     add_subdirectory(csharp)
-endif()
+endif ()

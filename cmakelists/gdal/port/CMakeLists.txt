@@ -114,17 +114,17 @@ target_include_directories(cpl PRIVATE
 						   ${CMAKE_CURRENT_SOURCE_DIR}
 						   ${CMAKE_CURRENT_BINARY_DIR}
 						   )
-if(WIN32)
-    target_sources(cpl PRIVATE cpl_vsil_win32.cpp)
-else()
-    target_sources(cpl PRIVATE cpl_vsil_unix_stdio_64.cpp)
-endif()
+if (WIN32)
+  target_sources(cpl PRIVATE cpl_vsil_win32.cpp)
+else ()
+  target_sources(cpl PRIVATE cpl_vsil_unix_stdio_64.cpp)
+endif ()
 
-if(GDAL_USE_LIBJSONC_INTERNAL)
-    target_include_directories(cpl PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)
-else()
-    target_link_libraries(cpl PRIVATE JSONC::JSONC)
-endif()
+if (GDAL_USE_LIBJSONC_INTERNAL)
+  target_include_directories(cpl PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)
+else ()
+  target_link_libraries(cpl PRIVATE JSONC::JSONC)
+endif ()
 
 target_compile_definitions(cpl PRIVATE -DHAVE_LIBZ -DZIP_SUPPORT)
 target_public_header(TARGET gdal HEADERS
@@ -138,78 +138,78 @@ target_sources(cpl PRIVATE
     cpl_minizip_unzip.cpp
     cpl_minizip_zip.cpp
 )
-if(GDAL_USE_LIBZ_INTERNAL)
-    target_include_directories(cpl PRIVATE $<TARGET_PROPERTY:libz,SOURCE_DIR>)
-else()
-    target_compile_definitions(cpl PRIVATE -DHAVE_ZLIB_H -DHAVE_ZLIB)
-    if(MSVC)
-        target_compile_definitions(cpl PRIVATE -DZLIB_DLL)
-    endif(MSVC)
-    target_link_libraries(cpl PRIVATE ZLIB::ZLIB)
-endif()
+if (GDAL_USE_LIBZ_INTERNAL)
+  target_include_directories(cpl PRIVATE $<TARGET_PROPERTY:libz,SOURCE_DIR>)
+else ()
+  target_compile_definitions(cpl PRIVATE -DHAVE_ZLIB_H -DHAVE_ZLIB)
+  if (MSVC)
+    target_compile_definitions(cpl PRIVATE -DZLIB_DLL)
+  endif (MSVC)
+  target_link_libraries(cpl PRIVATE ZLIB::ZLIB)
+endif ()
 
-if(HAVE_CURL)
-    target_include_directories(cpl PRIVATE ${CURL_INCLUDE_DIRS})
-    target_compile_definitions(cpl PRIVATE -DHAVE_CURL)
-    target_public_header(TARGET gdal HEADERS cpl_vsil_curl_priv.h)
-	target_sources(cpl PRIVATE
-        cpl_vsil_curl.cpp
-        cpl_vsil_curl_streaming.cpp
-    )
-    target_link_libraries(GDAL_LINK_LIBRARY INTERFACE CURL::libcurl)
-endif()
+if (HAVE_CURL)
+  target_include_directories(cpl PRIVATE ${CURL_INCLUDE_DIRS})
+  target_compile_definitions(cpl PRIVATE -DHAVE_CURL)
+  target_public_header(TARGET gdal HEADERS cpl_vsil_curl_priv.h)
+  target_sources(cpl PRIVATE
+                 cpl_vsil_curl.cpp
+                 cpl_vsil_curl_streaming.cpp
+                 )
+  target_link_libraries(GDAL_LINK_LIBRARY INTERFACE CURL::libcurl)
+endif ()
 
-if(HAVE_ICONV)
-    target_compile_definitions(cpl PRIVATE -DHAVE_ICONV)
- 	if(Iconv_IS_BUILT_IN)
-        target_sources(cpl PRIVATE cpl_recode_iconv.cpp)
-	else()
-        if(APPLE)
-            target_compile_definitions(cpl PRIVATE -DLIBICONV_PLUG)
-        endif()
-        target_sources(cpl PRIVATE cpl_recode_iconv.cpp)
-        target_link_libraries(cpl PRIVATE Iconv::Iconv)
-	endif()
-endif()
+if (HAVE_ICONV)
+  target_compile_definitions(cpl PRIVATE -DHAVE_ICONV)
+  if (Iconv_IS_BUILT_IN)
+    target_sources(cpl PRIVATE cpl_recode_iconv.cpp)
+  else ()
+    if (APPLE)
+      target_compile_definitions(cpl PRIVATE -DLIBICONV_PLUG)
+    endif ()
+    target_sources(cpl PRIVATE cpl_recode_iconv.cpp)
+    target_link_libraries(cpl PRIVATE Iconv::Iconv)
+  endif ()
+endif ()
 
-if(HAVE_ODBC)
-	  target_sources(cpl PRIVATE cpl_odbc.cpp)
-	  target_public_header(TARGET gdal HEADERS cpl_odbc.h)
-    target_link_libraries(cpl PRIVATE ODBC::ODBC ODBC::ODBCINST)
-endif()
+if (HAVE_ODBC)
+  target_sources(cpl PRIVATE cpl_odbc.cpp)
+  target_public_header(TARGET gdal HEADERS cpl_odbc.h)
+  target_link_libraries(cpl PRIVATE ODBC::ODBC ODBC::ODBCINST)
+endif ()
 
-if(GDAL_USE_XMLREFORMAT)
-    target_sources(cpl PRIVATE xmlreformat.cpp)
-endif()
+if (GDAL_USE_XMLREFORMAT)
+  target_sources(cpl PRIVATE xmlreformat.cpp)
+endif ()
 
 
-if(MSVC)
-    if(CMAKE_CL_64)
-        target_compile_definitions(cpl PRIVATE -D_WIN64)
-    endif()
-else()
-    if(Threads_FOUND)
-      target_link_libraries(cpl PRIVATE Threads::Threads)
-    endif()
-endif()
+if (MSVC)
+  if (CMAKE_CL_64)
+    target_compile_definitions(cpl PRIVATE -D_WIN64)
+  endif ()
+else ()
+  if (Threads_FOUND)
+    target_link_libraries(cpl PRIVATE Threads::Threads)
+  endif ()
+endif ()
 
-if(HAVE_USERFAULTFD_H)
-	target_compile_definitions(cpl PRIVATE -DENABLE_UFFD)
-endif()
+if (HAVE_USERFAULTFD_H)
+  target_compile_definitions(cpl PRIVATE -DENABLE_UFFD)
+endif ()
 
 option(HDFS_ENABLED "Include HDFS support" OFF)
-if(HDFS_ENABLED)
-    target_compile_definitions(cpl PRIVATE -DHDFS_ENABLED)
-endif()
+if (HDFS_ENABLED)
+  target_compile_definitions(cpl PRIVATE -DHDFS_ENABLED)
+endif ()
 
 target_compile_options(cpl PRIVATE ${GDAL_ARCH_FLAG})
-if(HAVE_SSE_AT_COMPILE_TIME)
-    target_compile_definitions(cpl PRIVATE -DHAVE_SSE_AT_COMPILE_TIME)
-endif()
+if (HAVE_SSE_AT_COMPILE_TIME)
+  target_compile_definitions(cpl PRIVATE -DHAVE_SSE_AT_COMPILE_TIME)
+endif ()
 
-if(HAVE_SSSE3_AT_COMPILE_TIME)
-    target_compile_definitions(cpl PRIVATE -DHAVE_SSSE3_AT_COMPILE_TIME)
-endif()
+if (HAVE_SSSE3_AT_COMPILE_TIME)
+  target_compile_definitions(cpl PRIVATE -DHAVE_SSSE3_AT_COMPILE_TIME)
+endif ()
 
 ## for plugin DLFCN:
 ##  for win32 https://github.com/dlfcn-win32/dlfcn-win32/archive/v1.1.1.tar.gz
@@ -220,24 +220,24 @@ endif()
 
 add_executable(xmlreformat EXCLUDE_FROM_ALL xmlreformat.cpp)
 
-if(HAVE_CRYPTPP)
-    target_compile_definitions(cpl PRIVATE -DHAVE_CRYPTOPP)
-    target_link_libraries(cpl PRIVATE CRYPTPP::CRYPTPP)
-endif()
+if (HAVE_CRYPTPP)
+  target_compile_definitions(cpl PRIVATE -DHAVE_CRYPTOPP)
+  target_link_libraries(cpl PRIVATE CRYPTPP::CRYPTPP)
+endif ()
 
-if(TARGET OpenSSL::Crypto)
-    target_compile_definitions(cpl PRIVATE -DUSE_OPENSSL_CRYPTO)
-    target_link_libraries(cpl PRIVATE OpenSSL::Crypto)
-endif()
+if (TARGET OpenSSL::Crypto)
+  target_compile_definitions(cpl PRIVATE -DUSE_OPENSSL_CRYPTO)
+  target_link_libraries(cpl PRIVATE OpenSSL::Crypto)
+endif ()
 
-if(CRYPTOPP_USE_ONLY_CRYPTODLL_ALG AND NOT BULID_SHARED_LIBS)
-    # Define USE_ONLY_CRYPTODLL_ALG is running against cryptopp.dll, but not if statically linking
-    # USE_ONLY_CRYPTODLL_ALG=YES
-    #
-    # When linking against the DLL:
-    # CRYPTOPP_LIB = c:/install-cryptopp-x64/lib/cryptopp.lib
-    #
-    # When linking against the static lib:
-    # CRYPTOPP_LIB = c:/install-cryptopp-x64/lib/cryptlib.lib
-    target_compile_definitions(cpl PRIVATE -DUSE_ONLY_CRYPTODLL_ALG)
-endif()
+if (CRYPTOPP_USE_ONLY_CRYPTODLL_ALG AND NOT BULID_SHARED_LIBS)
+  # Define USE_ONLY_CRYPTODLL_ALG is running against cryptopp.dll, but not if statically linking
+  # USE_ONLY_CRYPTODLL_ALG=YES
+  #
+  # When linking against the DLL:
+  # CRYPTOPP_LIB = c:/install-cryptopp-x64/lib/cryptopp.lib
+  #
+  # When linking against the static lib:
+  # CRYPTOPP_LIB = c:/install-cryptopp-x64/lib/cryptlib.lib
+  target_compile_definitions(cpl PRIVATE -DUSE_ONLY_CRYPTODLL_ALG)
+endif ()
