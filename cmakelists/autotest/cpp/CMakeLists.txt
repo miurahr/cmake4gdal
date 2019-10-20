@@ -36,38 +36,39 @@ if(NOT CMAKE_CROSSCOMPILING)
 endif()
 
 add_executable(gdal_unit_test
-        tut/tut.hpp
-        tut/tut_assert.hpp
-        tut/tut_console_reporter.hpp
-        tut/tut_exception.hpp
-        tut/tut_gdal.h
-        tut/tut_gdal.cpp
-        tut/tut_posix.hpp
-        tut/tut_reporter.hpp
-        tut/tut_restartable.hpp
-        tut/tut_result.hpp
-        tut/tut_runner.hpp
-        gdal_unit_test.cpp
-        test_alg.cpp
-        test_cpl.cpp
-        test_gdal.cpp
-        test_gdal_aaigrid.cpp
-        test_gdal_dted.cpp
-        test_gdal_gtiff.cpp
-        test_ogr.cpp
-        test_ogr_geos.cpp
-        test_ogr_shape.cpp
-        test_osr.cpp
-        test_osr_pci.cpp
-        test_osr_ct.cpp
-        test_osr_proj4.cpp
-        test_triangulation.cpp
+               tut/tut.hpp
+               tut/tut_assert.hpp
+               tut/tut_console_reporter.hpp
+               tut/tut_exception.hpp
+               tut/tut_gdal.h
+               tut/tut_gdal.cpp
+               tut/tut_posix.hpp
+               tut/tut_reporter.hpp
+               tut/tut_restartable.hpp
+               tut/tut_result.hpp
+               tut/tut_runner.hpp
+               gdal_unit_test.cpp
+               test_alg.cpp
+               test_cpl.cpp
+               test_gdal.cpp
+               test_gdal_aaigrid.cpp
+               test_gdal_dted.cpp
+               test_gdal_gtiff.cpp
+               test_ogr.cpp
+               test_ogr_geos.cpp
+               test_ogr_shape.cpp
+               test_osr.cpp
+               test_osr_pci.cpp
+               test_osr_ct.cpp
+               test_osr_proj4.cpp
+               test_triangulation.cpp
                test_marching_squares_contour.cpp
                test_marching_squares_polygon.cpp
                test_marching_squares_square.cpp
                test_marching_squares_tile.cpp
-        )
-    target_link_libraries(gdal_unit_test PRIVATE $<TARGET_NAME:gdal> $<TARGET_NAME:cpl>)
+               )
+
+target_link_libraries(gdal_unit_test PRIVATE $<TARGET_NAME:gdal> $<TARGET_NAME:cpl>)
 add_dependencies(gdal_unit_test gdal)
 gdal_standard_includes(gdal_unit_test)
 target_compile_definitions(gdal_unit_test PRIVATE -DGDAL_TEST_ROOT_DIR="${GDAL_ROOT_TEST_DIR}" )
@@ -77,15 +78,15 @@ target_include_directories(gdal_unit_test PRIVATE
                            $<TARGET_PROPERTY:appslib,SOURCE_DIR>
                            $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)
 target_compile_definitions(gdal_unit_test PRIVATE -DGDAL_TEST_ROOT_DIR="${GDAL_ROOT_TEST_DIR}" )
-add_test(NAME test-unit  COMMAND gdal_unit_test)
+add_test(NAME test-unit COMMAND gdal_unit_test)
 set(TEST_ENV)
 if(MINGW)
     list(APPEND TEST_ENV SKIP_MEM_INTENSIVE_TEST=YES)
 endif()
 list(APPEND TEST_ENV
-            LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/gdal:$ENV{LD_LIBRARY_PATH}
-            GDAL_DRIVER_PATH=${CMAKE_BINARY_DIR}/gdal/gdalplugins
-            GDAL_DATA=${CMAKE_SOURCE_DIR}/gdal/data)
+     LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/gdal:$ENV{LD_LIBRARY_PATH}
+     GDAL_DRIVER_PATH=${CMAKE_BINARY_DIR}/gdal/gdalplugins
+     GDAL_DATA=${CMAKE_SOURCE_DIR}/gdal/data)
 set_tests_properties(test-unit PROPERTIES ENVIRONMENT "${TEST_ENV}")
 
 macro(gdal_test_target _target _source)
@@ -93,23 +94,23 @@ macro(gdal_test_target _target _source)
     target_link_libraries(${_target} PRIVATE $<TARGET_NAME:gdal>)
     gdal_standard_includes(${_target})
     target_include_directories(${_target} PRIVATE $<TARGET_PROPERTY:appslib,SOURCE_DIR>)
-    target_compile_definitions(${_target} PRIVATE -DGDAL_TEST_ROOT_DIR="${GDAL_ROOT_TEST_DIR}" )
+    target_compile_definitions(${_target} PRIVATE -DGDAL_TEST_ROOT_DIR="${GDAL_ROOT_TEST_DIR}")
     add_dependencies(${_target} gdal)
 endmacro()
 
 gdal_test_target(testblockcache testblockcache.cpp)
 add_test(NAME test-block-cache-1
-                COMMAND testblockcache -check -co TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES)
+         COMMAND testblockcache -check -co TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES)
 add_test(NAME test-block-cache-2
-                COMMAND testblockcache -check -co TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES --config GDAL_RB_LOCK_TYPE SPIN)
+         COMMAND testblockcache -check -co TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES --config GDAL_RB_LOCK_TYPE SPIN)
 add_test(NAME test-block-cache-3
-                COMMAND testblockcache -check -co TILED=YES -migrate)
+         COMMAND testblockcache -check -co TILED=YES -migrate)
 add_test(NAME test-block-cache-4
-                COMMAND testblockcache -check -memdriver)
+         COMMAND testblockcache -check -memdriver)
 add_test(NAME test-block-cache-5
-                COMMAND testblockcache --config GDAL_BAND_BLOCK_CACHE HASHSET -check -co TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES)
+         COMMAND testblockcache --config GDAL_BAND_BLOCK_CACHE HASHSET -check -co TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES)
 add_test(NAME test-block-cache-6
-                COMMAND testblockcache --config GDAL_BAND_BLOCK_CACHE HASHSET -check -co TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES --config GDAL_RB_LOCK_TYPE SPIN)
+         COMMAND testblockcache --config GDAL_BAND_BLOCK_CACHE HASHSET -check -co TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES --config GDAL_RB_LOCK_TYPE SPIN)
 
 foreach(tgt IN ITEMS test-block-cache-1 test-block-cache-2 test-block-cache-3 test-block-cache-4 test-block-cache-5)
     set_tests_properties(${tgt} PROPERTIES ENVIRONMENT "${TEST_ENV}" WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
@@ -155,21 +156,21 @@ gdal_autotest_target(test_include_from_c_file testa-include-from-C-file test_inc
 gdal_autotest_target(test_c_include_from_cpp_file testa-C-include-from-CPP-file test_c_include_from_cpp_file.cpp "")
 gdal_autotest_target(testperfcopywords testa-performance-copy-words testperfcopywords.cpp "")
 
-get_property(_plugins GLOBAL PROPERTY PLUGIN_MODULES )
+get_property(_plugins GLOBAL PROPERTY PLUGIN_MODULES)
 add_custom_target(quicktest COMMAND ${CMAKE_CTEST_COMMAND} --force-new-ctest-process --output-on-failure -R '^test-.*'
-              DEPENDS
+                  DEPENDS
                   gdal
                   ${_plugins}
-                gdal_unit_test
-                testblockcache
-                testcopywords
-                testclosedondestroydm
-                testthreadcond
-                testvirtualmem
-                testblockcachewrite
-                testblockcachelimits
-                testmultithreadedwriting
-                testdestroy)
+                  gdal_unit_test
+                  testblockcache
+                  testcopywords
+                  testclosedondestroydm
+                  testthreadcond
+                  testvirtualmem
+                  testblockcachewrite
+                  testblockcachelimits
+                  testmultithreadedwriting
+                  testdestroy)
 add_custom_target(test_misc COMMAND ${CMAKE_CTEST_COMMAND} ${PARALLEL_OPTION} --force-new-ctest-process --output-on-failure -R '^testa-.*'
                   DEPENDS test_include_from_c_file test_c_include_from_cpp_file testperfcopywords)
 add_custom_target(test_sse COMMAND ${CMAKE_CTEST_COMMAND} ${PARALLEL_OPTION} --force-new-ctest-process --output-on-failure -R '^testsse.*'
