@@ -1,9 +1,9 @@
-if(NOT TARGET ogr_SQLite)
+if (NOT TARGET ogr_SQLite)
     return()
-endif()
-if(CMAKE_CROSSCOMPILONG)
+endif ()
+if (CMAKE_CROSSCOMPILONG)
     return()
-endif()
+endif ()
 
 include(GdalStandardIncludes)
 add_library(fuzzingengine EXCLUDE_FROM_ALL fuzzingengine.cpp)
@@ -18,9 +18,9 @@ function(build_fuzzer)
     add_executable(${_FUZZ_NAME} EXCLUDE_FROM_ALL ${_FUZZ_SOURCES})
     set(FUZZ_TARGETS ${FUZZ_TARGETS} ${_FUZZ_NAME} PARENT_SCOPE)
     set(FUZZ_CORPUS ${FUZZ_CORPUS} ${_FUZZ_NAME}_seed_corpus.zip PARENT_SCOPE)
-    if(_FUZZ_DEFINITIONS)
+    if (_FUZZ_DEFINITIONS)
         target_compile_definitions(${_FUZZ_NAME} PRIVATE ${FUZZ_DEFINITIONS})
-    endif()
+    endif ()
     target_link_libraries(${_FUZZ_NAME} PRIVATE
                           $<TARGET_NAME:fuzzingengine>
                           $<TARGET_NAME:gdal>)
@@ -33,7 +33,7 @@ function(build_fuzzer)
     ## Windows(Mingw/MSVC) link libraries
     if (CMAKE_SYSTEM_NAME MATCHES "Windows")
         target_link_libraries(${_FUZZ_NAME} PRIVATE wsock32 ws2_32 psapi)
-    endif()
+    endif ()
 endfunction()
 
 build_fuzzer(NAME gdal_fuzzer SOURCES gdal_fuzzer.cpp)
@@ -47,17 +47,17 @@ build_fuzzer(NAME spatialite_geom_import_fuzzer SOURCES spatialite_geom_import_f
 build_fuzzer(NAME wkb_import_fuzzer SOURCES wkb_import_fuzzer.cpp)
 build_fuzzer(NAME wkt_import_fuzzer SOURCES wkt_import_fuzzer.cpp)
 build_fuzzer(NAME alg_fuzzer SOURCES gdal_fuzzer.cpp
-             DEFINITIONS  -DREGISTER_FUNC=GDALRegister_AIGrid
-                          -DMEM_FILENAME="/vsimem/test.tar"
-                          -DGDAL_FILENAME="/vsitar//vsimem/test.tar/hdr.adf")
+             DEFINITIONS -DREGISTER_FUNC=GDALRegister_AIGrid
+             -DMEM_FILENAME="/vsimem/test.tar"
+             -DGDAL_FILENAME="/vsitar//vsimem/test.tar/hdr.adf")
 build_fuzzer(NAME gtiff_mmap SOURCES gdal_fuzzer.cpp
              DEFINITIONS -DREGISTER_FUNC=GDALRegister_GTiff -DGTIFF_USE_MMAP)
 
 function(build_ogr_specialized_fuzzer _format _registerFunc _memfile _gdalfile)
     build_fuzzer(NAME ${_format}_fuzzer SOURCES ogr_fuzzer.cpp
                  DEFINITIONS -DREGISTER_FUNC=${_registerFunc}
-                           -DMEM_FILENAME="${_memfile}"
-                           -DGDAL_FILENAME="${_gdalfile}")
+                 -DMEM_FILENAME="${_memfile}"
+                 -DGDAL_FILENAME="${_gdalfile}")
 endfunction()
 
 build_ogr_specialized_fuzzer(dxf RegisterOGRDXF "/vsimem/test" "/vsimem/test")
@@ -81,15 +81,15 @@ build_fuzzer(NAME rec_fuzzer SOURCES ogr_fuzzer.cpp DEFINITIONS -DREGISTER_FUNC=
 function(build_gdal_specialized_fuzzer _format _registerFunc _memfile _gdalfile)
     build_fuzzer(NAME ${_format}_fuzzer SOURCES gdal_fuzzer.cpp
                  DEFINITIONS -DREGISTER_FUNC=${_registerFunc}
-                           -DMEM_FILENAME="${_memfile}"
-                           -DGDAL_FILENAME="${_gdalfile}")
+                 -DMEM_FILENAME="${_memfile}"
+                 -DGDAL_FILENAME="${_gdalfile}")
 endfunction()
 
-foreach(format IN ITEMS GTiff HFA)
+foreach (format IN ITEMS GTiff HFA)
     string(TOLOWER ${format} fuzzerName)
     build_gdal_specialized_fuzzer(${fuzzerName} "GDALRegister_${format}" "/vsimem/test" "/vsimem/test")
-endforeach()
-build_gdal_specialized_fuzzer(adrg GDALRegister_ADRG  "/vsimem/test.tar" "/vsitar//vsimem/test.tar/ABCDEF01.GEN")
+endforeach ()
+build_gdal_specialized_fuzzer(adrg GDALRegister_ADRG "/vsimem/test.tar" "/vsitar//vsimem/test.tar/ABCDEF01.GEN")
 build_gdal_specialized_fuzzer(srp GDALRegister_SRP "/vsimem/test.tar" "/vsitar//vsimem/test.tar/FKUSRP01.IMG")
 build_gdal_specialized_fuzzer(envi GDALRegister_ENVI "/vsimem/test.tar" "/vsitar//vsimem/test.tar/my.dat")
 build_gdal_specialized_fuzzer(ehdr GDALRegister_EHdr "/vsimem/test.tar" "/vsitar//vsimem/test.tar/my.dat")

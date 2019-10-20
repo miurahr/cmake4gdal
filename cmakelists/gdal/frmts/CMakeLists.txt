@@ -149,12 +149,12 @@ gdal_dependent_format(tiledb "TileDB tiledb.io" "HAVE_TILEDB")
 # for circulate dependency, grass is NOT always compiled in.
 gdal_optional_format(grass "GRASS")
 add_feature_info(gdal_GRASS GDAL_ENABLE_FRMT_GRASS "GRASS raster format")
-if(GDAL_ENABLE_FRMT_GRASS)
-    if(HAVE_GRASS AND HAVE_POSTGRESQL)
-    else()
+if (GDAL_ENABLE_FRMT_GRASS)
+    if (HAVE_GRASS AND HAVE_POSTGRESQL)
+    else ()
         message(FATAL_ERROR "Dependency error on GRASS driver")
-    endif()
-endif()
+    endif ()
+endif ()
 
 ####################################################
 # driver with proprietary libraries
@@ -173,21 +173,21 @@ gdal_dependent_format(georaster "Oracle Spatial GeoRaster" "HAVE_ORACLE")
 # ECW proprietary driver is not compatible with Gcc 5.1+.
 cmake_dependent_option(GDAL_ENABLE_FRMT_ECW "Set ON to build ECW driver" ON "HAVE_ECW" OFF)
 add_feature_info(gdal_ECW GDAL_ENABLE_FRMT_ECW "ERDAS JPEG2000 (.jp2)")
-if(GDAL_ENABLE_FRMT_ECW)
-    if(GNUCXX_NEW_ABI)
+if (GDAL_ENABLE_FRMT_ECW)
+    if (GNUCXX_NEW_ABI)
         message(STATUS "Gcc 5.1 or later detected, which introduced new C++ ABI. ECW support disabled, because ECW library use old style ABI.")
         set(GDAL_ENABLE_FRMT_ECW OFF CACHE BOOL "" FORCE)
-    else()
+    else ()
         gdal_format(ecw "ERDAS JPEG2000 (.jp2)")
-    endif()
-endif()
+    endif ()
+endif ()
 
 ###############################################################
 # Register all frmt drivers according to FRMT_<driver> flags
 gdal_standard_includes(gdal_frmts)
-if(ENABLE_GNM)
+if (ENABLE_GNM)
     target_compile_definitions(gdal_frmts PRIVATE -DGNM_ENABLED)
-endif()
+endif ()
 target_include_directories(gdal_frmts PRIVATE
                            $<TARGET_PROPERTY:gnm_frmts,SOURCE_DIR>
                            $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
