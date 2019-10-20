@@ -159,12 +159,13 @@ endif()
 
 include(TargetPublicHeader)
 target_public_header(TARGET gdal HEADERS
-        ogr_api.h
-        ogr_core.h
-        ogr_feature.h
-        ogr_featurestyle.h
-        ogr_geometry.h
-        ogr_p.h
-        ogr_spatialref.h
-        ogr_srs_api.h
-        ogrsf_frmts/ogrsf_frmts.h)
+                     ogr_api.h
+                     ogr_core.h
+                     ogr_feature.h
+                     ogr_featurestyle.h
+                     ogr_geometry.h
+                     ogr_p.h
+                     ogr_spatialref.h
+                     ogr_swq.h
+                     ogr_srs_api.h
+                     ogrsf_frmts/ogrsf_frmts.h)
