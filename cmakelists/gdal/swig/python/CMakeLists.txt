@@ -100,14 +100,15 @@ if(Python_EXECUTABLE)
     endif()
     file(TO_NATIVE_PATH "${gdal_python_csource_dir}" GDAL_PYTHON_EXT_SOURCE_DIR)
     configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/setup.py.in ${CMAKE_CURRENT_BINARY_DIR}/setup.py @ONLY)
-    # FIXME: python extension may have an extended abi filename. so we should determine it.
-    # now we use hard coded one.
-    set(PY_EXT_EXT  "cpython-35m-x86_64-linux-gnu.so" )
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/get_ext.py "import sysconfig\nprint(sysconfig.get_config_var('EXT_SUFFIX'))\n")
+    execute_process(COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/get_ext.py
+                    OUTPUT_VARIABLE PY_EXT_EXT
+                    OUTPUT_STRIP_TRAILING_WHITESPACE)
     add_custom_target(python_ext COMMAND ${Python_EXECUTABLE} setup.py build_ext --inplace
                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                       BYPRODUCTS
-                       osgeo._gdal.${PY_EXT_EXT} osgeo._gdalconst.${PY_EXT_EXT} osgeo._gdal_array.${PY_EXT_EXT}
-                       osgeo._gnm.${PY_EXT_EXT} osgeo._ogr.${PY_EXT_EXT} osgeo._osr.${PY_EXT_EXT}
+                       osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
+                       osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT}
                       SOURCES ${GDAL_PYTHON_PYSOURCDES} ${GDAL_PYTHON_CSOURCES})
 
     add_custom_target(python_binding ALL DEPENDS python_mod python_ext gdal)
