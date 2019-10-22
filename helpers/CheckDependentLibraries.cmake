@@ -320,30 +320,7 @@ set_package_properties(SWIG PROPERTIES
                        URL "http://swig.org/"
                        TYPE RECOMMENDED)
 
-# Developer may want to specify some variable to find proper version
-#  Priority is as same order as follows:
-# 1. `Python_LOOKUP_VERSION`: specify minimum version to find.
-# 2. 'Python_FIND_VIRTUALENV': specify 'ONLY' to use virtualenv activated.
-# 3. `Python_ROOT`: specify installed location
-# 4. If nothing specified, use default behavior.
-#
-# for example
-#   $ cmake -DPython_LOOKUP_VERSION=3.6 ..
-#   $ cmake -DPython_FIND_VIRTUALENV=ONLY ..
-#   $ cmake -DPython_ROOT=C:\Python36 ..
-#
-if (Python_LOOKUP_VERSION)
-    set(Python_FIND_STRATEGY VERSION)
-    find_package(Python ${Python_LOOKUP_VERSION} COMPONENTS Interpreter Development NumPy)
-else ()
-    set(Python_FIND_STRATEGY LOCATION)
-    find_package(Python COMPONENTS Interpreter Development NumPy)
-endif ()
-
-if(Python_FOUND)
-    set(HAVE_PYTHON ON CACHE INTERNAL "HAVE_PYTHON")
-endif()
-set_package_properties(Python PROPERTIES PURPOSE "SWIG_PYTHON: Python binding")
+# finding python in top of project because of common for autotest and bindings
 
 find_package(Perl)
 if(PERL_FOUND)
