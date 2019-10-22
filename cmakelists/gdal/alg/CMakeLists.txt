@@ -5,7 +5,7 @@
 # ******************************************************************************
 # * Copyright (C) 2018,2019 Hiroshi Miura
 # * Copyright (C) 2012,2013 Bishop
-# * 
+# *
 # * Permission is hereby granted, free of charge, to any person obtaining a
 # * copy of this software and associated documentation files (the "Software"),
 # * to deal in the Software without restriction, including without limitation
@@ -33,7 +33,7 @@ add_library(alg OBJECT
 			gdalmatching.cpp gdalmediancut.cpp gdalpansharpen.cpp gdalproximity.cpp gdalrasterize.cpp
 			gdalrasterpolygonenumerator.cpp gdalsievefilter.cpp gdalsimplewarp.cpp gdaltransformer.cpp
 			gdaltransformgeolocs.cpp gdalwarper.cpp gdalwarpkernel.cpp gdalwarpoperation.cpp llrasterize.cpp
-			polygonize.cpp rasterfill.cpp thinplatespline.cpp gdal_simplesurf.cpp )
+			polygonize.cpp rasterfill.cpp thinplatespline.cpp gdal_simplesurf.cpp viewshed.cpp)
 gdal_standard_includes(alg)
 target_include_directories(alg PRIVATE
 						   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/marching_squares>
