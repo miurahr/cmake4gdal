@@ -92,7 +92,7 @@ else ()
         ${gdal_python_csource_dir}/osr_wrap.cpp)
 endif ()
 
-if (Python_EXECUTABLE)
+if (Python_FOUND)
     if (ENABLE_GNM)
         set(GNM_ENABLED "True")
     else ()

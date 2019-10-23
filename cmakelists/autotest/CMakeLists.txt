@@ -31,7 +31,7 @@ if (NOT DEFINED ENV{CTEST_PARALLEL_LEVEL})
     set(PARALLEL_OPTION "-j1")
 endif ()
 
-if (Python_EXECUTABLE)
+if (Python_FOUND)
     if (WIN32)
         set(_SEP ";")
     else ()
