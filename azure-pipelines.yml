@@ -15,10 +15,6 @@ schedules:
       - master
   always: True
 
-variables:
-  CMAKEVER: 3.15
-  CMAKEREV: 4
-
 jobs:
 - job: Ubuntu_1804_gcc
   pool:

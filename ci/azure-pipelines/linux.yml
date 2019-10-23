@@ -1,7 +1,4 @@
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.6'
 - script: |
     git clone https://github.com/osgeo/gdal.git
     ln -s $(Build.SourcesDirectory) $(Build.BinariesDirectory)/gdal/cmake4gdal
