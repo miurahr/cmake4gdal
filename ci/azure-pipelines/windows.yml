@@ -1,12 +1,15 @@
 steps:
 - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
   displayName: Add conda to PATH
-- script: conda create --yes --quiet --name myEnvironment
+- script: |
+    conda create --yes --quiet --name myEnvironment
   displayName: Create Anaconda environment
 - script: |
     call activate myEnvironment
     conda install --yes --quiet --name myEnvironment -c conda-forge python=3.7 proj cmake swig numpy pytest
-  displayName: Install dependency packages
+    python3 -m pip install -U pip wheel setuptools numpy
+    python3 -m pip install -r $(Build.BinariesDirectory)/gdal/autotest/requirements.txt
+  displayName: Install python and dependency packages
 - script: |
     cinst -y --no-progress 7zip wget git
     cd $(Build.BinariesDirectory)
@@ -26,7 +29,7 @@ steps:
   displayName: clone gdal and deploy cmake scripts
 - script: |
     call activate myEnvironment
-    echo "##vso[task.setvariable variable=additionalOptions]-DPython_ROOT=$env:CONDA\envs\myEnvironment -DPROJ_ROOT=$env:CONDA\envs\myEnvironment\Library"
+    echo "##vso[task.setvariable variable=additionalOptions]-DPython_FIND_VIRTUALENV=ONLY -DPython_ROOT=$env:CONDA\envs\myEnvironment -DPROJ_ROOT=$env:CONDA\envs\myEnvironment\Library"
     cmake -G "${{ parameters.generator }}" $(additionalOptions) ${{ parameters.CMAKE_OPTIONS }} -C ${{ parameters.CONFIGURATIONS }} $(Build.BinariesDirectory)/gdal
   workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: configure gdal
@@ -40,11 +43,6 @@ steps:
     cmake --build $(Build.BinariesDirectory)/build --config Release --target quicktest
   workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: run quicktest
-- script: |
-    call activate myEnvironment
-    python -m pip install -r $(Build.BinariesDirectory)/gdal/autotest/requirements.txt
-  workingDirectory: '$(Build.BinariesDirectory)/gdal'
-  displayName: install python autotest requirements
 - script: |
     call activate myEnvironment
     cmake --build $(Build.BinariesDirectory)/build --config Release --target autotest
