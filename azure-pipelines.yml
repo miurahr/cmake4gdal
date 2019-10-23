@@ -28,7 +28,7 @@ jobs:
     - template: ci/azure-pipelines/linux.yml
       parameters:
         CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/full_drivers.cmake
-        CMAKE_OPTIONS: -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_COMPILER_LAUNCHER=ccache
+        CMAKE_OPTIONS: -DPython_LOOKUP_VERSION=3.6 -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_COMPILER_LAUNCHER=ccache
 
 - job: Ubuntu_1804_clang
   pool:
@@ -38,7 +38,7 @@ jobs:
     - template: ci/azure-pipelines/linux.yml
       parameters:
         CONFIGURATIONS: $(Build.SourcesDirectory)/configurations/full_drivers.cmake
-        CMAKE_OPTIONS: -DCMAKE_C_COMPILER=clang-8 -DCMAKE_CXX_COMPILER=clang++-8 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_COMPILER_LAUNCHER=ccache
+        CMAKE_OPTIONS: -DPython_LOOKUP_VERSION=3.6 -DCMAKE_C_COMPILER=clang-8 -DCMAKE_CXX_COMPILER=clang++-8 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_COMPILER_LAUNCHER=ccache
 
 - job: macOS
   pool:
