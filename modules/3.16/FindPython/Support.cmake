@@ -2230,7 +2230,8 @@ find_package_handle_standard_args (${_PYTHON_PREFIX}
                                    HANDLE_COMPONENTS)
 
 # Create imported targets and helper functions
-#backport# if(_${_PYTHON_PREFIX}_CMAKE_ROLE STREQUAL "PROJECT")
+if (CMAKE_VERSION VERSION_LESS 3.14 OR
+    _${_PYTHON_PREFIX}_CMAKE_ROLE STREQUAL "PROJECT")
   if ("Interpreter" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS
       AND ${_PYTHON_PREFIX}_Interpreter_FOUND
       AND NOT TARGET ${_PYTHON_PREFIX}::Interpreter)
@@ -2373,9 +2374,8 @@ find_package_handle_standard_args (${_PYTHON_PREFIX}
     add_library (${_PYTHON_PREFIX}::NumPy INTERFACE IMPORTED)
     set_property (TARGET ${_PYTHON_PREFIX}::NumPy
                   PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${${_PYTHON_PREFIX}_NumPy_INCLUDE_DIRS}")
-    target_link_libraries (${_PYTHON_PREFIX}::NumPy INTERFACE ${_PYTHON_PREFIX}::Module)
   endif()
-#backport# endif()
+endif()
 
 # final clean-up
 
