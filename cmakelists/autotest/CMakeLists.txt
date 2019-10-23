@@ -63,16 +63,12 @@ if (Python_FOUND)
         foreach (tgt IN ITEMS ogr gcore gdrivers alg osr gnm pyscripts utilities)
             execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
                             ${CMAKE_CURRENT_SOURCE_DIR}/${tgt} ${CMAKE_CURRENT_BINARY_DIR}/${tgt})
-            add_custom_target(autotest_${tgt} COMMAND ${CMAKE_COMMNAD} -E env ${PYTHON_RUN_ENV}
-                              ${Python_EXECUTABLE} -m pytest -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini ${tgt}
-                              DEPENDS gdal gdalapps python_binding)
         endforeach ()
         add_custom_target(autotest COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
                           DEPENDS gdal gdalapps python_binding)
     else ()
         # Fall back to run test on source directory. FIXME: this breaks out-of-source build
         add_custom_target(autotest COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
-                          WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/autotest
-                          DEPENDS gdal gdalapps python_binding)
+                          WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/autotest)
     endif ()
 endif ()
