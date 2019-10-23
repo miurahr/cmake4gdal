@@ -50,6 +50,16 @@ If there are any new driver directory cmake4gdal unknown, it is a chance to upda
 3. Open GDAL project with your favorite IDE.
 
 
+Docker image and development environment
+----------------------------------------
+
+A project prepares docker image for CI and development.
+A base image recipe is in ci/dockerhub/Dockerfile
+You can use an image as `miurahr/ubuntu-gdal-dev:latest`
+
+You can also use docker image as a your development environment.
+
+
 License
 -------
 
