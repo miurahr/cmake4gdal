@@ -1,6 +1,6 @@
 # SWIG generates wrapper sources
-option(GDAL_SWIG_REGENERATE_PYTHON "Generate python source with SWIG." OFF)
-if (GDAL_SWIG_REGENERATE_PYTHON)
+option(SWIG_REGENERATE_PYTHON "Generate python source with SWIG." OFF)
+if (SWIG_REGENERATE_PYTHON)
     set(gdal_python_csource_dir "${CMAKE_CURRENT_BINARY_DIR}/extensions/")
     set(GDAL_PYTHON_CSOURCES
         ${gdal_python_csource_dir}/gdal_wrap.cpp
@@ -123,7 +123,7 @@ if (Python_FOUND)
     else ()
         install(CODE "execute_process(COMMAND ${Python_EXECUTABLE} setup.py install WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
     endif ()
-else ()
+elseif (Python_INCLUDE_DIRS and Python_LIBRARIES)
     macro(py_ext name v source)
         set(GDAL_PYTHON_EXT_SOURCE_DIR "${gdal_python_csource_dir}")
         python_add_library(${name}${v} MODULE ${GDAL_PYTHON_EXT_SOURCE_DIR}/${source})
