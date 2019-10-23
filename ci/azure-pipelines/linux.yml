@@ -4,8 +4,13 @@ steps:
     ln -s $(Build.SourcesDirectory) $(Build.BinariesDirectory)/gdal/cmake4gdal
     python $(Build.BinariesDirectory)/gdal/cmake4gdal/deploy.py
     mkdir build
-  displayName: clone gdal
+  displayName: clone gdal and deploy cmake scripts
   workingDirectory: '$(Build.BinariesDirectory)'
+- script: |
+    apt-get install -y python3-dev
+    python3 -m pip install -U pip wheel setuptools venv numpy
+    python3 -m pip install -r $(Build.BinariesDirectory)/gdal/autotest/requirements.txt
+  displayName: install python requirements
 - task: CMake@1
   displayName: configure gdal
   inputs:
@@ -19,9 +24,6 @@ steps:
   displayName: run quicktest
   inputs:
     cmakeArgs: --build $(Build.BinariesDirectory)/build --target quicktest
-- script: python -m pip install -r $(Build.BinariesDirectory)/gdal/autotest/requirements.txt
-  workingDirectory: '$(Build.BinariesDirectory)/build'
-  displayName: install python test requirements
 - task: CMake@1
   displayName: run autotest
   inputs:
