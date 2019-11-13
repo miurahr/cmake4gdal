@@ -19,7 +19,7 @@ set(GDAL_SWIG_COMMON_INTERFACE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/RasterAttributeTable.i
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Transform.i
     ${CMAKE_CURRENT_SOURCE_DIR}/include/XMLNode.i
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/MutiDimensional.i
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/MultiDimensional.i
     )
 
 add_subdirectory(python)

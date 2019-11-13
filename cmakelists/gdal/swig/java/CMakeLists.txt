@@ -38,7 +38,7 @@ function(GDAL_JAVA_WRAP)
         set(SWIG_OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/org/gdal/${_SWIG_TARGET}/${_SWIG_TARGET}_wrap.cpp)
         add_custom_command(
             OUTPUT ${SWIG_OUTPUT}
-            COMMAND ${SWIG_EXECUTABLE} ${_SWIG_ARGS} ${SWIG_DEFINES} -I${CMAKE_SOURCE_DIR}/gdal -c++ -java
+            COMMAND ${SWIG_EXECUTABLE} ${_SWIG_ARGS} ${SWIG_DEFINES} -I${CMAKE_SOURCE_DIR}/gdal -I${CMAKE_SOURCE_DIR}/gdal -c++ -java
                 -o ${SWIG_OUTPUT}
                 ${CMAKE_SOURCE_DIR}/gdal/swig/include/${_SWIG_TARGET}.i
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
