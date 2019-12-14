@@ -59,6 +59,8 @@ if(ODBC_FOUND)
 endif()
 option(GDAL_USE_XMLREFORMAT "Set ON to use xmlreformat" OFF)
 
+gdal_check_package(MySQL "MySQL")
+
 # basic libaries
 find_package(Boost)
 if(Boost_FOUND)
