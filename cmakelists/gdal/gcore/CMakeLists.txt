@@ -65,6 +65,8 @@ add_library(gcore OBJECT
             overview.cpp
             rawdataset.cpp
             gdalmultidim.cpp
+            gdalpython.cpp
+            gdalpythondriverloader.cpp
             )
 
 gdal_standard_includes(gcore)

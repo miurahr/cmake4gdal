@@ -103,6 +103,7 @@ add_library(cpl STATIC
             cpl_vsil_oss.cpp
             cpl_vsil_swift.cpp
             cpl_json_streaming_writer.cpp
+            cpl_vax.cpp
 )
 set_target_properties(cpl PROPERTIES CXX_STANDARD 11
                           CXX_STANDARD_REQUIRED ON
