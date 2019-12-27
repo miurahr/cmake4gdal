@@ -35,7 +35,8 @@ def create_links():
     for cur, _, files in os.walk(listpath):
         if 'CMakeLists.txt' in files:
             target = os.path.join(parent_dir, os.path.relpath(cur, start=listpath))
-            os.symlink(os.path.join(cur, 'CMakeLists.txt'), os.path.join(target, 'CMakeLists.txt'))
+            os.symlink(os.path.relpath(os.path.join(cur, 'CMakeLists.txt'), target),
+                       os.path.join(target, 'CMakeLists.txt'))
 
 
 def main(arg=None):
