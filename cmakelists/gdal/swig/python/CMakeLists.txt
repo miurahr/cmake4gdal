@@ -53,7 +53,7 @@ else ()
     file(TO_NATIVE_PATH "${CMAKE_CURRENT_BINARY_DIR}/osgeo/" osgeo_binary_dir)
     file(TO_NATIVE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/osgeo/" osgeo_source_dir)
     if (Python_VERSION_MAJOR EQUAL 3 AND Python_EXECUTABLE)
-        add_custom_target(python_mod
+        add_custom_command(OUTPUT ${GDAL_PYTHON_PYSOURCES}
                           COMMAND ${CMAKE_COMMAND} -E make_directory ${osgeo_binary_dir}
                           COMMAND ${Python_EXECUTABLE} -m lib2to3
                           --fix=import --fix=next --fix=renames
@@ -70,7 +70,7 @@ else ()
                           ${osgeo_source_dir}gdal_array.py
                           BYPRODUCTS ${GDAL_PYTHON_PYSOURCES})
     else ()
-        add_custom_target(python_mod
+        add_custom_command(OUTPUT ${GDAL_PYTHON_PYSOURCES}
                           COMMAND ${CMAKE_COMMAND} -E make_directory ${osgeo_binary_dir}
                           COMMAND ${CMAKE_COMMAND} -E copy
                           ${osgeo_source_dir}__init__.py
@@ -104,20 +104,25 @@ if (Python_FOUND)
     execute_process(COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/get_ext.py
                     OUTPUT_VARIABLE PY_EXT_EXT
                     OUTPUT_STRIP_TRAILING_WHITESPACE)
-    add_custom_target(python_ext COMMAND ${Python_EXECUTABLE} setup.py build_ext --inplace
+    add_custom_command(OUTPUT osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
+                             osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT}
+                      COMMAND ${Python_EXECUTABLE} setup.py build_ext --inplace
                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                       BYPRODUCTS
                       osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
                       osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT}
                       SOURCES ${GDAL_PYTHON_PYSOURCDES} ${GDAL_PYTHON_CSOURCES})
-
-    add_custom_target(python_binding ALL DEPENDS python_mod python_ext gdal)
-
+    add_custom_target(python_binding ALL DEPENDS osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
+                      osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT} ${GDAL_PYTHON_PYSOURCES} gdal)
     add_custom_target(python_wheel COMMAND ${Python_EXECUTABLE} setup.py bdist_wheel
-                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DEPENDS python_ext)
+                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DEPENDS
+                          osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
+                          osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT})
     add_custom_target(python_sdist COMMAND ${Python_EXECUTABLE} setup.py sdist
-                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DEPENDS python_ext)
-    add_custom_target(python_distribution DEPENDS python_wheel python_sdist)
+                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DEPENDS
+                          osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
+                          osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT})
+
     if (CMAKE_INSTALL_PREFIX)
         install(CODE "execute_process(COMMAND ${Python_EXECUTABLE} setup.py install --prefix=\"${CMAKE_INSTALL_PREFIX}\" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
     else ()

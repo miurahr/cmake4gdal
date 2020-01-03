@@ -79,7 +79,7 @@ set_target_properties(gdal PROPERTIES
                       ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                       LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                       RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                      CXX_STANDARD 11
+                      CXX_STANDARD 17
                       CXX_STANDARD_REQUIRED YES)
 
 if (MINGW)

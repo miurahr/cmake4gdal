@@ -169,18 +169,7 @@ gdal_dependent_format(sde "ESRI ArcSDE Raster" "HAVE_SDE")
 gdal_dependent_format(mrsid "Multi-resolution Seamless Image Database" "HAVE_MRSID")
 gdal_dependent_format(mrsid_lidar "Multi-resolution Seamless Image Database - LiDAR support" "HAVE_MRSID")
 gdal_dependent_format(georaster "Oracle Spatial GeoRaster" "HAVE_ORACLE")
-
-# ECW proprietary driver is not compatible with Gcc 5.1+.
-cmake_dependent_option(GDAL_ENABLE_FRMT_ECW "Set ON to build ECW driver" ON "HAVE_ECW" OFF)
-add_feature_info(gdal_ECW GDAL_ENABLE_FRMT_ECW "ERDAS JPEG2000 (.jp2)")
-if (GDAL_ENABLE_FRMT_ECW)
-    if (GNUCXX_NEW_ABI)
-        message(STATUS "Gcc 5.1 or later detected, which introduced new C++ ABI. ECW support disabled, because ECW library use old style ABI.")
-        set(GDAL_ENABLE_FRMT_ECW OFF CACHE BOOL "" FORCE)
-    else ()
-        gdal_format(ecw "ERDAS JPEG2000 (.jp2)")
-    endif ()
-endif ()
+gdal_dependent_format(ecw  "ERDAS JPEG2000 (.jp2)" "HAVE_ECW")
 
 ###############################################################
 # Register all frmt drivers according to FRMT_<driver> flags
