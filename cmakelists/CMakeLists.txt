@@ -90,7 +90,9 @@ project(gdal LANGUAGES C CXX)
 include(cmake4gdal/modules/init.cmake)
 
 # cotire cmake speedup addon
-include(cotire)
+if(CMAKE_VERSION VERSION_LESS 3.16)
+  include(cotire)
+endif()
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
 
