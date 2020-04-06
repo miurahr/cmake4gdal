@@ -109,7 +109,12 @@ set_target_properties(cpl PROPERTIES CXX_STANDARD 11
                           CXX_STANDARD_REQUIRED ON
                           POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(GDAL_LINK_LIBRARY INTERFACE cpl)
-
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+  set_property(SOURCE cpl_conv.cpp cpl_alibaba_oss.cpp cpl_azure.cpp
+               cpl_aws.cpp cpl_google_oauth2.cpp
+               cpl_vsil_curl.cpp cpl_vsil_curl_streaming.cpp
+               PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+endif()
 #include path to generated cpl_config.h
 target_include_directories(cpl PRIVATE
 						   ${CMAKE_CURRENT_SOURCE_DIR}

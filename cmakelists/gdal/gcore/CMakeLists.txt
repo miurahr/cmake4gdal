@@ -68,7 +68,6 @@ add_library(gcore OBJECT
             gdalpython.cpp
             gdalpythondriverloader.cpp
             )
-
 gdal_standard_includes(gcore)
 target_include_directories(gcore PRIVATE
                            $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>
@@ -153,3 +152,5 @@ if (HAVE_GEOS)
   target_include_directories(gcore PRIVATE ${GEOS_INCLUDE_DIRS})
   target_link_libraries(GDAL_LINK_LIBRARY INTERFACE GEOS::GEOS)
 endif ()
+
+target_compile_definitions(gcore PRIVATE -DGDAL_RELEASE_DATE=${GDAL_GIT_DATE} -DGDAL_RELEASE_NAME="3.1.0dev")

@@ -12,6 +12,11 @@ add_gdal_driver(TARGET gdal_PDS SOURCES
                 vicarkeywordhandler.cpp
                 BUILTIN
 )
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+  set_property(SOURCE isis2dataset.cpp isis3dataset.cpp pdsdataset.cpp vicardataset.cpp
+               PROPERTY SKIP_UNITY_BUILD_INCLUSION ON
+               )
+endif()
 gdal_standard_includes(gdal_PDS)
 target_include_directories(gdal_PDS PRIVATE
                            $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>

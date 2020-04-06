@@ -1,11 +1,43 @@
 add_library(pcidsk_sdk STATIC
-    pcidsk.h pcidsk_ads40.h pcidsk_airphoto.h pcidsk_array.h
-    pcidsk_binary.h pcidsk_buffer.h pcidsk_channel.h pcidsk_config.h
-    pcidsk_edb.h pcidsk_ephemeris.h pcidsk_exception.h pcidsk_file.h
-    pcidsk_gcp.h pcidsk_gcpsegment.h pcidsk_georef.h pcidsk_interfaces.h
-    pcidsk_io.h pcidsk_mutex.h pcidsk_pct.h pcidsk_poly.h pcidsk_rpc.h
-    pcidsk_segment.h pcidsk_shape.h pcidsk_tex.h pcidsk_toutin.h pcidsk_types.h
-    pcidsk_vectorsegment.h
+						channel/cbandinterleavedchannel.cpp
+						channel/cexternalchannel.cpp
+						channel/cpcidskchannel.cpp
+						channel/cpixelinterleavedchannel.cpp
+						channel/ctiledchannel.cpp
+						core/clinksegment.cpp
+						core/cpcidskfile.cpp
+						core/edb_pcidsk.cpp
+						core/libjpeg_io.cpp
+						core/metadataset_p.cpp
+						core/pcidskbuffer.cpp
+						core/pcidskcreate.cpp
+						core/pcidskexception.cpp
+						core/pcidskinterfaces.cpp
+						core/pcidskopen.cpp
+						core/pcidsk_pubutils.cpp
+						core/pcidsk_utils.cpp
+						core/sysvirtualfile.cpp
+						port/io_stdio.cpp
+						port/pthread_mutex.cpp
+					  segment/cpcidsk_array.cpp
+						segment/cpcidskbinarysegment.cpp
+						segment/cpcidskephemerissegment.cpp
+						segment/cpcidskgeoref.cpp
+						segment/cpcidskpct.cpp
+						segment/cpcidsksegment.cpp
+						segment/cpcidskvectorsegment.cpp
+						segment/cpcidskvectorsegment_consistencycheck.cpp
+						segment/metadatasegment_p.cpp
+						segment/cpcidskapmodel.cpp
+						segment/cpcidskads40model.cpp
+						segment/sysblockmap.cpp
+						segment/cpcidskrpcmodel.cpp
+						segment/cpcidsktoutinmodel.cpp
+						segment/cpcidskgcp2segment.cpp
+						segment/cpcidskbitmap.cpp
+						segment/cpcidsk_tex.cpp
+						segment/vecsegdataindex.cpp
+						segment/vecsegheader.cpp
 )
 if(WIN32)
 	target_sources(pcidsk_sdk PRIVATE port/io_win32.cpp port/win32_mutex.cpp)
@@ -18,9 +50,9 @@ target_include_directories(pcidsk_sdk PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
 						   )
 set_property(TARGET pcidsk_sdk PROPERTY POSITION_INDEPENDENT_CODE ON)
 
-add_subdirectory(channel)
-add_subdirectory(core)
-add_subdirectory(segment)
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+	set_property(TARGET pcidsk_sdk PROPERTY UNITY_BUILD OFF)
+endif()
 
 if(NOT TARGET PCIDSK::PCIDSK)
     add_library(PCIDSK::PCIDSK UNKNOWN IMPORTED)

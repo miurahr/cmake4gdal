@@ -32,6 +32,10 @@ if (NOT CMAKE_CROSSCOMPILING)
         add_library(vsipreload MODULE
                     ${CMAKE_SOURCE_DIR}/gdal/port/vsipreload.cpp)
         target_link_libraries(vsipreload PRIVATE $<TARGET_NAME:gdal>)
+        if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+          set_property(SOURCE ${CMAKE_SOURCE_DIR}/gdal/port/vsipreload.cpp
+                       PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+        endif()
     endif ()
 endif ()
 
@@ -67,6 +71,9 @@ add_executable(gdal_unit_test
                test_marching_squares_square.cpp
                test_marching_squares_tile.cpp
                )
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+  set_property(TARGET gdal_unit_test PROPERTY UNITY_BUILD OFF)
+endif()
 
 target_link_libraries(gdal_unit_test PRIVATE $<TARGET_NAME:gdal> $<TARGET_NAME:cpl>)
 add_dependencies(gdal_unit_test gdal)

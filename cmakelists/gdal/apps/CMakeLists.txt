@@ -51,6 +51,12 @@ target_include_directories(appslib PRIVATE
                            $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>
                            )
 set_property(TARGET appslib PROPERTY POSITION_INDEPENDENT_CODE ON)
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+    set_property(SOURCE ogr2ogr_bin.cpp gdal_grid_lib.cpp gdal_translate_lib.cpp gdalbuildvrt_lib.cpp
+                 gdaldem_lib.cpp gdal_rasterize_lib.cpp
+                 PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+endif()
+
 if (GDAL_USE_LIBJSONC_INTERNAL)
     target_include_directories(appslib PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)
 else ()

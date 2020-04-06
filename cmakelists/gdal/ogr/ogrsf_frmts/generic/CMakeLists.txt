@@ -49,6 +49,10 @@ gdal_standard_includes(ogrsf_generic)
 target_sources(gdal PRIVATE $<TARGET_OBJECTS:ogrsf_generic>)
 set_property(TARGET ogrsf_generic PROPERTY POSITION_INDEPENDENT_CODE ON)
 
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+	set_property(SOURCE ogr_gensql.cpp
+							 PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+endif()
 include(TargetPublicHeader)
 target_public_header(TARGET gdal HEADERS
 	    ogr_gensql.h

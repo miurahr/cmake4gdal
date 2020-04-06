@@ -7,7 +7,6 @@ add_gdal_driver(TARGET gdal_MRF SOURCES
                 Tif_band.cpp Raw_band.cpp
                 BUILTIN)
 gdal_standard_includes(gdal_MRF)
-
 if(GDAL_JPEG12_SUPPORTED)
     target_sources(gdal_MRF PRIVATE JPEG12_band.cpp)
     target_compile_definitions(gdal_MRF PRIVATE -DJPEG12_SUPPORTED)

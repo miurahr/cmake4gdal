@@ -1,22 +1,26 @@
 add_gdal_driver(TARGET gdal_NITF SOURCES
-        mgrs.h
-        nitflib.h
-        nitfdataset.h
-        mgrs.c
-        nitfdataset.cpp
-        rpftocdataset.cpp
-        nitfrasterband.cpp
-        ecrgtocdataset.cpp
-        nitffile.c
-        nitfimage.c
-        nitfaridpcm.cpp
-        nitfbilevel.cpp
-        rpftocfile.cpp
-        nitfdes.c
-        nitf_gcprpc.cpp
+                mgrs.c
+                nitfdataset.cpp
+                rpftocdataset.cpp
+                nitfrasterband.cpp
+                ecrgtocdataset.cpp
+                nitffile.c
+                nitfimage.c
+                nitfaridpcm.cpp
+                nitfbilevel.cpp
+                rpftocfile.cpp
+                nitfdes.c
+                nitf_gcprpc.cpp
                 BUILTIN
 )
 gdal_standard_includes(gdal_NITF)
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+  set_property(SOURCE
+               nitfimage.c
+               nitffile.c
+               nitfdes.c
+               PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+endif()
 
 if(GDAL_USE_LIBTIFF_INTERNAL)
     target_include_directories(gdal_NITF PRIVATE $<TARGET_PROPERTY:libtiff,SOURCE_DIR>)

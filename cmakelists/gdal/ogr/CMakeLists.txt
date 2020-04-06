@@ -84,20 +84,18 @@ add_library(ogr OBJECT
             ogr_xerces.cpp
             ogr_geo_utils.cpp
             ogr_proj_p.cpp
-
-            ogrsf_frmts/ogr_attrind.h
-            ogrgeomediageometry.h
-            ogrpgeogeometry.h
-            ogr_geo_utils.h
-            ogr_srs_esri_names.h
-            ogr_swq.h
-            ogr_expat.h
-            ogr_sfcgal.h
-            ogr_geocoding.h
-            ogr_geos.h
-            ogr_libs.h
-            ogr_xerces.h
 )
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+    set_property(SOURCE
+                 ogrfeaturequery.cpp
+                 ogr_srs_usgs.cpp
+                 ogr_srs_panorama.cpp
+                 swq_expr_node.cpp
+                 swq_op_general.cpp
+                 swq_parser.cpp
+                 swq_select.cpp
+                 PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+endif()
 include(GdalStandardIncludes)
 gdal_standard_includes(ogr)
 target_include_directories(ogr PRIVATE $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>

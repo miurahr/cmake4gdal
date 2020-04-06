@@ -37,3 +37,8 @@ add_gdal_driver(TARGET gdal_raw SOURCES
                 BUILTIN)
 gdal_standard_includes(gdal_raw)
 target_include_directories(gdal_raw PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+  set_property(SOURCE doq1dataset.cpp doq2dataset.cpp envidataset.cpp genbindataset.cpp
+               atlsci_spheroid.cpp hkvdataset.cpp mffdataset.cpp
+               PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+endif()

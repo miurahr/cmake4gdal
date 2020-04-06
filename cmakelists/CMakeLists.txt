@@ -24,7 +24,7 @@
 # * DEALINGS IN THE SOFTWARE.
 # ******************************************************************************
 
-cmake_minimum_required(VERSION 3.5)  # a version of Ubuntu 16.04(LTS)
+cmake_minimum_required(VERSION 3.11)
 cmake_policy(SET CMP0023 NEW)
 cmake_policy(SET CMP0025 NEW)
 cmake_policy(SET CMP0033 NEW)
@@ -44,20 +44,9 @@ cmake_policy(SET CMP0057 NEW)
 cmake_policy(SET CMP0058 NEW)
 cmake_policy(SET CMP0062 NEW)
 cmake_policy(SET CMP0064 NEW)
-
-# cmake version 3.6 or later
-if (POLICY CMP0068)
-  #mac os x rpath effect
-  cmake_policy(SET CMP0068 NEW)
-endif ()
-if (POLICY CMP0069)
-  # INTERPROCEDURAL_OPTIMIZATION
-  cmake_policy(SET CMP0069 NEW)
-endif ()
-if (POLICY CMP0070)
-  # file(GENERATE)
-  cmake_policy(SET CMP0070 NEW)
-endif ()
+cmake_policy(SET CMP0068 NEW)
+cmake_policy(SET CMP0069 NEW)
+cmake_policy(SET CMP0070 NEW)
 # cmake version 3.11 or later
 if (POLICY CMP0073)
   # _LIB_DEPENDS
@@ -88,11 +77,6 @@ project(gdal LANGUAGES C CXX)
 
 # setup cmake modules paths
 include(cmake4gdal/modules/init.cmake)
-
-# cotire cmake speedup addon
-if(CMAKE_VERSION VERSION_LESS 3.16)
-  include(cotire)
-endif()
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
 

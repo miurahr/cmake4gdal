@@ -74,3 +74,8 @@ if(HAVE_ZSTD)
 endif()
 
 gdal_target_link_libraries(TARGET gdal_GTIFF LIBRARIES PROJ::PROJ)
+
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+	set_property(SOURCE geotiff.cpp gt_wkt_srs.cpp
+							 PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+endif()
