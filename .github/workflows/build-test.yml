@@ -11,7 +11,7 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     env:
-      CONFIGURATIONS: $(GITHUB_WORKSPACE)/gdal/cmake4gdal/configurations/full_drivers.cmake
+      CONFIGURATIONS: ${GITHUB_WORKSPACE}/gdal/cmake4gdal/configurations/full_drivers.cmake
       CMAKE_OPTIONS: -DCMAKE_UNITY_BUILD=ON -DPython_LOOKUP_VERSION=3.6 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_COMPILER_LAUNCHER=ccache
     steps:
     - name: Checkout GDAL master HEAD
@@ -56,8 +56,8 @@ jobs:
         architecture: x64
         generator: Visual Studio 16 2019
         SDK: release-1911-x64
-        CONFIGURATIONS: $(GITHUB_WORKSPACE)/gdal/cmake4gdal/configurations/windows.cmake
-        CMAKE_OPTIONS: -DCMAKE_UNITY_BUILD=ON -DIconv_ROOT=$(SDK_ROOT) -DHDF4_ROOT=$(SDK_ROOT) -DGIF_ROOT=$(SDK_ROOT) -DPNG_ROOT=$(SDK_ROOT) -DJPEG_ROOT=$(SDK_ROOT) -DGEOS_ROOT=$(SDK_ROOT) -DPostgreSQL_ROOT=$(SDK_ROOT) -DCURL_ROOT=$(SDK_ROOT) -DXercesC_ROOT=$(SDK_ROOT) -DEXPAT_ROOT=$(SDK_ROOT) -DOpenJPEG_ROOT=$(SDK_ROOT) -DECW_ROOT=$(SDK_ROOT) -DHDF5_ROOT=$(SDK_ROOT) -DKEA_ROOT=$(SDK_ROOT) -DNetCDF_ROOT=$(SDK_ROOT) -DLibXml2_ROOT=$(SDK_ROOT) -DOpenSSL_ROOT=$(SDK_ROOT) -DTIFF_ROOT=$(SDK_ROOT) -DZLIB_ROOT=$(SDK_ROOT)
+        SDK_ROOT: "${GITHUB_WORKSPACE}/release-1911-x64"
+        CONFIGURATIONS: "${GITHUB_WORKSPACE}/gdal/cmake4gdal/configurations/windows.cmake"
     steps:
     - name: Checkout GDAL master HEAD
       uses: actions/checkout@v2
@@ -90,18 +90,21 @@ jobs:
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
         mkdir -p $GITHUB_WORKSPACE/build
     - name: Configure
+      shell: bash -l {0}
       run: |
         cd $GITHUB_WORKSPACE/build
-        cmake -A ${architecture} -G "${generator}" -C ${CONFIGURATIONS} ${CMAKE_OPTIONS} $GITHUB_WORKSPACE/gdal
+        export CMAKE_OPTIONS="-DCMAKE_UNITY_BUILD=ON -DIconv_ROOT=${SDK_ROOT} -DHDF4_ROOT=${SDK_ROOT} -DGIF_ROOT=${SDK_ROOT} -DPNG_ROOT=${SDK_ROOT} -DJPEG_ROOT=${SDK_ROOT} -DGEOS_ROOT=${SDK_ROOT} -DPostgreSQL_ROOT=${SDK_ROOT} -DCURL_ROOT=${SDK_ROOT} -DXercesC_ROOT=${SDK_ROOT} -DEXPAT_ROOT=${SDK_ROOT} -DOpenJPEG_ROOT=${SDK_ROOT} -DECW_ROOT=${SDK_ROOT} -DHDF5_ROOT=${SDK_ROOT} -DKEA_ROOT=${SDK_ROOT} -DNetCDF_ROOT=${SDK_ROOT} -DLibXml2_ROOT=${SDK_ROOT} -DOpenSSL_ROOT=${SDK_ROOT} -DTIFF_ROOT=${SDK_ROOT} -DZLIB_ROOT=${SDK_ROOT}"
+        cmake -A ${architecture} -G "${generator}" -C "${CONFIGURATIONS}" ${CMAKE_OPTIONS} $GITHUB_WORKSPACE/gdal
     - name: Build
+      shell: bash -l {0}
       run: |
         cmake --build $GITHUB_WORKSPACE/build --config Release
 
   build-mac:
     runs-on: macOS-latest
     env:
-      CONFIGURATIONS: $(GITHUB_WORKSPACE)/gdal/cmake4gdal/configurations/full_drivers.cmake
-      CMAKE_OPTIONS: -DCMAKE_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$(GITHUB_WORKSPACE)/install-gdal -DSWIG_PYTHON=OFF -DGDAL_USE_GIFLIB_INTERNAL=YES -DCFITSIO_ROOT=/usr/local/Cellar/cfitsio/3.450_1 -DPROJ_ROOT=/usr/local/Cellar/proj/6.2.0 -DLibXml2_ROOT=/usr/local/opt/libxml2 -DSPATIALITE_ROOT=/usr/local/opt/libspatialite/ -DPostgreSQL_ROOT=/usr/local/opt/libpq/ -DEXPAT_ROOT=/usr/local/opt/expat/ -DSQLite3_ROOT=/usr/local/opt/sqlite/ -DOpenSSL_ROOT=/usr/local/opt/openssl -DPNG_ROOT=/usr/local/Cellar/libpng/1.6.37 -DJPEG_ROOT=/usr/local/Cellar/jpeg/9c -DOpenJPEG_ROOT=/usr/local/Cellar/openjpeg/2.3.1
+      CONFIGURATIONS: ${GITHUB_WORKSPACE}/gdal/cmake4gdal/configurations/full_drivers.cmake
+      CMAKE_OPTIONS: -DCMAKE_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install-gdal -DSWIG_PYTHON=OFF -DGDAL_USE_GIFLIB_INTERNAL=YES -DCFITSIO_ROOT=/usr/local/Cellar/cfitsio/3.450_1 -DPROJ_ROOT=/usr/local/Cellar/proj/6.2.0 -DLibXml2_ROOT=/usr/local/opt/libxml2 -DSPATIALITE_ROOT=/usr/local/opt/libspatialite/ -DPostgreSQL_ROOT=/usr/local/opt/libpq/ -DEXPAT_ROOT=/usr/local/opt/expat/ -DSQLite3_ROOT=/usr/local/opt/sqlite/ -DOpenSSL_ROOT=/usr/local/opt/openssl -DPNG_ROOT=/usr/local/Cellar/libpng/1.6.37 -DJPEG_ROOT=/usr/local/Cellar/jpeg/9c -DOpenJPEG_ROOT=/usr/local/Cellar/openjpeg/2.3.1
     steps:
     - name: Checkout GDAL master HEAD
       uses: actions/checkout@v2
@@ -118,6 +121,7 @@ jobs:
       run: |
         brew update
         brew outdated
+        brew uninstall --ignore-dependencies postgresql
         brew install freexl libxml2 libspatialite geos proj libpng openjpeg giflib jpeg szip postgis poppler doxygen
         brew install ccache swig
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
