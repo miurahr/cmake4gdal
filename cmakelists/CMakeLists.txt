@@ -24,7 +24,7 @@
 # * DEALINGS IN THE SOFTWARE.
 # ******************************************************************************
 
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.10)
 cmake_policy(SET CMP0023 NEW)
 cmake_policy(SET CMP0025 NEW)
 cmake_policy(SET CMP0033 NEW)
@@ -47,7 +47,7 @@ cmake_policy(SET CMP0064 NEW)
 cmake_policy(SET CMP0068 NEW)
 cmake_policy(SET CMP0069 NEW)
 cmake_policy(SET CMP0070 NEW)
-# cmake version 3.11 or later
+# cmake version 3.12 or later
 if (POLICY CMP0073)
   # _LIB_DEPENDS
   cmake_policy(SET CMP0073 NEW)
