@@ -124,8 +124,10 @@ jobs:
       run: |
         brew update
         brew outdated
-        rm -f /usr/locla/bin/psql
-        brew install freexl libxml2 libspatialite geos proj libpng openjpeg giflib jpeg szip postgis poppler doxygen
+        brew install libpq
+        brew unlink libpq
+        brew install postgresql
+        brew install freexl libxml2 libspatialite geos proj openjpeg giflib szip postgis poppler doxygen
         brew install ccache swig
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
         mkdir -p $GITHUB_WORKSPACE/build
