@@ -1,0 +1,110 @@
+# build GDAL library and to run test with CMake
+
+name: Build the project with CMake
+
+on: push
+#  schedule:
+#  - cron: "48 5 * * 5"
+
+jobs:
+
+  build-linux:
+    runs-on: ubuntu-latest
+    env:
+      CONFIGURATIONS: $(GITHUB_WORKSPACE)/gdal/cmake4gdal/configurations/full_drivers.cmake
+      CMAKE_OPTIONS: -DCMAKE_UNITY_BUILD=ON -DPython_LOOKUP_VERSION=3.6 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_COMPILER_LAUNCHER=ccache
+    steps:
+    - name: Checkout GDAL master HEAD
+      uses: actions/checkout@v2
+      with:
+        repository: 'osgeo/gdal'
+        path: 'gdal'
+    - name: Checkout CMake4GDAL
+      uses: actions/checkout@v2
+      with:
+        path: 'gdal/cmake4gdal'
+    - run: |
+        sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
+        sudo apt-get update
+        sudo apt-get install -y -q bison libjpeg-dev libgif-dev liblzma-dev libgeos-dev git \
+           libcurl4-gnutls-dev libproj-dev libxml2-dev  libxerces-c-dev libnetcdf-dev netcdf-bin \
+           libpoppler-dev libpoppler-private-dev gpsbabel libhdf4-alt-dev libhdf5-serial-dev libpodofo-dev poppler-utils \
+           libfreexl-dev unixodbc-dev libwebp-dev libepsilon-dev liblcms2-2 libcrypto++-dev libdap-dev libkml-dev \
+           libmysqlclient-dev libarmadillo-dev wget libfyba-dev libjsoncpp-dev libexpat1-dev \
+           libclc-dev ocl-icd-opencl-dev libsqlite3-dev sqlite3-pcre libpcre3-dev libspatialite-dev libsfcgal-dev fossil libcairo2-dev libjson-c-dev \
+           python3-dev libpython3-dev libpython3.6-dev python3.6-dev python3-numpy python3-lxml pyflakes python3-setuptools python3-pip python3-venv \
+           python3-pytest swig doxygen texlive-latex-base make cppcheck ccache g++ \
+           libpq-dev libpqtypes-dev postgresql-10 postgresql-client-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
+        python3 -m pip install -U pip wheel setuptools numpy
+        python3 -m pip install -r $GITHUB_WORKSPACE/gdal/autotest/requirements.txt
+        python3 $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
+        mkdir -p $GITHUB_WORKSPACE/build
+        cd $GITHUB_WORKSPACE/build
+        cmake -C ${CONFIGURATION} ${CMAKE_OPTIONS} ${GITHUB_WORKSPACE}/gdal
+        cmake --build $GITHUB_WORKSPACE/build
+
+  build-windows:
+    runs-on: windows-latest
+    env:
+        architecture: x64
+        generator: Visual Studio 16 2019
+        SDK: release-1911-x64
+        CONFIGURATIONS: $(GITHUB_WORKSPACE)/gdal/cmake4gdal/configurations/windows.cmake
+        CMAKE_OPTIONS: -DCMAKE_UNITY_BUILD=ON -DIconv_ROOT=$(SDK_ROOT) -DHDF4_ROOT=$(SDK_ROOT) -DGIF_ROOT=$(SDK_ROOT) -DPNG_ROOT=$(SDK_ROOT) -DJPEG_ROOT=$(SDK_ROOT) -DGEOS_ROOT=$(SDK_ROOT) -DPostgreSQL_ROOT=$(SDK_ROOT) -DCURL_ROOT=$(SDK_ROOT) -DXercesC_ROOT=$(SDK_ROOT) -DEXPAT_ROOT=$(SDK_ROOT) -DOpenJPEG_ROOT=$(SDK_ROOT) -DECW_ROOT=$(SDK_ROOT) -DHDF5_ROOT=$(SDK_ROOT) -DKEA_ROOT=$(SDK_ROOT) -DNetCDF_ROOT=$(SDK_ROOT) -DLibXml2_ROOT=$(SDK_ROOT) -DOpenSSL_ROOT=$(SDK_ROOT) -DTIFF_ROOT=$(SDK_ROOT) -DZLIB_ROOT=$(SDK_ROOT)
+    steps:
+    - name: Checkout GDAL master HEAD
+      uses: actions/checkout@v2
+      with:
+        repository: 'osgeo/gdal'
+        path: 'gdal'
+    - name: Checkout CMake4GDAL
+      uses: actions/checkout@v2
+      with:
+        path: 'gdal/cmake4gdal'
+    - uses: goanpeca/setup-miniconda@v1
+      with:
+        activate-environment: myEnvironment
+        python-version: 3.7
+        channels: conda-forge
+    - shell: bash -l {0}
+      run: |
+        conda install --yes --quiet --name myEnvironment -c conda-forge python=3.7 proj swig numpy pytest
+        python -m pip install -U pip wheel setuptools numpy
+        python -m pip install -r gdal/autotest/requirements.txt
+        cinst -y --no-progress 7zip wget git
+        wget -q http://download.gisinternals.com/sdk/downloads/${SDK}-dev.zip
+        7z x ${SDK}-dev.zip
+        rm ${SDK}/include/gdal*.h
+        rm ${SDK}/lib/gdal_i.lib
+        rm ${SDK}/include/ogr*.h
+        python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
+        mkdir -p $GITHUB_WORKSPACE/build
+        cd $GITHUB_WORKSPACE/build
+        cmake -A ${architecture} -G "${generator}" -C ${CONFIGURATION} ${CMAKE_OPTIONS} $GITHUB_WORKSPACE/gdal
+        cmake --build $GITHUB_WORKSPACE/build --config Release
+
+  build-mac:
+    runs-on: macOS-latest
+    env:
+      CONFIGURATIONS: $(GITHUB_WORKSPACE)/gdal/cmake4gdal/configurations/full_drivers.cmake
+      CMAKE_OPTIONS: -DCMAKE_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$(GITHUB_WORKSPACE)/install-gdal -DSWIG_PYTHON=OFF -DGDAL_USE_GIFLIB_INTERNAL=YES -DCFITSIO_ROOT=/usr/local/Cellar/cfitsio/3.450_1 -DPROJ_ROOT=/usr/local/Cellar/proj/6.2.0 -DLibXml2_ROOT=/usr/local/opt/libxml2 -DSPATIALITE_ROOT=/usr/local/opt/libspatialite/ -DPostgreSQL_ROOT=/usr/local/opt/libpq/ -DEXPAT_ROOT=/usr/local/opt/expat/ -DSQLite3_ROOT=/usr/local/opt/sqlite/ -DOpenSSL_ROOT=/usr/local/opt/openssl -DPNG_ROOT=/usr/local/Cellar/libpng/1.6.37 -DJPEG_ROOT=/usr/local/Cellar/jpeg/9c -DOpenJPEG_ROOT=/usr/local/Cellar/openjpeg/2.3.1
+    steps:
+    - name: Checkout GDAL master HEAD
+      uses: actions/checkout@v2
+      with:
+        repository: 'osgeo/gdal'
+        path: 'gdal'
+    - name: Checkout CMake4GDAL
+      uses: actions/checkout@v2
+      with:
+        path: 'gdal/cmake4gdal'
+    - run: |
+        brew update
+        brew outdated
+        brew install freexl libxml2 libspatialite geos proj libpng openjpeg giflib jpeg szip postgresql postgis poppler doxygen
+        brew install ccache swig
+        python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
+        mkdir -p $GITHUB_WORKSPACE/build
+        cd $GITHUB_WORKSPACE/build
+        cmake -C ${CONFIGURATION} ${CMAKE_OPTIONS} $GITHUB_WORKSPACE/gdal
+        cmake --build $GITHUB_WORKSPACE/build
