@@ -52,6 +52,9 @@ jobs:
     - name: Build
       run: |
         cmake --build $GITHUB_WORKSPACE/build
+    - name: Quick Test
+      run: |
+        cmake --build $GITHUB_WORKSPACE/build --target quicktest
 
   build-windows:
     runs-on: windows-latest
@@ -60,6 +63,7 @@ jobs:
         generator: Visual Studio 16 2019
         SDK: release-1911-x64
         CONFIGURATION: ../gdal/cmake4gdal/configurations/windows.cmake
+        JAVA_HOME: "C:\\Program Files\\Java\\zulu-11-azure-jdk_11.33.15-11.0.4-win_x64"
     steps:
     - name: Checkout GDAL master HEAD
       uses: actions/checkout@v2
