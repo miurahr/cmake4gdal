@@ -128,9 +128,7 @@ jobs:
       run: |
         brew update
         brew outdated
-        brew install libpq
-        brew unlink libpq
-        brew install postgresql
+        brew install postgresql || brew link --overwrite postgresql
         brew install freexl libxml2 libspatialite geos proj openjpeg giflib szip postgis poppler doxygen
         brew install ccache swig
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
