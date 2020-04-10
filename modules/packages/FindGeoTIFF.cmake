@@ -52,8 +52,10 @@ endif()
 mark_as_advanced(GEOTIFF_LIBRARY GEOTIFF_INCLUDE_DIR)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(GEOTIFF REQUIRED_VARS GEOTIFF_LIBRARY GEOTIFF_INCLUDE_DIR
-                                          VERSION_VAR GEOTIFF_VERSION_STRING)
+find_package_handle_standard_args(GeoTIFF
+                                  FOUND_VAR GEOTIFF_FOUND
+                                  REQUIRED_VARS GEOTIFF_LIBRARY GEOTIFF_INCLUDE_DIR
+                                  VERSION_VAR GEOTIFF_VERSION_STRING)
 
 if(GEOTIFF_FOUND)
     set(GEOTIFF_LIBRARIES ${GEOTIFF_LIBRARY})

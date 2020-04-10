@@ -104,7 +104,8 @@ if(OPENJPEG_INCLUDE_DIR)
 endif ()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(OPENJPEG
+find_package_handle_standard_args(OpenJPEG
+                                  FOUND_VAR OPENJPEG_FOUND
                                   REQUIRED_VARS OPENJPEG_LIBRARY OPENJPEG_INCLUDE_DIR
                                   VERSION_VAR OPENJPEG_VERSION_STRING)
 if(OPENJPEG_FOUND)

@@ -66,7 +66,7 @@ endif()
 mark_as_advanced(SQLITE3_LIBRARY SQLITE3_INCLUDE_DIR SQLITE_HAS_PCRE SQLITE_HAS_COLUMN_METADATA)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(SQLITE3
+find_package_handle_standard_args(SQLite3
                                   FOUND_VAR SQLITE3_FOUND
                                   REQUIRED_VARS SQLITE3_LIBRARY SQLITE3_INCLUDE_DIR
                                   VERSION_VAR SQLITE3_VERSION_STRING)

@@ -48,7 +48,8 @@ find_library(FREEXL_LIBRARY
              HINTS ${PC_FREEXL_LIBRARY_DIRS})
 
 mark_as_advanced(FREEXL_INCLUDE_DIR FREEXL_LIBRARY)
-find_package_handle_standard_args(FREEXL FOUND_VAR FREEXL_FOUND
+find_package_handle_standard_args(FreeXL
+                                  FOUND_VAR FREEXL_FOUND
                                   REQUIRED_VARS FREEXL_LIBRARY FREEXL_INCLUDE_DIR)
 
 if(FREEXL_FOUND)

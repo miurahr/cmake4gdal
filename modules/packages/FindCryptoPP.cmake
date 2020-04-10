@@ -65,7 +65,7 @@ if(CRYPTOPP_INCLUDE_DIR AND CRYPTOPP_LIBRARY)
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(CRYPTOPP
+find_package_handle_standard_args(CryptoPP
                                   FOUND_VAR CRYPTOPP_FOUND
                                   REQUIRED_VARS CRYPTOPP_LIBRARY CRYPTOPP_TEST_KNOWNBUG CRYPTOPP_INCLUDE_DIR
                                   VERSION_VAR CRYPTOPP_VERSION_STRING)

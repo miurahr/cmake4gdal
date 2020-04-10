@@ -36,7 +36,7 @@ else()
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(KDU_FOUND
+find_package_handle_standard_args(KDU
                                   VERSION_VAR KDU_VERSION_STRING
                                   REQUIRED_VARS KDU_INCLUDE_DIR KDU_LIBRARY)
 mark_as_advanced(KDU_INCLUDE_DIR KDU_LIBRARY)

@@ -49,7 +49,8 @@ find_library(PDFIUM_LIBRARY
              HINTS ${PC_PDFIUM_LIBRARY_DIRS})
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(PDFIUM
+find_package_handle_standard_args(PDFium
+                                  FOUND_VAR PDFIUM_FOUND
                                   REQUIRED_VARS PDFIUM_LIBRARY PDFIUM_INCLUDE_DIR)
 
 if(PDFIUM_FOUND)

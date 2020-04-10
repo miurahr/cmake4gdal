@@ -19,9 +19,10 @@ find_library(WEBP_LIBRARY NAMES webp libwebp HINTS ${PC_WEBP_LIBRARY_DIRS})
 mark_as_advanced(WEBP_INCLUDE_DIR WEBP_LIBRARY)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(WEBP
-    REQUIRED_VARS WEBP_LIBRARY WEBP_INCLUDE_DIR
-    VERSION_VAR WEBP_VERSION_STRING
+find_package_handle_standard_args(WebP
+                                  FOUND_VAR WEBP_FOUND
+                                  REQUIRED_VARS WEBP_LIBRARY WEBP_INCLUDE_DIR
+                                  VERSION_VAR WEBP_VERSION_STRING
 )
 
 if(WEBP_FOUND)

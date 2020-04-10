@@ -62,7 +62,7 @@ if(PODOFO_INCLUDE_DIR)
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(PODOFO
+find_package_handle_standard_args(Podofo
                                   REQUIRED_VARS PODOFO_LIBRARY PODOFO_INCLUDE_DIR
                                   VERSION_VAR PODOFO_VERSION_STRING)
 

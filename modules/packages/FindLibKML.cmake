@@ -77,7 +77,8 @@ if(LIBKML_INCLUDE_DIR AND NOT LIBKML_VERSION)
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(LIBKML
+find_package_handle_standard_args(LibKML
+                                  FOUND_VAR LIBKML_FOUND
                                   REQUIRED_VARS LIBKML_BASE_LIBRARY LIBKML_INCLUDE_DIR
                                   VERSION_VAR LIBKML_VERSION_STRING
                                   HANDLE_COMPONENTS)

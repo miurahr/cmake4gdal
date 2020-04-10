@@ -71,7 +71,8 @@ endif ()
 # Handle the QUIETLY and REQUIRED arguments and set SPATIALINDEX_FOUND to TRUE
 # if all listed variables are TRUE
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(OPENCAD 
+find_package_handle_standard_args(OpenCAD
+                                  FOUND_VAR OPENCAD_FOUND
                                   REQUIRED_VARS OPENCAD_LIBRARY OPENCAD_INCLUDE_DIR 
                                   VERSION_VAR OPENCAD_VERSION_STRING)
 

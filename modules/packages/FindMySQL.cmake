@@ -27,7 +27,7 @@ find_library(MYSQL_LIBRARY
 						 NAMES mysqlclient mysqlclient_r)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(MYSQL
+find_package_handle_standard_args(MySQL
                                   FOUND_VAR MYSQL_FOUND
                                   REQUIRED_VARS MYSQL_LIBRARY MYSQL_INCLUDE_DIR
 																	VERSION_VAR MYSQL_VERSION_STRING)

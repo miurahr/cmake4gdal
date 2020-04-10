@@ -29,7 +29,7 @@ endif()
 find_library(CHARLS_LIBRARY NAMES CharLS)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(CHARLS
+find_package_handle_standard_args(CharLS
                                   FOUND_VAR CHARLS_FOUND
                                   REQUIRED_VARS CHARLS_LIBRARY CHARLS_INCLUDE_DIR
                                   VERSION_VAR CHARLS_VERSION)

@@ -50,7 +50,7 @@ if(NOT RASTERLITE2_VERSION_STRING AND RASTERLITE2_INCLUDE_DIR AND RASTERLITE2_LI
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(RASTERLITE2
+find_package_handle_standard_args(Rasterlite2
                                   FOUND_VAR RASTERLITE2_FOUND
                                   REQUIRED_VARS RASTERLITE2_LIBRARY RASTERLITE2_INCLUDE_DIR
                                   VERSION_VAR RASTERLITE2_VERSION_STRING)

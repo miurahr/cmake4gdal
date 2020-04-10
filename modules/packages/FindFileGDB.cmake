@@ -41,7 +41,7 @@ endif()
 mark_as_advanced(FILEGDB_INCLUDE_DIR FILEGDB_LIBRARY)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(FILEGDB DEFAULT_MSG FILEGDB_LIBRARY  FILEGDB_INCLUDE_DIR)
+find_package_handle_standard_args(FileGDB DEFAULT_MSG FILEGDB_LIBRARY  FILEGDB_INCLUDE_DIR)
 
 if(FILEGDB_FOUND)
     set(FILEGDB_INCLUDE_DIRS ${FILEGDB_INCLUDE_DIR})
