@@ -76,7 +76,7 @@ jobs:
         path: 'gdal/cmake4gdal'
     - uses: goanpeca/setup-miniconda@v1
       with:
-        activate-environment: myEnvironment
+        activate-environment: gdalenv
         python-version: 3.7
         channels: conda-forge
     - run: |
@@ -84,7 +84,9 @@ jobs:
     - name: Install proj by miniconda
       shell: bash -l {0}
       run: |
-        conda install --yes --quiet --name myEnvironment -c conda-forge python=3.7 proj swig numpy pytest
+        conda install --yes --quiet --name gdalenv -c conda-forge python=3.7 swig numpy pytest
+        conda install --yes --quiet --name gdalenv -c conda-forge proj geos hdf4 hdf5 libnetcdf jasper openjpeg libtiff zlib curl libpng giflib libjpeg-turbo xerces-c expat libiconv libxml2 kealib
+        conda install --yes --quiet --name gdalenv -c conda-forge postgresql postgis
         python -m pip install -U pip wheel setuptools numpy
         python -m pip install -r gdal/autotest/requirements.txt
         cinst -y --no-progress 7zip wget git
@@ -99,9 +101,7 @@ jobs:
       shell: bash -l {0}
       run: |
         cd $GITHUB_WORKSPACE/build
-        export SDK_ROOT="${GITHUB_WORKSPACE}/release-1911-x64"
-        export CMAKE_OPTIONS="-DIconv_ROOT=${SDK_ROOT} -DHDF4_ROOT=${SDK_ROOT} -DGIF_ROOT=${SDK_ROOT} -DPNG_ROOT=${SDK_ROOT} -DJPEG_ROOT=${SDK_ROOT} -DGEOS_ROOT=${SDK_ROOT} -DPostgreSQL_ROOT=${SDK_ROOT} -DCURL_ROOT=${SDK_ROOT} -DXercesC_ROOT=${SDK_ROOT} -DEXPAT_ROOT=${SDK_ROOT} -DOpenJPEG_ROOT=${SDK_ROOT} -DECW_ROOT=${SDK_ROOT} -DHDF5_ROOT=${SDK_ROOT} -DKEA_ROOT=${SDK_ROOT} -DNetCDF_ROOT=${SDK_ROOT} -DLibXml2_ROOT=${SDK_ROOT} -DOpenSSL_ROOT=${SDK_ROOT} -DTIFF_ROOT=${SDK_ROOT} -DZLIB_ROOT=${SDK_ROOT}"
-        cmake -A ${architecture} -G "${generator}" -C "${CONFIGURATION}" ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
+        cmake -A ${architecture} -G "${generator}" -C "${CONFIGURATION}" "-DECW_ROOT=${GITHUB_WORKSPACE}/${SDK}" -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
     - name: Build
       shell: bash -l {0}
       run: |
