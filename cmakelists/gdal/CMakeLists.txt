@@ -37,6 +37,20 @@ option(GDAL_USE_LIBPCIDSK_INTERNAL "Set ON to build pcidsk driver with internal 
 option(ENABLE_LTO "Enable Link-Time Optimization if possible" ON)
 option(GDAL_ENABLE_MACOSX_FRAMEWORK "Enable Framework on Mac OS X" OFF)
 
+## libgdal shared/satic library generation
+option(BUILD_SHARED_LIBS "Set ON to build shared library" ON)
+
+################################################################################
+# generate ${CMAKE_CURRENT_BINARY_DIR}/port/cpl_config.h
+include(configure)
+
+# generate ${CMAKE_CURRENT_BINARY_DIR}/gcore/gdal_version.h
+# and set GDAL_VERSION variable
+include(GdalVersion)
+
+# find 3rd party libraries
+include(CheckDependentLibraries)
+
 # Default definitions during build
 add_definitions(-DGDAL_COMPILATION)
 
@@ -51,20 +65,6 @@ if (ENABLE_LTO)
 endif ()
 
 ################################################################################
-# generate ${CMAKE_CURRENT_BINARY_DIR}/gcore/gdal_version.h
-# and set GDAL_VERSION variable
-include(GdalVersion)
-
-################################################################
-# find 3rd party libraries
-include(CheckDependentLibraries)
-
-# generate ${CMAKE_CURRENT_BINARY_DIR}/port/cpl_config.h
-include(configure)
-
-################################################################################
-## libgdal shared/satic library generation
-option(BUILD_SHARED_LIBS "Set ON to build shared library" ON)
 add_library(gdal gcore/gdal.h)
 add_library(GDAL_LINK_LIBRARY INTERFACE)
 target_link_libraries(gdal PRIVATE $<TARGET_NAME:GDAL_LINK_LIBRARY>)
