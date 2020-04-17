@@ -4,18 +4,15 @@
 # * Author: Dmitriy Baryshnikov (aka Bishop), polimax@mail.ru
 # ******************************************************************************
 # * Copyright (C) 2012,2013 Bishop
-# * Copyright (C) 2017-2019 Hiroshi Miura
-# *
+# * Copyright (C) 2017-2019 Hiroshi Miura *
 # * Permission is hereby granted, free of charge, to any person obtaining a
 # * copy of this software and associated documentation files (the "Software"),
 # * to deal in the Software without restriction, including without limitation
 # * the rights to use, copy, modify, merge, publish, distribute, sublicense,
 # * and/or sell copies of the Software, and to permit persons to whom the
-# * Software is furnished to do so, subject to the following conditions:
-# *
+# * Software is furnished to do so, subject to the following conditions: *
 # * The above copyright notice and this permission notice shall be included
-# * in all copies or substantial portions of the Software.
-# *
+# * in all copies or substantial portions of the Software. *
 # * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
@@ -27,13 +24,12 @@
 
 include(GdalDriverHelper)
 
-#############################################
+# ###########################################################################################################################
 # register all drivers
 add_library(ogrsf_frmts OBJECT generic/ogrregisterall.cpp)
 gdal_standard_includes(ogrsf_frmts)
-target_include_directories(ogrsf_frmts PRIVATE
-                           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-                           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/generic>)
+target_include_directories(ogrsf_frmts PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+                                               $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/generic>)
 target_sources(gdal PRIVATE $<TARGET_OBJECTS:ogrsf_frmts>)
 set_property(TARGET ogrsf_frmts PROPERTY POSITION_INDEPENDENT_CODE ON)
 
@@ -42,13 +38,13 @@ ogr_default_driver(mem "Read/write driver for MEMORY virtual files")
 ogr_default_driver(geojson "GeoJSON/ESRIJSON/TopoJSON driver")
 ogr_default_driver2(mitab TAB "MapInfo TAB and MIF/MID")
 
-###########################################
+# ###########################################################################################################################
 ogr_default_driver(kml KML) # when not found EXPAT, it use CPL_MINIXML (ex. android)
 ogr_default_driver(vrt "VRT - Virtual Format")
-ogr_default_driver(sdts SDTS ) #depends ISO8211
+ogr_default_driver(sdts SDTS) # depends ISO8211
 ogr_default_driver(gml GML) # when not found both EXPAT/XercesC, return error in driver, referenced by WCS
 
-###########################################
+# ###########################################################################################################################
 ogr_optional_driver(segukooa SEGUKOOA)
 ogr_optional_driver(segy SEG)
 ogr_optional_driver(aeronavfaa AERONAVFAA)
@@ -83,7 +79,7 @@ ogr_optional_driver(jml JML)
 ogr_optional_driver(vdv "VDV-451/VDV-452/INTREST Data Format")
 ogr_optional_driver(flatgeobuf FlatGeobuf)
 
-######################################
+# ###########################################################################################################################
 #
 # XML drivers
 ogr_dependent_driver(gpx "GPX - GPS Exchange Format" "HAVE_EXPAT")
@@ -107,11 +103,10 @@ ogr_optional_driver(idrisi IDRISI)
 ogr_dependent_driver(pds "Planetary Data Systems TABLE" "GDAL_ENABLE_FRMT_PDS")
 
 ogr_dependent_driver(sqlite "SQLite3 / Spatialite RDBMS" "HAVE_SQLITE3")
-# GeoPacage is a part of sqlite driver.
-# when enable sqlite, automatically add a gpkg
-if(OGR_ENABLE_SQLITE)
-    add_subdirectory(gpkg)
-endif()
+# GeoPacage is a part of sqlite driver. when enable sqlite, automatically add a gpkg
+if (OGR_ENABLE_SQLITE)
+  add_subdirectory(gpkg)
+endif ()
 add_feature_info(ogr_GPKG OGR_ENABLE_SQLITE "GeoPackage")
 ogr_dependent_driver(osm "OpenStreetMap XML and PBF" "OGR_ENABLE_SQLITE")
 ogr_dependent_driver(vfk "Czech Cadastral Exchange Data Format" "HAVE_SQLITE3")
@@ -134,28 +129,29 @@ ogr_dependent_driver(pgeo "PGEO" "HAVE_ODBC")
 
 # for dependency problem, grass is not always compiled in.
 ogr_optional_driver(grass "GRASS Vector format")
-if(OGR_ENABLE_GRASS)
-    if(HAVE_GRASS AND HAVE_POSTGRESQL)
-    else()
-        message(FATAL_ERROR "Dependency error on GRASS driver")
-    endif()
-endif()
+if (OGR_ENABLE_GRASS)
+  if (HAVE_GRASS AND HAVE_POSTGRESQL)
+
+  else ()
+    message(FATAL_ERROR "Dependency error on GRASS driver")
+  endif ()
+endif ()
 
 ogr_dependent_driver(xlsx "Microsoft Office Excel(xlsx)" "HAVE_EXPAT")
 ogr_dependent_driver(xls "Microsoft Office Excel(xls)" "HAVE_FREEXL")
 ogr_optional_driver(mongodb "MongoDB")
 ogr_optional_driver(cad "OpenCAD")
 
-#############################################
+# ###########################################################################################################################
 # proprietary libraries
 ogr_dependent_driver(fme "FME" "HAVE_FME")
 ogr_dependent_driver(oci "Oracle OCI" "HAVE_ORACLE")
 ogr_dependent_driver(db2 "IBM DB2" "HAVE_ODBC")
 ogr_dependent_driver(sde "ArcSDE" "HAVE_SDE")
 ogr_dependent_driver(idb "IDB" "HAVE_IDB")
-if(WIN32)
-    ogr_optional_driver(arcobjects ARCOBJECTS)
-endif()
+if (WIN32)
+  ogr_optional_driver(arcobjects ARCOBJECTS)
+endif ()
 ogr_dependent_driver(ods ODS "HAVE_EXPAT")
 ogr_dependent_driver(ogdi "OGDI" "HAVE_OGDI")
 

@@ -1,87 +1,59 @@
-# ******************************************************************************
-# * Project:  CMake4GDAL
-# * Purpose:  CMake build scripts
-# * Author: Dmitriy Baryshnikov (aka Bishop), polimax@mail.ru, Hiroshi Miura
-# ******************************************************************************
-# * Copyright (C) 2012,2013 Bishop
-# * Copyright (C) 2017,2018 Hiroshi Miura
-# * 
-# * Permission is hereby granted, free of charge, to any person obtaining a
-# * copy of this software and associated documentation files (the "Software"),
-# * to deal in the Software without restriction, including without limitation
-# * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# * and/or sell copies of the Software, and to permit persons to whom the
-# * Software is furnished to do so, subject to the following conditions:
-# *
-# * The above copyright notice and this permission notice shall be included
-# * in all copies or substantial portions of the Software.
-# *
-# * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-# * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-# * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# * DEALINGS IN THE SOFTWARE.
-# ******************************************************************************
+# CMake4GDAL project is distributed under X/MIT license. See accompanying file LICENSE.txt.
 
-add_library(gcore OBJECT
-            gdalopeninfo.cpp
-            gdaldriver.cpp
-            gdaldataset.cpp
-            gdalrasterband.cpp
-            gdal_misc.cpp
-            gdalrasterblock.cpp
-            gdalcolortable.cpp
-            gdalmajorobject.cpp
-            gdaldefaultoverviews.cpp
-            gdalpamdataset.cpp
-            gdalpamrasterband.cpp
-            gdaljp2metadata.cpp
-            gdaljp2box.cpp
-            gdalmultidomainmetadata.cpp
-            gdal_rat.cpp
-            gdalpamproxydb.cpp
-            gdalallvalidmaskband.cpp
-            gdalnodatamaskband.cpp
-            gdalnodatavaluesmaskband.cpp
-            gdalproxydataset.cpp
-            gdalproxypool.cpp
-            gdaldefaultasync.cpp
-            gdaldllmain.cpp
-            gdalexif.cpp
-            gdalclientserver.cpp
-            gdalgeorefpamdataset.cpp
-            gdaljp2abstractdataset.cpp
-            gdalvirtualmem.cpp
-            gdaloverviewdataset.cpp
-            gdalrescaledalphaband.cpp
-            gdaljp2structure.cpp
-            gdal_mdreader.cpp
-            gdaljp2metadatagenerator.cpp
-            gdalabstractbandblockcache.cpp
-            gdalarraybandblockcache.cpp
-            gdalhashsetbandblockcache.cpp
-            overview.cpp
-            rawdataset.cpp
-            gdalmultidim.cpp
-            gdalpython.cpp
-            gdalpythondriverloader.cpp
-            )
+add_library(
+  gcore OBJECT
+  gdalopeninfo.cpp
+  gdaldriver.cpp
+  gdaldataset.cpp
+  gdalrasterband.cpp
+  gdal_misc.cpp
+  gdalrasterblock.cpp
+  gdalcolortable.cpp
+  gdalmajorobject.cpp
+  gdaldefaultoverviews.cpp
+  gdalpamdataset.cpp
+  gdalpamrasterband.cpp
+  gdaljp2metadata.cpp
+  gdaljp2box.cpp
+  gdalmultidomainmetadata.cpp
+  gdal_rat.cpp
+  gdalpamproxydb.cpp
+  gdalallvalidmaskband.cpp
+  gdalnodatamaskband.cpp
+  gdalnodatavaluesmaskband.cpp
+  gdalproxydataset.cpp
+  gdalproxypool.cpp
+  gdaldefaultasync.cpp
+  gdaldllmain.cpp
+  gdalexif.cpp
+  gdalclientserver.cpp
+  gdalgeorefpamdataset.cpp
+  gdaljp2abstractdataset.cpp
+  gdalvirtualmem.cpp
+  gdaloverviewdataset.cpp
+  gdalrescaledalphaband.cpp
+  gdaljp2structure.cpp
+  gdal_mdreader.cpp
+  gdaljp2metadatagenerator.cpp
+  gdalabstractbandblockcache.cpp
+  gdalarraybandblockcache.cpp
+  gdalhashsetbandblockcache.cpp
+  overview.cpp
+  rawdataset.cpp
+  gdalmultidim.cpp
+  gdalpython.cpp
+  gdalpythondriverloader.cpp)
 gdal_standard_includes(gcore)
-target_include_directories(gcore PRIVATE
-                           $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>
-                           $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>
-                           $<TARGET_PROPERTY:gnm_frmts,SOURCE_DIR>
-                           $<TARGET_PROPERTY:gdal_GTIFF,SOURCE_DIR>
-                           $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>
-                           $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)
+target_include_directories(
+  gcore
+  PRIVATE $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR> $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>
+          $<TARGET_PROPERTY:gnm_frmts,SOURCE_DIR> $<TARGET_PROPERTY:gdal_GTIFF,SOURCE_DIR>
+          $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR> $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)
 set_property(TARGET gcore PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 add_library(gdaldrivermanager OBJECT gdaldrivermanager.cpp)
 gdal_standard_includes(gdaldrivermanager)
-target_compile_definitions(gdaldrivermanager PRIVATE
-                           -DINST_DATA="${CMAKE_PREFIX_PATH}/${CMAKE_INSTALL_DATADIR}")
+target_compile_definitions(gdaldrivermanager PRIVATE -DINST_DATA="${CMAKE_PREFIX_PATH}/${CMAKE_INSTALL_DATADIR}")
 set_property(TARGET gdaldrivermanager PROPERTY POSITION_INDEPENDENT_CODE ON)
 if (HAVE_XERCESC)
   target_include_directories(gdaldrivermanager PRIVATE ${XercesC_INCLUDE_DIRS} ${XercesC_INCLUDE_DIRS}/xercesc)
@@ -91,30 +63,30 @@ endif ()
 
 add_library(rasterio OBJECT rasterio.cpp rasterio_ssse3.cpp)
 gdal_standard_includes(rasterio)
-target_include_directories(rasterio PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
-                           $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>)
+target_include_directories(rasterio PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR> $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>)
 set_property(TARGET rasterio PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_sources(gdal PRIVATE $<TARGET_OBJECTS:gcore>
-               $<TARGET_OBJECTS:gdaldrivermanager>
-               $<TARGET_OBJECTS:rasterio>)
+target_sources(gdal PRIVATE $<TARGET_OBJECTS:gcore> $<TARGET_OBJECTS:gdaldrivermanager> $<TARGET_OBJECTS:rasterio>)
 include(TargetPublicHeader)
-target_public_header(TARGET gdal HEADERS
-                     ${CMAKE_CURRENT_BINARY_DIR}/gdal_version.h
-                     gdal.h
-                     gdaljp2metadata.h
-                     gdal_frmts.h
-                     gdal_pam.h
-                     gdal_priv.h
-                     gdal_proxy.h
-                     gdal_rat.h
-                     rawdataset.h
-                     gdalexif.h
-                     gdalgeorefpamdataset.h
-                     gdal_priv_templates.hpp
-                     gdal_avx2_emulation.hpp
-                     gdal_mdreader.h
-                     gdal_pam.h
-                     gdalsse_priv.h)
+target_public_header(
+  TARGET
+  gdal
+  HEADERS
+  ${CMAKE_CURRENT_BINARY_DIR}/gdal_version.h
+  gdal.h
+  gdaljp2metadata.h
+  gdal_frmts.h
+  gdal_pam.h
+  gdal_priv.h
+  gdal_proxy.h
+  gdal_rat.h
+  rawdataset.h
+  gdalexif.h
+  gdalgeorefpamdataset.h
+  gdal_priv_templates.hpp
+  gdal_avx2_emulation.hpp
+  gdal_mdreader.h
+  gdal_pam.h
+  gdalsse_priv.h)
 
 if (GDAL_USE_LIBJSONC_INTERNAL)
   target_include_directories(gcore PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)

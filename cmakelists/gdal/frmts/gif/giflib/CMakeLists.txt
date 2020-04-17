@@ -1,6 +1,12 @@
-add_library(giflib STATIC
-			dgif_lib.c egif_lib.c gifalloc.c gif_err.c gif_hash.c
-			gif_hash.h gif_lib.h gif_lib_private.h
-)
+add_library(
+  giflib STATIC
+  dgif_lib.c
+  egif_lib.c
+  gifalloc.c
+  gif_err.c
+  gif_hash.c
+  gif_hash.h
+  gif_lib.h
+  gif_lib_private.h)
 set_property(TARGET giflib PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(GDAL_LINK_LIBRARY INTERFACE giflib)
