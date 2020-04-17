@@ -63,6 +63,8 @@ if (Python_FOUND)
         foreach (tgt IN ITEMS ogr gcore gdrivers alg osr gnm pyscripts utilities)
             execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
                             ${CMAKE_CURRENT_SOURCE_DIR}/${tgt} ${CMAKE_CURRENT_BINARY_DIR}/${tgt})
+            add_custom_target(autotest_${tgt} COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini ${tgt}
+                              DEPENDS gdal gdalapps python_binding)
         endforeach ()
         add_custom_target(autotest COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
                           DEPENDS gdal gdalapps python_binding)
@@ -71,4 +73,9 @@ if (Python_FOUND)
         add_custom_target(autotest COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
                           WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/autotest)
     endif ()
+    add_executable(pytest_runner ../cmake4gdal/pytest_runner.cpp)
+    target_link_libraries(pytest_runner PRIVATE ${Python_LIBRARIES})
+    target_include_directories(pytest_runner PRIVATE ${Python_INCLUDE_DIRS})
+    add_custom_target(autotest_runner COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} $<TARGET_NAME:pytest_runner> -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
+                      DEPENDS gdal gdalapps python_binding WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/autotest)
 endif ()
