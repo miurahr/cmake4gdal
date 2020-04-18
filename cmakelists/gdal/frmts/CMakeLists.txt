@@ -93,6 +93,7 @@ gdal_optional_format(eeda "Earth Engine Data API")
 gdal_optional_format(rda "RDA (DigitalGlobe Raster Data Access)")
 gdal_optional_format(sigdem "Scaled Integer Gridded DEM .sigdem Driver")
 gdal_optional_format(msg "Meteosat Second Generation")
+gdal_optional_format(rik "RIK -- Swedish Grid Maps")
 
 # formats with external library dependency
 gdal_dependent_format(fits "FIT Driver" "HAVE_CFITSIO")
@@ -113,7 +114,6 @@ gdal_dependent_format(dods "OPeNDAP Grid Client" "HAVE_DAP")
 gdal_dependent_format(dds "DirectDraw Surface" "HAVE_CRNLIB")
 gdal_dependent_format(kea "Kea" "HAVE_KEA")
 gdal_dependent_format(openjpeg "JPEG2000 driver based on OpenJPEG library" "HAVE_OPENJPEG")
-gdal_dependent_format(rik "RIK -- Swedish Grid Maps" "GDAL_ENABLE_FRMT_ZLIB")
 gdal_dependent_format(jpegls "JPEG LS" "HAVE_CHARLS")
 gdal_dependent_format(jpeg2000 "JPEG2000 --- Implementation of the JPEG-2000 part 1 (ISO/IEC 15444-1) standard"
                       "HAVE_JASPER")
