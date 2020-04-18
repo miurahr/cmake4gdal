@@ -24,7 +24,8 @@ with section("parse"):
     'gdal_swig_bindings': {'kwargs': {}, 'pargs': {'flags': [], 'nargs': '*'}},
     'gdal_csharp_dll': {
       'flags': [],
-      'kwargs': {'TARGET': '*', 'NAMESPACE': '*', 'WORKING_DIRECTORY': '*', 'DEPENDS': '*'}},
+      'kwargs': {'TARGET': 1, 'NAMESPACE': 1, 'WRAPPER': 1, 'SWIG_INTERFACE': 1,
+                 'CS_SOURCES': '*', 'WORKING_DIRECTORY': '*', 'DEPENDS': '*'}},
     'gdal_java_wrap': { 'flags': ['CXX'], 'kwargs': {'TARGET': '*', 'ARGS': '*'}}
   }
 

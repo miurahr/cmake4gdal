@@ -127,6 +127,7 @@ jobs:
       run: |
         brew update
         brew outdated
+        brew uninstall gdal
         brew install postgresql || brew link --overwrite postgresql
         brew install freexl libxml2 libspatialite geos proj openjpeg giflib szip postgis poppler doxygen
         brew install ccache swig
