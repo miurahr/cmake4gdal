@@ -1,3 +1,5 @@
+# CMake4GDAL project is distributed under X/MIT license. See accompanying file LICENSE.txt.
+
 add_library(gnm_frmts OBJECT gnm_frmts.h gnmregisterall.cpp)
 gdal_standard_includes(gnm_frmts)
 target_include_directories(gnm_frmts PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} $<TARGET_PROPERTY:gnm,SOURCE_DIR>)

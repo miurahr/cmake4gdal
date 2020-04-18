@@ -1,3 +1,4 @@
+# CMake4GDAL project is distributed under X/MIT license. See accompanying file LICENSE.txt.
 
 set(GDAL_SWIG_COMMON_INTERFACE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Band.i
@@ -19,16 +20,15 @@ set(GDAL_SWIG_COMMON_INTERFACE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/include/RasterAttributeTable.i
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Transform.i
     ${CMAKE_CURRENT_SOURCE_DIR}/include/XMLNode.i
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/MultiDimensional.i
-    )
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/MultiDimensional.i)
 
 add_subdirectory(python)
 if (JNI_FOUND)
-    add_subdirectory(java)
+  add_subdirectory(java)
 endif ()
 if (PERL_FOUND)
-    #add_subdirectory(perl)
+  # add_subdirectory(perl)
 endif ()
 if (CSHARP_FOUND)
-    #add_subdirectory(csharp)
+  # add_subdirectory(csharp)
 endif ()

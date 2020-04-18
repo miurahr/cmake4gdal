@@ -63,5 +63,5 @@ You can also use docker image as a your development environment.
 License
 -------
 
-CMake4GDAL project is redictributed on X/MIT license, except for some modules
+CMake4GDAL project is distributed under X/MIT license, except for some modules
 which is on 3-Clause BSD license.

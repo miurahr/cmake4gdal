@@ -1,47 +1,15 @@
-# ******************************************************************************
-# * Project:  CMake4GDAL
-# * Purpose:  CMake build scripts
-# * Author: Dmitriy Baryshnikov (aka Bishop), polimax@mail.ru, Hiroshi Miura
-# ******************************************************************************
-# * Copyright (C) 2012,2013 Bishop
-# * Copyright (C) 2017,2018 Hiroshi Miura
-# *
-# * Permission is hereby granted, free of charge, to any person obtaining a
-# * copy of this software and associated documentation files (the "Software"),
-# * to deal in the Software without restriction, including without limitation
-# * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# * and/or sell copies of the Software, and to permit persons to whom the
-# * Software is furnished to do so, subject to the following conditions:
-# *
-# * The above copyright notice and this permission notice shall be included
-# * in all copies or substantial portions of the Software.
-# *
-# * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-# * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-# * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# * DEALINGS IN THE SOFTWARE.
-# ******************************************************************************
-
+# CMake4GDAL project is distributed under X/MIT license. See accompanying file LICENSE.txt.
 
 # Documentation rules
 find_package(Doxygen)
 if (DOXYGEN_FOUND)
   set(TARGET_HTML_DIR ${CMAKE_BINARY_DIR}/gdal/html)
   file(MAKE_DIRECTORY ${TARGET_HTML_DIR})
-  # Generate translated docs. Should go first, because index.html page should
-  # be overwritten with the main one later
+  # Generate translated docs. Should go first, because index.html page should be overwritten with the main one later
   add_custom_command(
-          OUTPUT
-          ${TARGET_HTML_DIR}/header.html
-          ${TARGET_HTML_DIR}/footer.html
-          ${TARGET_HTML_DIR}/stylesheet.css
-          COMMAND ${DOXYGEN_EXECUTABLE} -w html header.html footer.html stylesheet.css
-          WORKING_DIRECTORY ${TARGET_HTML_DIR}
-  )
-  #-------------------------------------------------------------------
+    OUTPUT ${TARGET_HTML_DIR}/header.html ${TARGET_HTML_DIR}/footer.html ${TARGET_HTML_DIR}/stylesheet.css
+    COMMAND ${DOXYGEN_EXECUTABLE} -w html header.html footer.html stylesheet.css
+    WORKING_DIRECTORY ${TARGET_HTML_DIR})
   # Generate Russian document
   set(GDAL_DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/gdal")
   set(GDAL_DOXYGEN_PROJECT_NAME "RU")
@@ -58,29 +26,22 @@ if (DOXYGEN_FOUND)
       "*.h \
                            *.cpp \
                            *.c \
-                           *.dox"
-      )
+                           *.dox")
   set(GDAL_GENERATE_MAN "NO")
   configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_ru)
   add_custom_command(
-          OUTPUT ${TARGET_HTML_DIR}/index_ru.html
-          COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_ru
-          MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_ru
-          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ru)
+    OUTPUT ${TARGET_HTML_DIR}/index_ru.html
+    COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_ru
+    MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_ru
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ru)
   add_custom_command(
-          OUTPUT ${TARGET_HTML_DIR}/header_ru.html
-          COMMAND ${CMAKE_COMMAND}
-          ARGS
-          -Dinfile:FILEPATH=${TARGET_HTML_DIR}/header.html
-          -Doutfile:FILEPATH=${TARGET_HTML_DIR}/header_ru.html
-          -Dfrom:STRING="iso-8859-1"
-          -Dto:STRING="utf-8"
-          -P ${CMAKE_CURRENT_SOURCE_DIR}/ReplaceStr.cmake
-          MAIN_DEPENDENCY
-          ${TARGET_HTML_DIR}/header.html
-          WORKING_DIRECTORY ${TARGET_HTML_DIR}
-  )
-  #-------------------------------------------------------------------
+    OUTPUT ${TARGET_HTML_DIR}/header_ru.html
+    COMMAND
+      ${CMAKE_COMMAND} ARGS -Dinfile:FILEPATH=${TARGET_HTML_DIR}/header.html
+      -Doutfile:FILEPATH=${TARGET_HTML_DIR}/header_ru.html -Dfrom:STRING="iso-8859-1" -Dto:STRING="utf-8" -P
+      ${CMAKE_CURRENT_SOURCE_DIR}/ReplaceStr.cmake
+    MAIN_DEPENDENCY ${TARGET_HTML_DIR}/header.html
+    WORKING_DIRECTORY ${TARGET_HTML_DIR})
   # generate Brazillian document
   set(GDAL_DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/gdal")
   set(GDAL_DOXYGEN_PROJECT_NAME "BR")
@@ -93,22 +54,19 @@ if (DOXYGEN_FOUND)
   set(GDAL_ENABLED_SECTIONS "")
   set(GDAL_DOXYGEN_LAYOUT_FILE "")
   set(GDAL_GENERATE_HTML "YES")
-  set(GDAL_FILE_PATTERNS "*.h *.cpp *.c *.dox" )
+  set(GDAL_FILE_PATTERNS "*.h *.cpp *.c *.dox")
   set(GDAL_GENERATE_MAN "NO")
   configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_br)
   add_custom_command(
-          OUTPUT ${TARGET_HTML_DIR}/index_br.html
-          COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_br
-          MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_br
-          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/br)
+    OUTPUT ${TARGET_HTML_DIR}/index_br.html
+    COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_br
+    MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_br
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/br)
   add_custom_command(
-          OUTPUT ${TARGET_HTML_DIR}/header_br.html
-          COMMAND ${CMAKE_COMMAND} -E copy
-          ${TARGET_HTML_DIR}/header.html
-          ${TARGET_HTML_DIR}/header_br.html
-          DEPENDS ${TARGET_HTML_DIR}/header.html)
+    OUTPUT ${TARGET_HTML_DIR}/header_br.html
+    COMMAND ${CMAKE_COMMAND} -E copy ${TARGET_HTML_DIR}/header.html ${TARGET_HTML_DIR}/header_br.html
+    DEPENDS ${TARGET_HTML_DIR}/header.html)
 
-  #-------------------------------------------------------------------
   # run main doxygen
   set(GDAL_DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/gdal")
   set(GDAL_DOXYGEN_PROJECT_NAME "GDAL")
@@ -118,73 +76,71 @@ if (DOXYGEN_FOUND)
   set(GDAL_ENABLED_SECTIONS "")
   set(GDAL_GENERATE_HTML "YES")
   set(GDAL_DOXYGEN_INCLUDE_PATH "${CMAKE_BINARY_DIR}/gdal/port ${CMAKE_BINARY_DIR}/gdal/gcore")
-  set(GDAL_DOXYGEN_INPUT "port gcore frmts/gdalallregister.cpp alg frmts/vrt \
+  set(GDAL_DOXYGEN_INPUT
+      "port gcore frmts/gdalallregister.cpp alg frmts/vrt \
                doc apps ogr ogr/ogrsf_frmts ogr/ogrsf_frmts/generic \
                ogr/ogrsf_frmts/geojson/ogrgeojsonwriter.cpp \
                ogr/ogrsf_frmts/kml/ogr2kmlgeometry.cpp \
-               swig/python/scripts gnm"
-      )
+               swig/python/scripts gnm")
   set(GDAL_DOXYGEN_EXAMPLE_PATH "apps frmts frmts/jdem")
   set(GDAL_DOXYGEN_IMAGE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/grid)
   set(GDAL_DOXYGEN_LAYOUT_FILE ${CMAKE_SOURCE_DIR}/gdal/DoxygenLayout.xml)
   set(GDAL_GENERATE_MAN "NO")
   configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_main)
   add_custom_command(
-          OUTPUT ${CMAKE_BINARY_DIR}/gdal/html/index.html
-          COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_main
-          MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_main ${TARGET_HTML_DIR}/header.html
-          ${TARGET_HTML_DIR}/index_ru.html ${TARGET_HTML_DIR}/index_br.html
-          WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/gdal
-  )
+    OUTPUT ${CMAKE_BINARY_DIR}/gdal/html/index.html
+    COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_main
+    MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_main
+    ${TARGET_HTML_DIR}/header.html ${TARGET_HTML_DIR}/index_ru.html ${TARGET_HTML_DIR}/index_br.html
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/gdal)
 
-  #-------------------------------------------------------------------
   # copy rest of files for html generation
-  file(GLOB OTHER_DOCS
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/act-logo.png
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/cadcorp_logo.jpg
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/foss4g2013.png
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/foss4g2014.png
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/foss4g2017.png
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/i3-logo.jpg
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/ingres-logo.png
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/OSGeo_project.png
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/safe-logo.png
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/src-logo.png
-       ${CMAKE_CURRENT_SOURCE_DIR}/images/waypoint_logo.png
-       ${CMAKE_CURRENT_SOURCE_DIR}/grid/*.png
-       ${CMAKE_SOURCE_DIR}/gdal/frmts/*.html
-       ${CMAKE_SOURCE_DIR}/gdal/frmts/*/frmt_*.html
-       ${CMAKE_SOURCE_DIR}/gdal/frmts/openjpeg/*.xml
-       ${CMAKE_SOURCE_DIR}/gdal/frmts/wms/frmt_*.xml
-       ${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts/*/frmt_*.html
-       ${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts/*/dev_*.html
-       ${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts/gpkg/geopackage_aspatial.html
-       ${CMAKE_SOURCE_DIR}/gdal/ogr/*.gif
-       ${CMAKE_SOURCE_DIR}/gdal/data/gdalicon.png
-       ${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts/ogr_formats.html
-       ${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts/ogr_formats.html
-       ${CMAKE_SOURCE_DIR}/gdal/ogr/ogr_feature_style.html
-       )
-  add_custom_target(_copy_other_docs) ## FIXME: are there any way without internal custom target?
+  file(
+    GLOB
+    OTHER_DOCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/act-logo.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/cadcorp_logo.jpg
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/foss4g2013.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/foss4g2014.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/foss4g2017.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/i3-logo.jpg
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/ingres-logo.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/OSGeo_project.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/safe-logo.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/src-logo.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/waypoint_logo.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/grid/*.png
+    ${CMAKE_SOURCE_DIR}/gdal/frmts/*.html
+    ${CMAKE_SOURCE_DIR}/gdal/frmts/*/frmt_*.html
+    ${CMAKE_SOURCE_DIR}/gdal/frmts/openjpeg/*.xml
+    ${CMAKE_SOURCE_DIR}/gdal/frmts/wms/frmt_*.xml
+    ${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts/*/frmt_*.html
+    ${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts/*/dev_*.html
+    ${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts/gpkg/geopackage_aspatial.html
+    ${CMAKE_SOURCE_DIR}/gdal/ogr/*.gif
+    ${CMAKE_SOURCE_DIR}/gdal/data/gdalicon.png
+    ${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts/ogr_formats.html
+    ${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts/ogr_formats.html
+    ${CMAKE_SOURCE_DIR}/gdal/ogr/ogr_feature_style.html)
+  add_custom_target(_copy_other_docs) # FIXME: are there any way without internal custom target?
   foreach (f ${OTHER_DOCS})
-    add_custom_command(TARGET _copy_other_docs PRE_BUILD
-                       COMMAND ${CMAKE_COMMAND} -E
-                       copy ${f} ${CMAKE_BINARY_DIR}/gdal/html)
+    add_custom_command(
+      TARGET _copy_other_docs
+      PRE_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy ${f} ${CMAKE_BINARY_DIR}/gdal/html)
   endforeach ()
-  add_custom_target(documents
-                    DEPENDS
-                    ${CMAKE_BINARY_DIR}/gdal/html/index.html
-                    ${CMAKE_BINARY_DIR}/gdal/html/index_ru.html
-                    ${CMAKE_BINARY_DIR}/gdal/html/index_br.html
-                    ${CMAKE_BINARY_DIR}/gdal/html/header.html
-                    ${CMAKE_BINARY_DIR}/gdal/html/footer.html
-                    ${CMAKE_BINARY_DIR}/gdal/html/stylesheet.css
-                    ${CMAKE_BINARY_DIR}/gdal/html/header_br.html
-                    ${CMAKE_BINARY_DIR}/gdal/html/header_ru.html
-                    _copy_other_docs
-                    )
+  add_custom_target(
+    documents
+    DEPENDS ${CMAKE_BINARY_DIR}/gdal/html/index.html
+            ${CMAKE_BINARY_DIR}/gdal/html/index_ru.html
+            ${CMAKE_BINARY_DIR}/gdal/html/index_br.html
+            ${CMAKE_BINARY_DIR}/gdal/html/header.html
+            ${CMAKE_BINARY_DIR}/gdal/html/footer.html
+            ${CMAKE_BINARY_DIR}/gdal/html/stylesheet.css
+            ${CMAKE_BINARY_DIR}/gdal/html/header_br.html
+            ${CMAKE_BINARY_DIR}/gdal/html/header_ru.html
+            _copy_other_docs)
 
-  #-------------------------------------------------------------------
   # Build man
   set(GDAL_DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/gdal")
   set(GDAL_DOXYGEN_PROJECT_NAME "GDAL")
@@ -198,26 +154,18 @@ if (DOXYGEN_FOUND)
   set(GDAL_DOXYGEN_EXAMPLE_PATH
       "apps \
              frmts \
-             frmts/jdem"
-      )
+             frmts/jdem")
   set(GDAL_DOXYGEN_IMAGE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/grid)
   set(GDAL_DOXYGEN_LAYOUT_FILE "/dev/null")
   set(GDAL_GENERATE_MAN "YES")
   configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_man)
   add_custom_command(
-          OUTPUT ${CMAKE_BINARY_DIR}/gdal/man/man1/gdalinfo.1
-          ${CMAKE_BINARY_DIR}/gdal/man/man1/gdal-config.1
-          ${CMAKE_BINARY_DIR}/gdal/man/man1/ogrlinfo.1
-          ${CMAKE_BINARY_DIR}/gdal/man/man1/ogr2ogr.1
-          COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_man
-          MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_man
-          WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/gdal
-  )
-  add_custom_target(manpages
-                    DEPENDS
-                    ${CMAKE_BINARY_DIR}/gdal/man/man1/gdalinfo.1
-                    ${CMAKE_BINARY_DIR}/gdal/man/man1/gdal-config.1
-                    ${CMAKE_BINARY_DIR}/gdal/man/man1/ogrlinfo.1
-                    ${CMAKE_BINARY_DIR}/gdal/man/man1/ogr2ogr.1
-                    )
+    OUTPUT ${CMAKE_BINARY_DIR}/gdal/man/man1/gdalinfo.1 ${CMAKE_BINARY_DIR}/gdal/man/man1/gdal-config.1
+           ${CMAKE_BINARY_DIR}/gdal/man/man1/ogrlinfo.1 ${CMAKE_BINARY_DIR}/gdal/man/man1/ogr2ogr.1
+    COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_man
+    MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_man
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/gdal)
+  add_custom_target(
+    manpages DEPENDS ${CMAKE_BINARY_DIR}/gdal/man/man1/gdalinfo.1 ${CMAKE_BINARY_DIR}/gdal/man/man1/gdal-config.1
+                     ${CMAKE_BINARY_DIR}/gdal/man/man1/ogrlinfo.1 ${CMAKE_BINARY_DIR}/gdal/man/man1/ogr2ogr.1)
 endif ()

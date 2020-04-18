@@ -1,32 +1,6 @@
-# ******************************************************************************
-# * Project:  CMake4GDAL
-# * Purpose:  CMake build scripts
-# * Author: Dmitriy Baryshnikov (aka Bishop), polimax@mail.ru, Hiroshi Miura
-# ******************************************************************************
-# * Copyright (C) 2012 Bishop
-# * Copyright (C) 2017,2018 Hiroshi Miura
-# *
-# * Permission is hereby granted, free of charge, to any person obtaining a
-# * copy of this software and associated documentation files (the "Software"),
-# * to deal in the Software without restriction, including without limitation
-# * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# * and/or sell copies of the Software, and to permit persons to whom the
-# * Software is furnished to do so, subject to the following conditions:
-# *
-# * The above copyright notice and this permission notice shall be included
-# * in all copies or substantial portions of the Software.
-# *
-# * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-# * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-# * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# * DEALINGS IN THE SOFTWARE.
-# ******************************************************************************
+# CMake4GDAL project is distributed under X/MIT license. See accompanying file LICENSE.txt.
 
 add_library(gdal_frmts OBJECT gdalallregister.cpp)
-###############################################
 include(GdalDriverHelper)
 include(CMakeDependentOption)
 
@@ -97,7 +71,7 @@ set_package_properties(TIFF PROPERTIES PURPOSE "gdal_CALS: CALS type 1 driver")
 gdal_format(safe "SAFE -- Sentinel-1 SAFE XML Product")
 gdal_format(sentinel2 "Driver for Sentinel-2 Level-1B, Level-1C and Level-2A products.")
 gdal_format(prf "PHOTOMOD Raster File")
-#gdal_format(mrf "Meta raster format")
+# gdal_format(mrf "Meta raster format")
 gdal_format(wcs "OGC Web Coverage Service")
 gdal_format(wmts "OGC Web Map Tile Service")
 gdal_format(grib "WMO General Regularly-distributed Information in Binary form")
@@ -141,24 +115,24 @@ gdal_dependent_format(kea "Kea" "HAVE_KEA")
 gdal_dependent_format(openjpeg "JPEG2000 driver based on OpenJPEG library" "HAVE_OPENJPEG")
 gdal_dependent_format(rik "RIK -- Swedish Grid Maps" "GDAL_ENABLE_FRMT_ZLIB")
 gdal_dependent_format(jpegls "JPEG LS" "HAVE_CHARLS")
-gdal_dependent_format(jpeg2000 "JPEG2000 --- Implementation of the JPEG-2000 part 1 (ISO/IEC 15444-1) standard" "HAVE_JASPER")
+gdal_dependent_format(jpeg2000 "JPEG2000 --- Implementation of the JPEG-2000 part 1 (ISO/IEC 15444-1) standard"
+                      "HAVE_JASPER")
 gdal_dependent_format(pcidsk "PCI Geomatics Database File" "HAVE_PCIDSK")
 gdal_dependent_format(tiledb "TileDB tiledb.io" "HAVE_TILEDB")
-
 
 # for circulate dependency, grass is NOT always compiled in.
 gdal_optional_format(grass "GRASS")
 add_feature_info(gdal_GRASS GDAL_ENABLE_FRMT_GRASS "GRASS raster format")
 if (GDAL_ENABLE_FRMT_GRASS)
-    if (HAVE_GRASS AND HAVE_POSTGRESQL)
-    else ()
-        message(FATAL_ERROR "Dependency error on GRASS driver")
-    endif ()
+  if (HAVE_GRASS AND HAVE_POSTGRESQL)
+
+  else ()
+    message(FATAL_ERROR "Dependency error on GRASS driver")
+  endif ()
 endif ()
 
-####################################################
-# driver with proprietary libraries
-# Kakadu software SDK
+# ######################################################################################################################
+# driver with proprietary libraries Kakadu software SDK
 gdal_dependent_format(jp2kak "JPEG-2000 (based on Kakadu)" "HAVE_KDU")
 gdal_dependent_format(jpipkak "JPIP Streaming" "HAVE_KDU")
 # Luratech SDK
@@ -174,25 +148,26 @@ gdal_dependent_format(georaster "Oracle Spatial GeoRaster" "HAVE_ORACLE")
 cmake_dependent_option(GDAL_ENABLE_FRMT_ECW "Set ON to build ECW driver" ON "HAVE_ECW" OFF)
 add_feature_info(gdal_ECW GDAL_ENABLE_FRMT_ECW "ERDAS JPEG2000 (.jp2)")
 if (GDAL_ENABLE_FRMT_ECW)
-    if (GNUCXX_NEW_ABI)
-        message(STATUS "Gcc 5.1 or later detected, which introduced new C++ ABI. ECW support disabled, because ECW library use old style ABI.")
-        set(GDAL_ENABLE_FRMT_ECW OFF CACHE BOOL "" FORCE)
-    else ()
-        gdal_format(ecw "ERDAS JPEG2000 (.jp2)")
-    endif ()
+  if (GNUCXX_NEW_ABI)
+    message(
+      STATUS
+        "Gcc 5.1 or later detected, which introduced new C++ ABI. ECW support disabled, because ECW library use old style ABI."
+      )
+    set(GDAL_ENABLE_FRMT_ECW
+        OFF
+        CACHE BOOL "" FORCE)
+  else ()
+    gdal_format(ecw "ERDAS JPEG2000 (.jp2)")
+  endif ()
 endif ()
 
-###############################################################
 # Register all frmt drivers according to FRMT_<driver> flags
 gdal_standard_includes(gdal_frmts)
 if (ENABLE_GNM)
-    target_compile_definitions(gdal_frmts PRIVATE -DGNM_ENABLED)
+  target_compile_definitions(gdal_frmts PRIVATE -DGNM_ENABLED)
 endif ()
-target_include_directories(gdal_frmts PRIVATE
-                           $<TARGET_PROPERTY:gnm_frmts,SOURCE_DIR>
-                           $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
-                           $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>
-                           $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>)
+target_include_directories(
+  gdal_frmts PRIVATE $<TARGET_PROPERTY:gnm_frmts,SOURCE_DIR> $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
+                     $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR> $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>)
 target_sources(gdal PRIVATE $<TARGET_OBJECTS:gdal_frmts>)
 set_property(TARGET gdal_frmts PROPERTY POSITION_INDEPENDENT_CODE ON)
-#---------------------------------------------

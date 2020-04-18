@@ -1,29 +1,4 @@
-# ******************************************************************************
-# * Project:  CMake4GDAL
-# * Purpose:  CMake build scripts
-# * Author: Dmitriy Baryshnikov (aka Bishop), polimax@mail.ru, Hiroshi Miura
-# ******************************************************************************
-# * Copyright (C) 2017,2018 Hiroshi Miura
-# *
-# * Permission is hereby granted, free of charge, to any person obtaining a
-# * copy of this software and associated documentation files (the "Software"),
-# * to deal in the Software without restriction, including without limitation
-# * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# * and/or sell copies of the Software, and to permit persons to whom the
-# * Software is furnished to do so, subject to the following conditions:
-# *
-# * The above copyright notice and this permission notice shall be included
-# * in all copies or substantial portions of the Software.
-# *
-# * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-# * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-# * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# * DEALINGS IN THE SOFTWARE.
-# ******************************************************************************
-
+# CMake4GDAL project is distributed under X/MIT license. See accompanying file LICENSE.txt.
 cmake_minimum_required(VERSION 3.10)
 cmake_policy(SET CMP0023 NEW)
 cmake_policy(SET CMP0025 NEW)
@@ -78,31 +53,35 @@ project(gdal LANGUAGES C CXX)
 # setup cmake modules paths
 include(cmake4gdal/modules/init.cmake)
 
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
+set(CMAKE_CONFIGURATION_TYPES
+    "Debug;Release"
+    CACHE STRING "Configs" FORCE)
 
 # template files path
 set(GDAL_CMAKE_TEMPLATE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake4gdal/template)
 
-################################################################
 # Custom global properties
-define_property(GLOBAL PROPERTY GDAL_FORMATS
-                BRIEF_DOCS "Builtin format"
-                FULL_DOCS "Builtin format"
-                )
-define_property(GLOBAL PROPERTY OGR_FORMATS
-                BRIEF_DOCS "Builtin ogr drivers"
-                FULL_DOCS "Builtin ogr drivers"
-                )
-define_property(GLOBAL PROPERTY PLUGIN_MODULES
-                BRIEF_DOCS "Plugin modules"
-                FULL_DOCS "Plugin modules"
-                )
-define_property(TARGET PROPERTY PLUGIN_OUTPUT_DIR
-                BRIEF_DOCS "Plugin modules build directories"
-                FULL_DOCS "Plugin modules build directories"
-                )
+define_property(
+  GLOBAL
+  PROPERTY GDAL_FORMATS
+  BRIEF_DOCS "Builtin format"
+  FULL_DOCS "Builtin format")
+define_property(
+  GLOBAL
+  PROPERTY OGR_FORMATS
+  BRIEF_DOCS "Builtin ogr drivers"
+  FULL_DOCS "Builtin ogr drivers")
+define_property(
+  GLOBAL
+  PROPERTY PLUGIN_MODULES
+  BRIEF_DOCS "Plugin modules"
+  FULL_DOCS "Plugin modules")
+define_property(
+  TARGET
+  PROPERTY PLUGIN_OUTPUT_DIR
+  BRIEF_DOCS "Plugin modules build directories"
+  FULL_DOCS "Plugin modules build directories")
 
-################################################################
 # check compiler and set preferences.
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -149,10 +128,13 @@ if ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "(x86|AMD64)")
   set(HAVE_AVX_AT_COMPILE_TIME ${res})
 endif ()
 
-################################################################
 option(CLANG_TIDY_ENABLED "Run clang-tidy with the compiler." OFF)
-set(CLANG_TIDY_CHECKS "-*,clang-analyzer-alpha.unix.cstring.*" CACHE STRING "clang-tidy checks")
-set(CLANG_TIDY_WARNINGS_AS_ERRORS "clang-analyzer-alpha.unix.cstring.*" CACHE STRING "clang-tidy warnings as errors.")
+set(CLANG_TIDY_CHECKS
+    "-*,clang-analyzer-alpha.unix.cstring.*"
+    CACHE STRING "clang-tidy checks")
+set(CLANG_TIDY_WARNINGS_AS_ERRORS
+    "clang-analyzer-alpha.unix.cstring.*"
+    CACHE STRING "clang-tidy warnings as errors.")
 if (RUN_CLANG_TIDY)
   if (CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
     message(FATAL_ERROR "RUN_CLANG_TIDY requires an out-of-source build!")
@@ -160,37 +142,39 @@ if (RUN_CLANG_TIDY)
   find_program(CLANG_TIDY_COMMAND NAMES clang-tidy)
   if (NOT CLANG_TIDY_COMMAND)
     message(WARNING "RUN_CLANG_TIDY is ON but clang-tidy is not found!")
-    set(CMAKE_CXX_CLANG_TIDY "" CACHE STRING "" FORCE)
+    set(CMAKE_CXX_CLANG_TIDY)
   else ()
-    set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND};-checks='${CLANG_TIDY_CHECKS}';-header-filter='${CMAKE_SOURCE_DIR}/gdal/*';-warnings-as-errors='${CLANG_TIDY_WARNINGS_AS_ERRORS}'")
+    set(CMAKE_CXX_CLANG_TIDY
+        "${CLANG_TIDY_COMMAND}" "-checks='${CLANG_TIDY_CHECKS}'" "-header-filter='${CMAKE_SOURCE_DIR}/gdal/*'"
+        "-warnings-as-errors='${CLANG_TIDY_WARNINGS_AS_ERRORS}'")
   endif ()
 endif ()
 
-################################################################
-# Developer may want to specify some variable to find proper version
-#  Priority is as same order as follows:
-# 1. `Python_LOOKUP_VERSION`: specify minimum version to find.
-# 2. 'Python_FIND_VIRTUALENV': specify 'ONLY' to use virtualenv activated.
-# 3. `Python_ROOT`: specify installed location
-# 4. If nothing specified, use default behavior.
+# Developer may want to specify some variable to find proper version.
+# ~~~
+# Priority is as same order as follows:
+#   1. `Python_LOOKUP_VERSION`: specify minimum version to find.
+#   2. 'Python_FIND_VIRTUALENV': specify 'ONLY' to use virtualenv activated.
+#   3. `Python_ROOT`: specify installed location.
+#   4. If nothing specified, use default behavior.
 #
 # for example
 #   $ cmake -DPython_LOOKUP_VERSION=3.6 ..
 #   $ cmake -DPython_FIND_VIRTUALENV=ONLY ..
 #   $ cmake -DPython_ROOT=C:\Python36 ..
-#
+# ~~~
+
 if (Python_LOOKUP_VERSION)
-    set(Python_FIND_STRATEGY VERSION)
-    find_package(Python ${Python_LOOKUP_VERSION} COMPONENTS Interpreter Development NumPy)
+  set(Python_FIND_STRATEGY VERSION)
+  find_package(Python ${Python_LOOKUP_VERSION} COMPONENTS Interpreter Development NumPy)
 else ()
-    set(Python_FIND_STRATEGY LOCATION)
-    find_package(Python COMPONENTS Interpreter Development NumPy)
+  set(Python_FIND_STRATEGY LOCATION)
+  find_package(Python COMPONENTS Interpreter Development NumPy)
 endif ()
 
 include(FeatureSummary)
 set_package_properties(Python PROPERTIES PURPOSE "SWIG_PYTHON: Python binding")
 
-################################################################
 add_subdirectory(gdal)
 
 # unit tests

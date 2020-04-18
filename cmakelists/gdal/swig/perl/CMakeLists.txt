@@ -1,67 +1,39 @@
-# ******************************************************************************
-# * Project:  CMake4GDAL
-# * Purpose:  CMake build scripts
-# *	Author:	Hiroshi Miura <miurahr@linux.com>
-# ******************************************************************************
-# * Copyright (C) 2017,2018 Hiroshi Miura
-# *
-# * Permission is hereby granted, free of charge, to any person obtaining a
-# * copy of this software and associated documentation files (the "Software"),
-# * to deal in the Software without restriction, including without limitation
-# * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# * and/or sell copies of the Software, and to permit persons to whom the
-# * Software is furnished to do so, subject to the following conditions:
-# *
-# * The above copyright notice and this permission notice shall be included
-# * in all copies or substantial portions of the Software.
-# *
-# * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-# * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-# * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# * DEALINGS IN THE SOFTWARE.
-# ******************************************************************************
+# CMake4GDAL project is distributed under X/MIT license. See accompanying file LICENSE.txt.
 
 find_package(Perl)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/GDAL)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL)
 include(GdalSwigBindings)
 gdal_swig_bindings(
-		BINDING perl
-		ARGS
-            -DPERL_CPAN_NAMESPACE -outdir ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo
-        OUTPUT
-            ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/GDAL.pm
-            ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/Const.pm
-            ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/OGR.pm
-            ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/OSR.pm
-)
-#------------------------------------------------------------
-# HACK to compile interface source
-# add_library() effects
-#    all perl wrapper c++ sources to compile into ${GDAL_PERL_WRAP_OBJ_DIR}/*.o
-# GDAL_PERL_WRAP_OBJ_DIR=CMakeFiles/swig_perl_wrap.dir/extensions
-# Generating custom Makefile.PL using above information
+  BINDING
+  perl
+  ARGS
+  -DPERL_CPAN_NAMESPACE
+  -outdir
+  ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo
+  OUTPUT
+  ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/GDAL.pm
+  ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/Const.pm
+  ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/OGR.pm
+  ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/OSR.pm)
+# ------------------------------------------------------------
+# HACK to compile interface source add_library() effects all perl wrapper c++ sources to compile into
+# ${GDAL_PERL_WRAP_OBJ_DIR}/*.o GDAL_PERL_WRAP_OBJ_DIR=CMakeFiles/swig_perl_wrap.dir/extensions Generating custom
+# Makefile.PL using above information
 #
 find_package(PerlLibs)
 if (ENABLE_GNM)
-	add_library(swig_perl_wrap OBJECT
-							${CMAKE_CURRENT_BINARY_DIR}/extensions/gdal_wrap.cpp
-							${CMAKE_CURRENT_BINARY_DIR}/extensions/gdalconst_wrap.c
-							${CMAKE_CURRENT_BINARY_DIR}/extensions/gnm_wrap.cpp
-							${CMAKE_CURRENT_BINARY_DIR}/extensions/ogr_wrap.cpp
-							${CMAKE_CURRENT_BINARY_DIR}/extensions/osr_wrap.cpp
-							)
-	target_include_directories(swig_perl_wrap PRIVATE $<TARGET_PROPERTY:gnm,SOURCE_DIR>)
+  add_library(
+    swig_perl_wrap OBJECT
+    ${CMAKE_CURRENT_BINARY_DIR}/extensions/gdal_wrap.cpp ${CMAKE_CURRENT_BINARY_DIR}/extensions/gdalconst_wrap.c
+    ${CMAKE_CURRENT_BINARY_DIR}/extensions/gnm_wrap.cpp ${CMAKE_CURRENT_BINARY_DIR}/extensions/ogr_wrap.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/extensions/osr_wrap.cpp)
+  target_include_directories(swig_perl_wrap PRIVATE $<TARGET_PROPERTY:gnm,SOURCE_DIR>)
 else ()
-	add_library(swig_perl_wrap OBJECT
-							${CMAKE_CURRENT_BINARY_DIR}/extensions/gdal_wrap.cpp
-							${CMAKE_CURRENT_BINARY_DIR}/extensions/gdalconst_wrap.c
-							${CMAKE_CURRENT_BINARY_DIR}/extensions/ogr_wrap.cpp
-							${CMAKE_CURRENT_BINARY_DIR}/extensions/osr_wrap.cpp
-							)
+  add_library(
+    swig_perl_wrap OBJECT
+    ${CMAKE_CURRENT_BINARY_DIR}/extensions/gdal_wrap.cpp ${CMAKE_CURRENT_BINARY_DIR}/extensions/gdalconst_wrap.c
+    ${CMAKE_CURRENT_BINARY_DIR}/extensions/ogr_wrap.cpp ${CMAKE_CURRENT_BINARY_DIR}/extensions/osr_wrap.cpp)
 endif ()
 
 target_include_directories(swig_perl_wrap PRIVATE ${PERL_INCLUDE_PATH})
@@ -71,75 +43,71 @@ target_compile_definitions(swig_perl_wrap PRIVATE -D_LARGEFILE_SOURCE -D_LARGEFI
 # Generate Makefile.PL
 set(GDAL_PERL_WRAP_OBJ_DIR "CMakeFiles/swig_perl_wrap.dir/extensions")
 configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/Makefile.PL.in ${CMAKE_CURRENT_BINARY_DIR}/Makefile.PL @ONLY)
-#--------------------------------------------------------------
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/GDAL/Const.pm
-									 COMMAND ${CMAKE_COMMAND} -E copy
-									 ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/Const.pm
-									 ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/GDAL/)
+# --------------------------------------------------------------
 add_custom_command(
-				OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GDAL
-				${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GDAL__Const
-				${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GNM
-				${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__OSR
-				${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__OGR
-				COMMAND ${PERL_EXECUTABLE} Makefile.PL INSTALL_BASE=${CMAKE_INSTALL_PREFIX}
-				WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-				DEPENDS swig_perl_wrap ${CMAKE_CURRENT_BINARY_DIR}/Makefile.PL
-				${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/GDAL/Const.pm)
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/GDAL/Const.pm
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/Const.pm
+          ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/GDAL/)
 add_custom_command(
-				OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so
-				COMMAND make -f Makefile_Geo__GDAL
-				WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-				DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GDAL gdal)
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GDAL ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GDAL__Const
+         ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GNM ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__OSR
+         ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__OGR
+  COMMAND ${PERL_EXECUTABLE} Makefile.PL INSTALL_BASE=${CMAKE_INSTALL_PREFIX}
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDS swig_perl_wrap ${CMAKE_CURRENT_BINARY_DIR}/Makefile.PL ${CMAKE_CURRENT_BINARY_DIR}/lib/Geo/GDAL/Const.pm)
 add_custom_command(
-				OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL/GDAL_const.so
-				COMMAND make -f Makefile_Geo__GDAL__Const
-				WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-				DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GDAL__Const gdal
-				${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so
-)
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so
+  COMMAND make -f Makefile_Geo__GDAL
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GDAL gdal)
 add_custom_command(
-				OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_osr.so
-				COMMAND make -f Makefile_Geo__OSR
-				WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-				DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__OSR gdal
-				${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so
-)
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL/GDAL_const.so
+  COMMAND make -f Makefile_Geo__GDAL__Const
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GDAL__Const gdal ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so)
 add_custom_command(
-				OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_ogr.so
-				COMMAND make -f Makefile_Geo__OGR
-				WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-				DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__OGR gdal
-				${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so
-)
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_osr.so
+  COMMAND make -f Makefile_Geo__OSR
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__OSR gdal ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so)
 add_custom_command(
-				OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_gnm.so
-				COMMAND make -f Makefile_Geo__GNM
-				WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-				DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GNM gdal
-				${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so
-)
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_ogr.so
+  COMMAND make -f Makefile_Geo__OGR
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__OGR gdal ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so)
+add_custom_command(
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_gnm.so
+  COMMAND make -f Makefile_Geo__GNM
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Makefile_Geo__GNM gdal ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so)
 if (ENABLE_GNM)
-	add_custom_target(perl_binding ALL
-										DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so
-										${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL/GDAL_const.so
-										${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_osr.so
-										${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_ogr.so
-										${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_gnm.so)
+  add_custom_target(
+    perl_binding ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so
+            ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL/GDAL_const.so
+            ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_osr.so
+            ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_ogr.so
+            ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_gnm.so)
 else ()
-	add_custom_target(perl_binding ALL
-										DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so
-										${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL/GDAL_const.so
-										${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_osr.so
-										${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_ogr.so)
+  add_custom_target(
+    perl_binding ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL.so
+            ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL/GDAL_const.so
+            ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_osr.so ${CMAKE_CURRENT_BINARY_DIR}/blib/arch/Geo/GDAL_ogr.so)
 endif ()
-#------------------------------------------------------------
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake "execute_process(COMMAND make -f Makefile_Geo__GDAL install WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})\n")
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake "execute_process(COMMAND make -f Makefile_Geo__GDAL__Const install WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})\n")
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake "execute_process(COMMAND make -f Makefile_Geo__OSR install  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})\n")
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake "execute_process(COMMAND make -f Makefile_Geo__OGR install  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})\n")
+# ------------------------------------------------------------
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake
+     "execute_process(COMMAND make -f Makefile_Geo__GDAL install WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})\n")
+file(
+  APPEND ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake
+  "execute_process(COMMAND make -f Makefile_Geo__GDAL__Const install WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})\n")
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake
+     "execute_process(COMMAND make -f Makefile_Geo__OSR install  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})\n")
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake
+     "execute_process(COMMAND make -f Makefile_Geo__OGR install  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})\n")
 if (ENABLE_GNM)
-	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake "execute_process(COMMAND make -f Makefile_Geo__GNM install  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})\n")
+  file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake
+       "execute_process(COMMAND make -f Makefile_Geo__GNM install  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})\n")
 endif ()
 install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/cmake_perl_install.cmake COMPONENT runtime)
 
