@@ -7,7 +7,6 @@ add_gdal_driver(
   ogrsvgdriver.cpp
   ogrsvglayer.cpp)
 gdal_standard_includes(ogr_SVG)
-
 if (HAVE_EXPAT)
   target_include_directories(ogr_SVG PRIVATE ${EXPAT_INCLUDE_DIRS})
   target_compile_definitions(ogr_SVG PRIVATE -DHAVE_EXPAT=1)

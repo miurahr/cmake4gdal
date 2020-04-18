@@ -9,16 +9,13 @@ add_gdal_driver(
   DEF
   FRMT_georaster)
 gdal_standard_includes(gdal_GEOR)
-
 if (GDAL_USE_LIBZ_INTERNAL)
   target_include_directories(gdal_GEOR PRIVATE $<TARGET_PROPERTY:libz,SOURCE_DIR>)
 endif ()
-
 if (HAVE_OCI)
   target_include_directories(gdal_GEOR PRIVATE ${OCI_INCLUDE_DIR})
   gdal_target_link_libraries(gdal_GEOR PRIVATE ${OCI_LIBRARY})
 endif ()
-
 if (GDAL_USE_LIBJPEG_INTERNAL)
   target_include_directories(gdal_GEOR PRIVATE $<TARGET_PROPERTY:libjpeg,SOURCE_DIR>)
   target_compile_definitions(gdal_GEOR PRIVATE -DJPEG_SUPPORTED)

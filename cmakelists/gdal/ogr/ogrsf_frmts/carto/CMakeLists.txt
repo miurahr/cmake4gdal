@@ -11,7 +11,6 @@ add_gdal_driver(
 gdal_standard_includes(ogr_Carto)
 target_include_directories(ogr_Carto PRIVATE $<TARGET_PROPERTY:ogr_PGDump,SOURCE_DIR>
                                              $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>)
-
 if (GDAL_USE_LIBJSONC_INTERNAL)
   target_include_directories(ogr_Carto PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)
 else ()

@@ -20,7 +20,6 @@ add_gdal_driver(
 gdal_standard_includes(gdal_PDF)
 target_include_directories(gdal_PDF PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR> $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>
                                             $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>)
-
 if (HAVE_POPPLER
     OR HAVE_PODOFO
     OR HAVE_PDFIUM)

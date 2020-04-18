@@ -3,9 +3,6 @@ add_gdal_driver(
   TARGET
   ogr_OSM
   SOURCES
-  gpb.h
-  ogr_osm.h
-  osm_parser.h
   ogrosmdatasource.cpp
   ogrosmdriver.cpp
   ogrosmlayer.cpp
@@ -23,7 +20,6 @@ if (HAVE_SQLITE3)
   target_include_directories(ogr_OSM PRIVATE ${SQLITE3_INCLUDE_DIR})
   gdal_target_link_libraries(TARGET ogr_OSM LIBRARIES SQLITE3::SQLITE3)
 endif ()
-
 add_executable(osm2osm EXCLUDE_FROM_ALL osm2osm.cpp)
 gdal_standard_includes(osm2osm)
 target_link_libraries(osm2osm PRIVATE $<TARGET_NAME:gdal>)

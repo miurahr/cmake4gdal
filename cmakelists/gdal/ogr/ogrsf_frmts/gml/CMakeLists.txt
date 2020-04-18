@@ -26,19 +26,16 @@ add_gdal_driver(
   parsexsd.h
   BUILTIN)
 gdal_standard_includes(ogr_GML)
-
 if (HAVE_EXPAT)
   target_include_directories(ogr_GML PRIVATE ${EXPAT_INCLUDE_DIRS})
   target_compile_definitions(ogr_GML PRIVATE -DHAVE_EXPAT)
   gdal_target_link_libraries(TARGET ogr_GML LIBRARIES EXPAT::EXPAT)
 endif ()
-
 if (HAVE_XERCESC)
   target_include_directories(ogr_GML PRIVATE ${XercesC_INCLUDE_DIRS} ${XercesC_INCLUDE_DIRS}/xercesc)
   target_compile_definitions(ogr_GML PRIVATE -DHAVE_XERCES)
   gdal_target_link_libraries(TARGET ogr_GML LIBRARIES XercesC::XercesC)
 endif ()
-
 if (HAVE_SQLITE3)
   target_include_directories(ogr_GML PRIVATE ${SQLITE3_INCLUDE_DIRS})
   target_compile_definitions(ogr_GML PRIVATE -DHAVE_SQLITE)

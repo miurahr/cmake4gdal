@@ -1,6 +1,5 @@
 option(OGR_ENABLE_INGRESS_PLUGIN "Enable plugin for ogr_INGRESS driver" ON)
-set(_SOURCES
-    ogr_ingres.h
+set(SOURCE
     ogringresdatasource.cpp
     ogringresdriver.cpp
     ogringreslayer.cpp
@@ -9,9 +8,9 @@ set(_SOURCES
     ogringresstatement.cpp
     ogringrestablelayer.cpp)
 if (OGR_ENABLE_INGRESS_PLUGIN)
-  add_gdal_driver(TARGET ogr_INGRESS SOURCE ${_SOURCES} PLUGIN)
+  add_gdal_driver(TARGET ogr_INGRESS SOURCE ${SOURCE} PLUGIN)
 else ()
-  add_gdal_driver(TARGET ogr_INGRESS SOURCE ${_SOURCES})
+  add_gdal_driver(TARGET ogr_INGRESS SOURCE ${SOURCE})
 endif ()
 gdal_standard_includes(ogr_INGRESS)
 target_include_directories(ogr_INGRESS PRIVATE ${INGRESS_INCLUDE_DIR})

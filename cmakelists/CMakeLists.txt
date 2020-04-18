@@ -1,5 +1,4 @@
 # CMake4GDAL project is distributed under X/MIT license. See accompanying file LICENSE.txt.
-
 cmake_minimum_required(VERSION 3.10)
 cmake_policy(SET CMP0023 NEW)
 cmake_policy(SET CMP0025 NEW)
@@ -148,7 +147,10 @@ if (RUN_CLANG_TIDY)
         CACHE STRING "" FORCE)
   else ()
     set(CMAKE_CXX_CLANG_TIDY
-        "${CLANG_TIDY_COMMAND};-checks='${CLANG_TIDY_CHECKS}';-header-filter='${CMAKE_SOURCE_DIR}/gdal/*';-warnings-as-errors='${CLANG_TIDY_WARNINGS_AS_ERRORS}'"
+        "${CLANG_TIDY_COMMAND}"
+        "-checks='${CLANG_TIDY_CHECKS}'"
+        "-header-filter='${CMAKE_SOURCE_DIR}/gdal/*'"
+        "-warnings-as-errors='${CLANG_TIDY_WARNINGS_AS_ERRORS}'"
       )
   endif ()
 endif ()

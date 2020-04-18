@@ -17,7 +17,6 @@ if (USE_CPL)
     PRIVAT
     -DUSE_CPL)
 endif ()
-
 target_include_directories(ogr_GRASS PRIVATE ${GRASS_INCLUDE_DIR${GRASS_VERSION}} ${PostgreSQL_INCLUDE_DIRS})
 gdal_target_link_libraries(
   TARGET
