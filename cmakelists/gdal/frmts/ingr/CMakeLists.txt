@@ -1,15 +1,13 @@
 add_gdal_driver(
-  TARGET
-  gdal_INGR
-  SOURCES
-  IngrTypes.cpp
-  IngrTypes.h
-  IntergraphBand.cpp
-  IntergraphBand.h
-  IntergraphDataset.cpp
-  IntergraphDataset.h
-  JpegHelper.cpp
-  JpegHelper.h)
+  TARGET gdal_INGR
+  SOURCES IngrTypes.cpp
+          IngrTypes.h
+          IntergraphBand.cpp
+          IntergraphBand.h
+          IntergraphDataset.cpp
+          IntergraphDataset.h
+          JpegHelper.cpp
+          JpegHelper.h)
 gdal_standard_includes(gdal_INGR)
 target_include_directories(gdal_INGR PRIVATE $<TARGET_PROPERTY:gdal_GTIFF,SOURCE_DIR>)
 

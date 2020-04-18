@@ -24,7 +24,7 @@
 
 include(GdalDriverHelper)
 
-# ###########################################################################################################################
+# ######################################################################################################################
 # register all drivers
 add_library(ogrsf_frmts OBJECT generic/ogrregisterall.cpp)
 gdal_standard_includes(ogrsf_frmts)
@@ -38,13 +38,13 @@ ogr_default_driver(mem "Read/write driver for MEMORY virtual files")
 ogr_default_driver(geojson "GeoJSON/ESRIJSON/TopoJSON driver")
 ogr_default_driver2(mitab TAB "MapInfo TAB and MIF/MID")
 
-# ###########################################################################################################################
+# ######################################################################################################################
 ogr_default_driver(kml KML) # when not found EXPAT, it use CPL_MINIXML (ex. android)
 ogr_default_driver(vrt "VRT - Virtual Format")
 ogr_default_driver(sdts SDTS) # depends ISO8211
 ogr_default_driver(gml GML) # when not found both EXPAT/XercesC, return error in driver, referenced by WCS
 
-# ###########################################################################################################################
+# ######################################################################################################################
 ogr_optional_driver(segukooa SEGUKOOA)
 ogr_optional_driver(segy SEG)
 ogr_optional_driver(aeronavfaa AERONAVFAA)
@@ -79,7 +79,7 @@ ogr_optional_driver(jml JML)
 ogr_optional_driver(vdv "VDV-451/VDV-452/INTREST Data Format")
 ogr_optional_driver(flatgeobuf FlatGeobuf)
 
-# ###########################################################################################################################
+# ######################################################################################################################
 #
 # XML drivers
 ogr_dependent_driver(gpx "GPX - GPS Exchange Format" "HAVE_EXPAT")
@@ -142,7 +142,7 @@ ogr_dependent_driver(xls "Microsoft Office Excel(xls)" "HAVE_FREEXL")
 ogr_optional_driver(mongodb "MongoDB")
 ogr_optional_driver(cad "OpenCAD")
 
-# ###########################################################################################################################
+# ######################################################################################################################
 # proprietary libraries
 ogr_dependent_driver(fme "FME" "HAVE_FME")
 ogr_dependent_driver(oci "Oracle OCI" "HAVE_ORACLE")

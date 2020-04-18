@@ -14,7 +14,10 @@ set(SOURCE
     ogrocitablelayer.cpp
     ogrociwritablelayer.cpp)
 if (OGR_ENABLE_OCI_PLUGIN)
-  add_gdal_driver(TARGET ogr_OCI SOURCES ${SOURCE} PLUGIN)
+  add_gdal_driver(
+    TARGET ogr_OCI
+    SOURCES ${SOURCE}
+    PLUGIN)
 else ()
   add_gdal_driver(TARGET ogr_OCI SOURCES ${SOURCE})
 endif ()

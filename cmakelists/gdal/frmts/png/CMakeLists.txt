@@ -1,4 +1,7 @@
-add_gdal_driver(TARGET gdal_PNG SOURCES pngdataset.cpp pngdataset.h BUILTIN)
+add_gdal_driver(
+  TARGET gdal_PNG
+  SOURCES pngdataset.cpp pngdataset.h
+  BUILTIN)
 gdal_standard_includes(gdal_PNG)
 
 if (GDAL_USE_LIBPNG_INTERNAL)

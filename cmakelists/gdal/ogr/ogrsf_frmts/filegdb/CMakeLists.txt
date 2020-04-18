@@ -1,7 +1,10 @@
 option(OGR_ENABLE_FILEGDB_PLUGIN "Enable to build FileGDB driver as plugin" ON)
 set(_SOURCES FGdbUtils.h FGdbDatasource.cpp FGdbDriver.cpp FGdbLayer.cpp FGdbResultLayer.cpp FGdbUtils.cpp)
 if (OGR_ENABLE_FILEGDB_PLUGIN)
-  add_gdal_driver(TARGET ogr_FileGDB SOURCES ${_SOURCES} PLUGIN)
+  add_gdal_driver(
+    TARGET ogr_FileGDB
+    SOURCES ${_SOURCES}
+    PLUGIN)
 else ()
   add_gdal_driver(TARGET ogr_FileGDB SOURCES ${_SOURCES})
 endif ()

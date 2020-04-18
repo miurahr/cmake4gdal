@@ -69,7 +69,8 @@ if (Python_FOUND)
   target_include_directories(pytest_runner PRIVATE ${Python_INCLUDE_DIRS})
   add_custom_target(
     autotest_runner
-    COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} $<TARGET_NAME:pytest_runner> -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
+    COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} $<TARGET_NAME:pytest_runner> -c
+            ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
     DEPENDS gdal gdalapps python_binding
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/autotest)
 endif ()

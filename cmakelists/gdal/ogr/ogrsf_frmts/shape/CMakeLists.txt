@@ -1,13 +1,7 @@
 # depends from frmts/aigrid, avc
 add_gdal_driver(
-  TARGET
-  ogr_Shape
-  SOURCES
-  shape2ogr.cpp
-  shp_vsi.c
-  ogrshapedatasource.cpp
-  ogrshapedriver.cpp
-  ogrshapelayer.cpp
+  TARGET ogr_Shape
+  SOURCES shape2ogr.cpp shp_vsi.c ogrshapedatasource.cpp ogrshapedriver.cpp ogrshapelayer.cpp
   BUILTIN)
 gdal_standard_includes(ogr_Shape)
 target_include_directories(ogr_Shape PRIVATE $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>)

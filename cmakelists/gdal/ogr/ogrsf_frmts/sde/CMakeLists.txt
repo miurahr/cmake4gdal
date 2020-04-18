@@ -1,7 +1,10 @@
 option(OGR_ENABLE_SDE_PLUGIN "ON to enable SDE driver build as plugin" ON)
 set(_SOURCES ogr_sde.h ogrsdedatasource.cpp ogrsdedriver.cpp ogrsdelayer.cpp)
 if (OGR_ENABLE_SDE_PLUGIN)
-  add_gdal_driver(TARGET ogr_SDE SOURCES ${_SOURCES} PLUGIN)
+  add_gdal_driver(
+    TARGET ogr_SDE
+    SOURCES ${_SOURCES}
+    PLUGIN)
 else ()
   add_gdal_driver(TARGET ogr_SDE SOURCES ${_SOURCES})
 endif ()

@@ -1,14 +1,12 @@
 add_gdal_driver(
-  TARGET
-  ogr_SOSI
-  SOURCES
-  ogr_sosi.h
-  ogrsosidatatypes.h
-  fyba_melding.cpp
-  ogrsosidatasource.cpp
-  ogrsosidatatypes.cpp
-  ogrsosidriver.cpp
-  ogrsosilayer.cpp)
+  TARGET ogr_SOSI
+  SOURCES ogr_sosi.h
+          ogrsosidatatypes.h
+          fyba_melding.cpp
+          ogrsosidatasource.cpp
+          ogrsosidatatypes.cpp
+          ogrsosidriver.cpp
+          ogrsosilayer.cpp)
 target_include_directories(ogr_SOSI $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>)
 gdal_target_link_libraries(TARGET ogr_SOSI LIBRARIES SOSI::SOSI SOSI::FYGM SOSI::FYUT)
 

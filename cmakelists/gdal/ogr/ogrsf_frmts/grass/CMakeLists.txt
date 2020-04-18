@@ -1,13 +1,6 @@
 # FIXME currently only version 7 is suppoted
 set(GRASS_VERSION 7)
-add_gdal_driver(
-  TARGET
-  ogr_GRASS
-  SOURCES
-  ogrgrass.h
-  ogrgrassdatasource.cpp
-  ogrgrassdriver.cpp
-  ogrgrasslayer.cpp)
+add_gdal_driver(TARGET ogr_GRASS SOURCES ogrgrass.h ogrgrassdatasource.cpp ogrgrassdriver.cpp ogrgrasslayer.cpp)
 gdal_standard_includes(ogr_GRASS)
 target_compile_definitions(ogr_GRASS PRIVATE -DGRASS_GISBASE="${GRASS_PREFIX${GRASS_VERSION}}"
                                              -DGRASS_VERSION_MAJOR=${GRASS_VERSION})

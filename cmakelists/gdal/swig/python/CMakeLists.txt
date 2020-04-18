@@ -78,9 +78,9 @@ else ()
       python_mod
       COMMAND ${CMAKE_COMMAND} -E make_directory ${OSGEO_BINARY_DIR}
       COMMAND
-        ${CMAKE_COMMAND} -E copy ${OSGEO_SOURCE_DIR}__init__.py ${OSGEO_SOURCE_DIR}gdal.py ${OSGEO_SOURCE_DIR}gdalconst.py
-        ${OSGEO_SOURCE_DIR}gdalnumeric.py ${OSGEO_SOURCE_DIR}ogr.py ${OSGEO_SOURCE_DIR}osr.py ${OSGEO_SOURCE_DIR}gnm.py
-        ${OSGEO_SOURCE_DIR}gdal_array.py ${OSGEO_BINARY_DIR}
+        ${CMAKE_COMMAND} -E copy ${OSGEO_SOURCE_DIR}__init__.py ${OSGEO_SOURCE_DIR}gdal.py
+        ${OSGEO_SOURCE_DIR}gdalconst.py ${OSGEO_SOURCE_DIR}gdalnumeric.py ${OSGEO_SOURCE_DIR}ogr.py
+        ${OSGEO_SOURCE_DIR}osr.py ${OSGEO_SOURCE_DIR}gnm.py ${OSGEO_SOURCE_DIR}gdal_array.py ${OSGEO_BINARY_DIR}
       BYPRODUCTS ${GDAL_PYTHON_PYSOURCES}
       COMMENT "Install python2 binding modules to ${OSGEO_BINARY_DIR}")
   endif ()
@@ -106,8 +106,8 @@ if (Python_FOUND)
     python_ext
     COMMAND ${Python_EXECUTABLE} setup.py build_ext --inplace
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    BYPRODUCTS osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT} osgeo._gnm${PY_EXT_EXT}
-               osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT}
+    BYPRODUCTS osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
+               osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT}
     SOURCES ${GDAL_PYTHON_PYSOURCDES} ${GDAL_PYTHON_CSOURCES}
     COMMENT "Build python binding modules with setuptools.")
   add_custom_target(
@@ -134,7 +134,8 @@ elseif (Python_INCLUDE_DIRS AND Python_LIBRARIES)
     set_target_properties(${name}${v} PROPERTIES LIBRARY_OUTPUT_NAME ${name} LIBRARY_OUTPUT_DIRECTORY
                                                                              ${CMAKE_CURRENT_BINARY_DIR}/osgeo)
     gdal_standard_includes(${name}${v})
-    target_include_directories(${name}${v} PRIVATE $<TARGET_PROPERTY:appslib,SOURCE_DIR> $<TARGET_PROPERTY:gnm,SOURCE_DIR>)
+    target_include_directories(${name}${v} PRIVATE $<TARGET_PROPERTY:appslib,SOURCE_DIR>
+                                                   $<TARGET_PROPERTY:gnm,SOURCE_DIR>)
     if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
       target_compile_definitions(${name}${v} PRIVATE -D__MSVCRT_VERSION__=0x0601)
     endif ()
@@ -213,8 +214,8 @@ add_custom_command(
   OUTPUT ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_geometry_docs.i
   COMMAND
     ${Python_EXECUTABLE} ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/doxy2swig.py
-    ${CMAKE_SOURCE_DIR}/gdal/xml/ogrgeometry_8cpp.xml ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_geometry_docs.i
-    OGRGeometryShadow OGR_G_
+    ${CMAKE_SOURCE_DIR}/gdal/xml/ogrgeometry_8cpp.xml
+    ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_geometry_docs.i OGRGeometryShadow OGR_G_
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   DEPENDS ${CMAKE_SOURCE_DIR}/gdal/xml/ogrgeometry_8cpp.xml
   COMMENT "Generate ogr_geometory_docs.i by doxy2swig")
@@ -231,8 +232,8 @@ add_custom_command(
   OUTPUT ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_driver_docs.i
   COMMAND
     ${Python_EXECUTABLE} ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/doxy2swig.py
-    ${CMAKE_SOURCE_DIR}/gdal/xml/ogrsfdriver_8cpp.xml ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_driver_docs.i
-    OGRDriverShadow OGR_Dr_
+    ${CMAKE_SOURCE_DIR}/gdal/xml/ogrsfdriver_8cpp.xml
+    ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_driver_docs.i OGRDriverShadow OGR_Dr_
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   DEPENDS ${CMAKE_SOURCE_DIR}/gdal/xml/ogrsfdriver_8cpp.xml
   COMMENT "Generate ogr_driver_docs.i by doxy2swig")
@@ -240,8 +241,8 @@ add_custom_command(
   OUTPUT ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_feature_docs.i
   COMMAND
     ${Python_EXECUTABLE} ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/doxy2swig.py
-    ${CMAKE_SOURCE_DIR}/gdal/xml/ogrfeature_8cpp.xml ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_feature_docs.i
-    OGRFeatureShadow OGR_F_
+    ${CMAKE_SOURCE_DIR}/gdal/xml/ogrfeature_8cpp.xml
+    ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_feature_docs.i OGRFeatureShadow OGR_F_
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   DEPENDS ${CMAKE_SOURCE_DIR}/gdal/xml/ogrfeature_8cpp.xml
   COMMENT "Generate ogr_feature_docs.i by doxy2swig")
@@ -258,8 +259,8 @@ add_custom_command(
   OUTPUT ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_fielddef_docs.i
   COMMAND
     ${Python_EXECUTABLE} ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/doxy2swig.py
-    ${CMAKE_SOURCE_DIR}/gdal/xml/ogrfielddefn_8cpp.xml ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_fielddef_docs.i
-    OGRFieldDefnShadow OGR_Fld_
+    ${CMAKE_SOURCE_DIR}/gdal/xml/ogrfielddefn_8cpp.xml
+    ${CMAKE_SOURCE_DIR}/gdal/swig/include/python/docs/ogr_fielddef_docs.i OGRFieldDefnShadow OGR_Fld_
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   DEPENDS ${CMAKE_SOURCE_DIR}/gdal/xml/ogrfielddefn_8cpp.xml
   COMMENT "Generate ogr_fielddef_docs.i by doxy2swig")

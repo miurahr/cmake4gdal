@@ -1,11 +1,4 @@
-add_gdal_driver(
-  TARGET
-  gdal_EEDA
-  SOURCES
-  eeda.h
-  eedaidataset.cpp
-  eedadataset.cpp
-  eedacommon.cpp)
+add_gdal_driver(TARGET gdal_EEDA SOURCES eeda.h eedaidataset.cpp eedadataset.cpp eedacommon.cpp)
 gdal_standard_includes(gdal_EEDA)
 target_include_directories(gdal_EEDA PRIVATE $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>)
 

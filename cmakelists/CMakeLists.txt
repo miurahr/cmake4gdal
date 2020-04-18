@@ -142,16 +142,11 @@ if (RUN_CLANG_TIDY)
   find_program(CLANG_TIDY_COMMAND NAMES clang-tidy)
   if (NOT CLANG_TIDY_COMMAND)
     message(WARNING "RUN_CLANG_TIDY is ON but clang-tidy is not found!")
-    set(CMAKE_CXX_CLANG_TIDY
-        ""
-        CACHE STRING "" FORCE)
+    set(CMAKE_CXX_CLANG_TIDY)
   else ()
     set(CMAKE_CXX_CLANG_TIDY
-        "${CLANG_TIDY_COMMAND}"
-        "-checks='${CLANG_TIDY_CHECKS}'"
-        "-header-filter='${CMAKE_SOURCE_DIR}/gdal/*'"
-        "-warnings-as-errors='${CLANG_TIDY_WARNINGS_AS_ERRORS}'"
-      )
+        "${CLANG_TIDY_COMMAND}" "-checks='${CLANG_TIDY_CHECKS}'" "-header-filter='${CMAKE_SOURCE_DIR}/gdal/*'"
+        "-warnings-as-errors='${CLANG_TIDY_WARNINGS_AS_ERRORS}'")
   endif ()
 endif ()
 

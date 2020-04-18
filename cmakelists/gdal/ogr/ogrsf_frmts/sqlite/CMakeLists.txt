@@ -1,29 +1,27 @@
 # depends from gpkg, osm
 add_gdal_driver(
-  TARGET
-  ogr_SQLite
+  TARGET ogr_SQLite
   BUILTIN
-  SOURCES
-  ogr_sqlite.h
-  ogrsqlite3ext.h
-  ogrsqliteexecutesql.h
-  ogrsqlitesqlfunctions.h
-  ogrsqlitevirtualogr.h
-  ogrsqliteutility.h
-  ogrsqlitedatasource.cpp
-  ogrsqlitedriver.cpp
-  ogrsqlitelayer.cpp
-  ogrsqliteselectlayer.cpp
-  ogrsqlitesinglefeaturelayer.cpp
-  ogrsqlitetablelayer.cpp
-  ogrsqlitevfs.cpp
-  ogrsqliteviewlayer.cpp
-  ogrsqliteexecutesql.cpp
-  ogrsqlitevirtualogr.cpp
-  ogrsqliteutility.cpp
-  ogrsqliteapiroutines.c
-  rasterlite2_header.h
-  rasterlite2.cpp)
+  SOURCES ogr_sqlite.h
+          ogrsqlite3ext.h
+          ogrsqliteexecutesql.h
+          ogrsqlitesqlfunctions.h
+          ogrsqlitevirtualogr.h
+          ogrsqliteutility.h
+          ogrsqlitedatasource.cpp
+          ogrsqlitedriver.cpp
+          ogrsqlitelayer.cpp
+          ogrsqliteselectlayer.cpp
+          ogrsqlitesinglefeaturelayer.cpp
+          ogrsqlitetablelayer.cpp
+          ogrsqlitevfs.cpp
+          ogrsqliteviewlayer.cpp
+          ogrsqliteexecutesql.cpp
+          ogrsqlitevirtualogr.cpp
+          ogrsqliteutility.cpp
+          ogrsqliteapiroutines.c
+          rasterlite2_header.h
+          rasterlite2.cpp)
 gdal_standard_includes(ogr_SQLite)
 
 target_compile_definitions(ogr_SQLite PRIVATE -DHAVE_SQLITE)

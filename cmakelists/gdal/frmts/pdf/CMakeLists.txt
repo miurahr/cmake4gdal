@@ -1,25 +1,24 @@
 add_gdal_driver(
-  TARGET
-  gdal_PDF
-  SOURCES
-  gdal_pdf.h
-  pdfcreatecopy.h
-  pdfio.h
-  pdfobject.h
-  pdfcreatecopy.h
-  pdfsdk_headers.h
-  ogrpdflayer.cpp
-  pdfcreatecopy.cpp
-  pdfdataset.cpp
-  pdfio.cpp
-  pdfobject.cpp
-  pdfreadvectors.cpp
-  ogrpdflayer.cpp
-  pdfwritabledataset.cpp
-  pdfcreatefromcomposition.cpp)
+  TARGET gdal_PDF
+  SOURCES gdal_pdf.h
+          pdfcreatecopy.h
+          pdfio.h
+          pdfobject.h
+          pdfcreatecopy.h
+          pdfsdk_headers.h
+          ogrpdflayer.cpp
+          pdfcreatecopy.cpp
+          pdfdataset.cpp
+          pdfio.cpp
+          pdfobject.cpp
+          pdfreadvectors.cpp
+          ogrpdflayer.cpp
+          pdfwritabledataset.cpp
+          pdfcreatefromcomposition.cpp)
 gdal_standard_includes(gdal_PDF)
-target_include_directories(gdal_PDF PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR> $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>
-                                            $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>)
+target_include_directories(
+  gdal_PDF PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR> $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>
+                   $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>)
 if (HAVE_POPPLER
     OR HAVE_PODOFO
     OR HAVE_PDFIUM)

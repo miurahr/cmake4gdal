@@ -52,10 +52,11 @@ function (gdal_csharp_dll)
     OUTPUT ${_CSHARP_TARGET}
     COMMAND ${CSHARP_COMPILER} ${CSC_OPTIONS} ${_CSHARP_CS_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/AssemblyInfo.cs
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS ${_CSHARP_WRAPPER} ${_CSHARP_DEPENDS} ${CMAKE_CURRENT_BINARY_DIR}/gdal.snk AssemblyInfo.cs ${_CSHARP_CS_SOURCES})
+    DEPENDS ${_CSHARP_WRAPPER} ${_CSHARP_DEPENDS} ${CMAKE_CURRENT_BINARY_DIR}/gdal.snk AssemblyInfo.cs
+            ${_CSHARP_CS_SOURCES})
 endfunction ()
 
-# ###########################################################################################################################
+# ######################################################################################################################
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/gdal.snk
                    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/gdal.snk ${CMAKE_CURRENT_BINARY_DIR})
 gdal_csharp_dll(
@@ -176,12 +177,13 @@ gdal_csharp_dll(
   const/GdalConstPINVOKE.cs
   WORKING_DIRECTORY
   ${CMAKE_CURRENT_BINARY_DIR}/const)
-# ###########################################################################################################################
+# ######################################################################################################################
 # sample commands
 #
 add_custom_command(
   OUTPUT ogrinfo.exe
-  COMMAND ${CSHARP_COMPILER} /r:ogr_csharp.dll /r:osr_csharp.dll /out:ogrinfo.exe ${CMAKE_CURRENT_SOURCE_DIR}/apps/ogrinfo.cs
+  COMMAND ${CSHARP_COMPILER} /r:ogr_csharp.dll /r:osr_csharp.dll /out:ogrinfo.exe
+          ${CMAKE_CURRENT_SOURCE_DIR}/apps/ogrinfo.cs
   DEPENDS ogr_csharp.dll osr_csharp.dll)
 add_custom_command(
   OUTPUT createdata.exe
@@ -223,7 +225,8 @@ add_custom_command(
   DEPENDS gdal_csharp.dll)
 add_custom_command(
   OUTPUT GDALColorTable.exe
-  COMMAND ${CSHARP_COMPILER} /r:gdal_csharp.dll /out:GDALColorTable.exe ${CMAKE_CURRENT_SOURCE_DIR}/apps/GDALColorTable.cs
+  COMMAND ${CSHARP_COMPILER} /r:gdal_csharp.dll /out:GDALColorTable.exe
+          ${CMAKE_CURRENT_SOURCE_DIR}/apps/GDALColorTable.cs
   DEPENDS gdal_csharp.dll)
 add_custom_command(
   OUTPUT WKT2WKB.exe
@@ -248,7 +251,8 @@ add_custom_command(
   DEPENDS gdal_csharp.dll)
 add_custom_command(
   OUTPUT GDALCreateCopy.exe
-  COMMAND ${CSHARP_COMPILER} /r:gdal_csharp.dll /out:GDALCreateCopy.exe ${CMAKE_CURRENT_SOURCE_DIR}/apps/GDALCreateCopy.cs
+  COMMAND ${CSHARP_COMPILER} /r:gdal_csharp.dll /out:GDALCreateCopy.exe
+          ${CMAKE_CURRENT_SOURCE_DIR}/apps/GDALCreateCopy.cs
   DEPENDS gdal_csharp.dll)
 add_custom_command(
   OUTPUT GDALGetHistogram.exe

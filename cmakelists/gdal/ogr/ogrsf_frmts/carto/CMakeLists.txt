@@ -1,13 +1,5 @@
-add_gdal_driver(
-  TARGET
-  ogr_Carto
-  SOURCES
-  ogr_carto.h
-  ogrcartodatasource.cpp
-  ogrcartodriver.cpp
-  ogrcartolayer.cpp
-  ogrcartoresultlayer.cpp
-  ogrcartotablelayer.cpp)
+add_gdal_driver(TARGET ogr_Carto SOURCES ogr_carto.h ogrcartodatasource.cpp ogrcartodriver.cpp ogrcartolayer.cpp
+                                         ogrcartoresultlayer.cpp ogrcartotablelayer.cpp)
 gdal_standard_includes(ogr_Carto)
 target_include_directories(ogr_Carto PRIVATE $<TARGET_PROPERTY:ogr_PGDump,SOURCE_DIR>
                                              $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>)

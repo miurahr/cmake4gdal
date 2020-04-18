@@ -1,22 +1,20 @@
 add_gdal_driver(
-  TARGET
-  gdal_MRF
-  SOURCES
-  BitMask2D.h
-  JPEG_band.cpp
-  PNG_band.cpp
-  LERC_band.cpp
-  marfa.h
-  marfa_dataset.cpp
-  mrf_band.cpp
-  mrf_overview.cpp
-  mrf_util.cpp
-  Packer.h
-  Packer_RLE.cpp
-  Packer_RLE.h
-  JPNG_band.cpp
-  Tif_band.cpp
-  Raw_band.cpp
+  TARGET gdal_MRF
+  SOURCES BitMask2D.h
+          JPEG_band.cpp
+          PNG_band.cpp
+          LERC_band.cpp
+          marfa.h
+          marfa_dataset.cpp
+          mrf_band.cpp
+          mrf_overview.cpp
+          mrf_util.cpp
+          Packer.h
+          Packer_RLE.cpp
+          Packer_RLE.h
+          JPNG_band.cpp
+          Tif_band.cpp
+          Raw_band.cpp
   BUILTIN)
 gdal_standard_includes(gdal_MRF)
 if (GDAL_JPEG12_SUPPORTED)

@@ -1,15 +1,13 @@
 add_gdal_driver(
-  TARGET
-  ogr_DODS
-  SOURCES
-  libdap_headers.h
-  ogr_dods.h
-  ogrdodsdatasource.cpp
-  ogrdodsdriver.cpp
-  ogrdodsfielddefn.cpp
-  ogrdodsgrid.cpp
-  ogrdodslayer.cpp
-  ogrdodssequencelayer.cpp)
+  TARGET ogr_DODS
+  SOURCES libdap_headers.h
+          ogr_dods.h
+          ogrdodsdatasource.cpp
+          ogrdodsdriver.cpp
+          ogrdodsfielddefn.cpp
+          ogrdodsgrid.cpp
+          ogrdodslayer.cpp
+          ogrdodssequencelayer.cpp)
 gdal_standard_includes(ogr_DODS)
 gdal_target_link_libraries(TARGET ogr_DODS LIBRARIES DAP::DAP DAP::CLIENT)
 gdal_target_link_libraries(TARGET ogr_DODS LIBRARIES LibXml2::LibXml2)

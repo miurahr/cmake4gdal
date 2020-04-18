@@ -8,11 +8,14 @@ set(_SOURCES
     netcdfsg.cpp
     netcdflayersg.cpp
     netcdfsgwriterutil.cpp
-    netcdfmultidim.cpp netcdfvirtual.cpp
-    netcdf_sentinel3_sral_mwr.cpp
-    )
+    netcdfmultidim.cpp
+    netcdfvirtual.cpp
+    netcdf_sentinel3_sral_mwr.cpp)
 if (GDAL_ENABLE_NETCDF_PLUGIN)
-  add_gdal_driver(TARGET gdal_netCDF SOURCES ${_SOURCES} PLUGIN)
+  add_gdal_driver(
+    TARGET gdal_netCDF
+    SOURCES ${_SOURCES}
+    PLUGIN)
 else ()
   add_gdal_driver(TARGET gdal_netCDF SOURCES ${_SOURCES})
 endif ()

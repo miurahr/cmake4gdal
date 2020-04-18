@@ -1,15 +1,13 @@
 add_gdal_driver(
-  TARGET
-  ogr_WALK
-  SOURCES
-  ogis_geometry_wkb_struct.h
-  ogrwalk.h
-  ogrwalkdatasource.cpp
-  ogrwalkdriver.cpp
-  ogrwalklayer.cpp
-  ogrwalkselectlayer.cpp
-  ogrwalktablelayer.cpp
-  ogrwalktool.cpp)
+  TARGET ogr_WALK
+  SOURCES ogis_geometry_wkb_struct.h
+          ogrwalk.h
+          ogrwalkdatasource.cpp
+          ogrwalkdriver.cpp
+          ogrwalklayer.cpp
+          ogrwalkselectlayer.cpp
+          ogrwalktablelayer.cpp
+          ogrwalktool.cpp)
 gdal_standard_includes(ogr_WALK)
 target_include_directories(ogr_WALK PRIVATE $<TARGET_PROPERTY:ogr_PGeo,SOURCE_DIR>
                                             $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>)

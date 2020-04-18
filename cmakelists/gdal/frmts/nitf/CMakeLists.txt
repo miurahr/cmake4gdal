@@ -1,19 +1,17 @@
 add_gdal_driver(
-  TARGET
-  gdal_NITF
-  SOURCES
-  mgrs.c
-  nitfdataset.cpp
-  rpftocdataset.cpp
-  nitfrasterband.cpp
-  ecrgtocdataset.cpp
-  nitffile.c
-  nitfimage.c
-  nitfaridpcm.cpp
-  nitfbilevel.cpp
-  rpftocfile.cpp
-  nitfdes.c
-  nitf_gcprpc.cpp
+  TARGET gdal_NITF
+  SOURCES mgrs.c
+          nitfdataset.cpp
+          rpftocdataset.cpp
+          nitfrasterband.cpp
+          ecrgtocdataset.cpp
+          nitffile.c
+          nitfimage.c
+          nitfaridpcm.cpp
+          nitfbilevel.cpp
+          rpftocfile.cpp
+          nitfdes.c
+          nitf_gcprpc.cpp
   BUILTIN)
 gdal_standard_includes(gdal_NITF)
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
@@ -48,4 +46,5 @@ if (GDAL_USE_LIBJPEG_INTERNAL OR HAVE_JPEG)
     target_sources(gdal_NITF PRIVATE nitfwritejpeg.cpp)
   endif ()
 endif ()
-target_include_directories(gdal_NITF PRIVATE $<TARGET_PROPERTY:gdal_GTIFF,SOURCE_DIR> $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)
+target_include_directories(gdal_NITF PRIVATE $<TARGET_PROPERTY:gdal_GTIFF,SOURCE_DIR>
+                                             $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)

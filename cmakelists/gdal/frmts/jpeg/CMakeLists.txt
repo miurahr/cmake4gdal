@@ -1,11 +1,6 @@
 add_gdal_driver(
-  TARGET
-  gdal_JPEG
-  SOURCES
-  vsidataio.h
-  jpgdataset.h
-  vsidataio.cpp
-  jpgdataset.cpp
+  TARGET gdal_JPEG
+  SOURCES vsidataio.h jpgdataset.h vsidataio.cpp jpgdataset.cpp
   BUILTIN)
 gdal_standard_includes(gdal_JPEG)
 

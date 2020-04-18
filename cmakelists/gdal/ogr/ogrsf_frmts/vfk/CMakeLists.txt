@@ -1,21 +1,19 @@
 add_gdal_driver(
-  TARGET
-  ogr_VFK
-  SOURCES
-  ogr_vfk.h
-  vfkreader.h
-  vfkreaderp.h
-  ogrvfkdatasource.cpp
-  ogrvfkdriver.cpp
-  ogrvfklayer.cpp
-  vfkdatablock.cpp
-  vfkdatablocksqlite.cpp
-  vfkproperty.cpp
-  vfkpropertydefn.cpp
-  vfkreader.cpp
-  vfkreadersqlite.cpp
-  vfkfeature.cpp
-  vfkfeaturesqlite.cpp)
+  TARGET ogr_VFK
+  SOURCES ogr_vfk.h
+          vfkreader.h
+          vfkreaderp.h
+          ogrvfkdatasource.cpp
+          ogrvfkdriver.cpp
+          ogrvfklayer.cpp
+          vfkdatablock.cpp
+          vfkdatablocksqlite.cpp
+          vfkproperty.cpp
+          vfkpropertydefn.cpp
+          vfkreader.cpp
+          vfkreadersqlite.cpp
+          vfkfeature.cpp
+          vfkfeaturesqlite.cpp)
 gdal_standard_includes(ogr_VFK)
 if (HAVE_SQLITE3)
   target_include_directories(ogr_VFK PRIVATE ${SQLITE3_INCLUDE_DIR})

@@ -1,22 +1,20 @@
 add_gdal_driver(
-  TARGET
-  gdal_vrt
+  TARGET gdal_vrt
   BUILTIN
-  SOURCES
-  gdal_vrt.h
-  vrtdataset.h
-  vrtderivedrasterband.cpp
-  vrtdriver.cpp
-  vrtfilters.cpp
-  vrtrasterband.cpp
-  vrtrawrasterband.cpp
-  vrtsourcedrasterband.cpp
-  vrtsources.cpp
-  vrtwarped.cpp
-  vrtdataset.cpp
-  pixelfunctions.cpp
-  vrtpansharpened.cpp
-  vrtmultidim.cpp)
+  SOURCES gdal_vrt.h
+          vrtdataset.h
+          vrtderivedrasterband.cpp
+          vrtdriver.cpp
+          vrtfilters.cpp
+          vrtrasterband.cpp
+          vrtrawrasterband.cpp
+          vrtsourcedrasterband.cpp
+          vrtsources.cpp
+          vrtwarped.cpp
+          vrtdataset.cpp
+          pixelfunctions.cpp
+          vrtpansharpened.cpp
+          vrtmultidim.cpp)
 gdal_standard_includes(gdal_vrt)
 target_include_directories(gdal_vrt PRIVATE $<TARGET_PROPERTY:gdal_raw,SOURCE_DIR>)
 

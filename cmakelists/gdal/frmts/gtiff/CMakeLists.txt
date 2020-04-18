@@ -1,26 +1,24 @@
 add_gdal_driver(
-  TARGET
-  gdal_GTIFF
-  SOURCES
-  cogdriver.cpp
-  cogdriver.h
-  gtiff.h
-  gt_jpeg_copy.h
-  gt_citation.h
-  gt_overview.h
-  gt_wkt_srs.h
-  gt_wkt_srs_priv.h
-  gt_wkt_srs_for_gdal.h
-  tifvsi.h
-  tif_float.h
-  tif_lerc.h
-  geotiff.cpp
-  gt_jpeg_copy.cpp
-  gt_citation.cpp
-  gt_overview.cpp
-  gt_wkt_srs.cpp
-  tifvsi.cpp
-  tif_float.c
+  TARGET gdal_GTIFF
+  SOURCES cogdriver.cpp
+          cogdriver.h
+          gtiff.h
+          gt_jpeg_copy.h
+          gt_citation.h
+          gt_overview.h
+          gt_wkt_srs.h
+          gt_wkt_srs_priv.h
+          gt_wkt_srs_for_gdal.h
+          tifvsi.h
+          tif_float.h
+          tif_lerc.h
+          geotiff.cpp
+          gt_jpeg_copy.cpp
+          gt_citation.cpp
+          gt_overview.cpp
+          gt_wkt_srs.cpp
+          tifvsi.cpp
+          tif_float.c
   BUILTIN)
 gdal_standard_includes(gdal_GTIFF)
 target_include_directories(gdal_GTIFF PRIVATE $<TARGET_PROPERTY:gdal_JPEG,SOURCE_DIR>)

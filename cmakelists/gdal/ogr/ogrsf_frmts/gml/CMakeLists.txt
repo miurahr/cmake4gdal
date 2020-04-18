@@ -1,29 +1,27 @@
 add_gdal_driver(
-  TARGET
-  ogr_GML
-  SOURCES
-  gfstemplate.cpp
-  gmlpropertydefn.cpp
-  gmlreadstate.cpp
-  gmlutils.h
-  ogrgmldriver.cpp
-  resolvexlinks.cpp
-  gmlfeature.cpp
-  gmlreader.cpp
-  gmlregistry.cpp
-  hugefileresolver.cpp
-  ogrgmllayer.cpp
-  xercesc_headers.h
-  gmlfeatureclass.cpp
-  gmlreader.h
-  gmlregistry.h
-  ogr_gml.h
-  parsexsd.cpp
-  gmlhandler.cpp
-  gmlreaderp.h
-  gmlutils.cpp
-  ogrgmldatasource.cpp
-  parsexsd.h
+  TARGET ogr_GML
+  SOURCES gfstemplate.cpp
+          gmlpropertydefn.cpp
+          gmlreadstate.cpp
+          gmlutils.h
+          ogrgmldriver.cpp
+          resolvexlinks.cpp
+          gmlfeature.cpp
+          gmlreader.cpp
+          gmlregistry.cpp
+          hugefileresolver.cpp
+          ogrgmllayer.cpp
+          xercesc_headers.h
+          gmlfeatureclass.cpp
+          gmlreader.h
+          gmlregistry.h
+          ogr_gml.h
+          parsexsd.cpp
+          gmlhandler.cpp
+          gmlreaderp.h
+          gmlutils.cpp
+          ogrgmldatasource.cpp
+          parsexsd.h
   BUILTIN)
 gdal_standard_includes(ogr_GML)
 if (HAVE_EXPAT)

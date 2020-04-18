@@ -131,7 +131,7 @@ if (GDAL_ENABLE_FRMT_GRASS)
   endif ()
 endif ()
 
-# ###########################################################################################################################
+# ######################################################################################################################
 # driver with proprietary libraries Kakadu software SDK
 gdal_dependent_format(jp2kak "JPEG-2000 (based on Kakadu)" "HAVE_KDU")
 gdal_dependent_format(jpipkak "JPIP Streaming" "HAVE_KDU")

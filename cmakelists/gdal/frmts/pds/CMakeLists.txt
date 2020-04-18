@@ -1,22 +1,20 @@
 # depend from hdf4 and ogr_PDS
 add_gdal_driver(
-  TARGET
-  gdal_PDS
-  SOURCES
-  nasakeywordhandler.h
-  vicarkeywordhandler.h
-  isis2dataset.cpp
-  isis3dataset.cpp
-  nasakeywordhandler.cpp
-  pdsdataset.cpp
-  pds4dataset.cpp
-  pds4vector.cpp
-  vicardataset.cpp
-  vicarkeywordhandler.cpp
+  TARGET gdal_PDS
+  SOURCES nasakeywordhandler.h
+          vicarkeywordhandler.h
+          isis2dataset.cpp
+          isis3dataset.cpp
+          nasakeywordhandler.cpp
+          pdsdataset.cpp
+          pds4dataset.cpp
+          pds4vector.cpp
+          vicardataset.cpp
+          vicarkeywordhandler.cpp
   BUILTIN)
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
-  set_property(SOURCE isis2dataset.cpp isis3dataset.cpp pdsdataset.cpp vicardataset.cpp PROPERTY SKIP_UNITY_BUILD_INCLUSION
-                                                                                                 ON)
+  set_property(SOURCE isis2dataset.cpp isis3dataset.cpp pdsdataset.cpp vicardataset.cpp
+               PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
 endif ()
 gdal_standard_includes(gdal_PDS)
 target_include_directories(

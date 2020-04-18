@@ -8,7 +8,10 @@ set(SOURCE
     ogrdwgdatasource.cpp
     ogrdwgdriver.cpp)
 if (OGR_ENABLE_DWG_PLUGIN)
-  add_gdal_driver(TARGET ogr_DWG SOURCES ${SOURCE} PLUGIN)
+  add_gdal_driver(
+    TARGET ogr_DWG
+    SOURCES ${SOURCE}
+    PLUGIN)
 else ()
   add_gdal_driver(TARGET ogr_DWG SOURCES ${SOURCE})
 endif ()

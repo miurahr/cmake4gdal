@@ -1,12 +1,7 @@
 # reffered from ogr_MVT
 add_gdal_driver(
-  TARGET
-  ogr_OSM
-  SOURCES
-  ogrosmdatasource.cpp
-  ogrosmdriver.cpp
-  ogrosmlayer.cpp
-  osm_parser.cpp
+  TARGET ogr_OSM
+  SOURCES ogrosmdatasource.cpp ogrosmdriver.cpp ogrosmlayer.cpp osm_parser.cpp
   BUILTIN)
 gdal_standard_includes(ogr_OSM)
 target_include_directories(ogr_OSM PRIVATE $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>

@@ -1,13 +1,5 @@
-add_gdal_driver(
-  TARGET
-  ogr_CAD
-  SOURCES
-  ogr_cad.h
-  gdalcaddataset.cpp
-  ogrcaddriver.cpp
-  ogrcadlayer.cpp
-  vsilfileio.cpp
-  vsilfileio.h)
+add_gdal_driver(TARGET ogr_CAD SOURCES ogr_cad.h gdalcaddataset.cpp ogrcaddriver.cpp ogrcadlayer.cpp vsilfileio.cpp
+                                       vsilfileio.h)
 gdal_standard_includes(ogr_CAD)
 
 if (GDAL_USE_OPENCAD_INTERNAL)

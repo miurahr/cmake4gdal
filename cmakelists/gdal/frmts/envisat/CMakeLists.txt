@@ -1,16 +1,14 @@
 add_gdal_driver(
-  TARGET
-  gdal_Envisat
-  SOURCES
-  EnvisatFile.h
-  records.h
-  adsrange.hpp
-  timedelta.hpp
-  EnvisatFile.c
-  records.c
-  adsrange.cpp
-  unwrapgcps.cpp
-  envisatdataset.cpp)
+  TARGET gdal_Envisat
+  SOURCES EnvisatFile.h
+          records.h
+          adsrange.hpp
+          timedelta.hpp
+          EnvisatFile.c
+          records.c
+          adsrange.cpp
+          unwrapgcps.cpp
+          envisatdataset.cpp)
 gdal_standard_includes(gdal_Envisat)
 target_include_directories(gdal_Envisat PRIVATE $<TARGET_PROPERTY:gdal_raw,SOURCE_DIR>)
 

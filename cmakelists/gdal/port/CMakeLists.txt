@@ -208,8 +208,8 @@ if (HAVE_SSSE3_AT_COMPILE_TIME)
   target_compile_definitions(cpl PRIVATE -DHAVE_SSSE3_AT_COMPILE_TIME)
 endif ()
 
-# for plugin DLFCN: for win32 https://github.com/dlfcn-win32/dlfcn-win32/archive/v1.1.1.tar.gz if(WIN32) find_package(dlfcn-
-# win32 REQUIRED) set(CMAKE_DL_LIBS dlfcn-win32::dl) endif()
+# for plugin DLFCN: for win32 https://github.com/dlfcn-win32/dlfcn-win32/archive/v1.1.1.tar.gz if(WIN32)
+# find_package(dlfcn- win32 REQUIRED) set(CMAKE_DL_LIBS dlfcn-win32::dl) endif()
 
 add_executable(xmlreformat EXCLUDE_FROM_ALL xmlreformat.cpp)
 
@@ -224,7 +224,8 @@ if (TARGET OpenSSL::Crypto)
 endif ()
 
 if (CRYPTOPP_USE_ONLY_CRYPTODLL_ALG AND NOT BULID_SHARED_LIBS)
-  # Define USE_ONLY_CRYPTODLL_ALG is running against cryptopp.dll, but not if statically linking USE_ONLY_CRYPTODLL_ALG=YES
+  # Define USE_ONLY_CRYPTODLL_ALG is running against cryptopp.dll, but not if statically linking
+  # USE_ONLY_CRYPTODLL_ALG=YES
   #
   # When linking against the DLL: CRYPTOPP_LIB = c:/install-cryptopp-x64/lib/cryptopp.lib
   #

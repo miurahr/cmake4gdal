@@ -11,7 +11,10 @@ set(_SOURCES
     bagdataset.cpp
     hdf5multidim.cpp)
 if (GDAL_ENABLE_FRMT_HDF5_PLUGIN)
-  add_gdal_driver(TARGET gdal_HDF5 SOURCES ${_SOURCES} PLUGIN)
+  add_gdal_driver(
+    TARGET gdal_HDF5
+    SOURCES ${_SOURCES}
+    PLUGIN)
 else ()
   add_gdal_driver(TARGET gdal_HDF5 SOURCES ${_SOURCES})
 endif ()

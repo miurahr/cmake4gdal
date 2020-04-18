@@ -1,12 +1,6 @@
 add_gdal_driver(
-  TARGET
-  ogr_MVT
-  SOURCES
-  mvt_tile.cpp
-  mvt_tile.h
-  mvtutils.cpp
-  mvtutils.h
-  ogrmvtdataset.cpp
+  TARGET ogr_MVT
+  SOURCES mvt_tile.cpp mvt_tile.h mvtutils.cpp mvtutils.h ogrmvtdataset.cpp
   BUILTIN)
 gdal_standard_includes(ogr_MVT)
 target_include_directories(ogr_MVT PRIVATE $<TARGET_PROPERTY:ogr_OSM,SOURCE_DIR>)

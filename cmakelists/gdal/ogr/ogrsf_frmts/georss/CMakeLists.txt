@@ -1,11 +1,4 @@
-add_gdal_driver(
-  TARGET
-  ogr_GeoRSS
-  SOURCES
-  ogr_georss.h
-  ogrgeorssdatasource.cpp
-  ogrgeorssdriver.cpp
-  ogrgeorsslayer.cpp)
+add_gdal_driver(TARGET ogr_GeoRSS SOURCES ogr_georss.h ogrgeorssdatasource.cpp ogrgeorssdriver.cpp ogrgeorsslayer.cpp)
 gdal_standard_includes(ogr_GeoRSS)
 if (HAVE_EXPAT)
   target_include_directories(ogr_GeoRSS PRIVATE ${EXPAT_INCLUDE_DIRS})

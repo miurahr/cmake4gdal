@@ -15,7 +15,7 @@ option(GDAL_ENABLE_MACOSX_FRAMEWORK "Enable Framework on Mac OS X" OFF)
 # libgdal shared/satic library generation
 option(BUILD_SHARED_LIBS "Set ON to build shared library" ON)
 
-# ###########################################################################################################################
+# ######################################################################################################################
 # generate ${CMAKE_CURRENT_BINARY_DIR}/port/cpl_config.h
 include(configure)
 
@@ -38,7 +38,7 @@ if (ENABLE_LTO)
   endif ()
 endif ()
 
-# ###########################################################################################################################
+# ######################################################################################################################
 add_library(gdal gcore/gdal.h)
 add_library(GDAL_LINK_LIBRARY INTERFACE)
 target_link_libraries(gdal PRIVATE $<TARGET_NAME:GDAL_LINK_LIBRARY>)
@@ -180,10 +180,10 @@ endif ()
 get_property(_plugins GLOBAL PROPERTY PLUGIN_MODULES)
 add_custom_target(gdal_plugins DEPENDS ${_plugins})
 
-# ###########################################################################################################################
+# ######################################################################################################################
 configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/gdal_def.h.in ${CMAKE_CURRENT_BINARY_DIR}/gcore/gdal_def.h @ONLY)
 
-# ###########################################################################################################################
+# ######################################################################################################################
 set_property(TARGET gdal APPEND PROPERTY PUBLIC_HEADER ${CMAKE_CURRENT_BINARY_DIR}/port/cpl_config.h)
 
 set(GDAL_DATA_FILES

@@ -1,11 +1,6 @@
 add_gdal_driver(
-  TARGET
-  gdal_GIF
-  SOURCES
-  gifabstractdataset.h
-  gifabstractdataset.cpp
-  biggifdataset.cpp
-  gifdataset.cpp
+  TARGET gdal_GIF
+  SOURCES gifabstractdataset.h gifabstractdataset.cpp biggifdataset.cpp gifdataset.cpp
   BUILTIN)
 gdal_standard_includes(gdal_GIF)
 target_compile_definitions(gdal_GIF PRIVATE -DHAVE_GIF)

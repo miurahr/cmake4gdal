@@ -1,7 +1,10 @@
 option(GDAL_ENABLE_FRMT_JP2KAK_PLUGIN "Build jp2kak driver as plugin" ON)
 set(_SOURCES jp2kakdataset.cpp jp2kak_headers.h jp2kakdataset.h subfile_source.h vsil_target.h)
 if (GDAL_ENABLE_FRMT_JP2KAK_PLUGIN)
-  add_gdal_driver(TARGET gdal_JP2KAK SOURCES ${_SOURCES} PLUGIN)
+  add_gdal_driver(
+    TARGET gdal_JP2KAK
+    SOURCES ${_SOURCES}
+    PLUGIN)
 else ()
   add_gdal_driver(TARGET gdal_JP2KAK SOURCES ${_SOURCES})
 endif ()

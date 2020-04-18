@@ -54,8 +54,8 @@ add_dependencies(gdal_unit_test gdal)
 gdal_standard_includes(gdal_unit_test)
 target_compile_definitions(gdal_unit_test PRIVATE -DGDAL_TEST_ROOT_DIR="${GDAL_ROOT_TEST_DIR}")
 target_include_directories(
-  gdal_unit_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/tut $<TARGET_PROPERTY:appslib,SOURCE_DIR>
-                         $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)
+  gdal_unit_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/tut
+                         $<TARGET_PROPERTY:appslib,SOURCE_DIR> $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)
 target_compile_definitions(gdal_unit_test PRIVATE -DGDAL_TEST_ROOT_DIR="${GDAL_ROOT_TEST_DIR}")
 add_test(NAME test-unit COMMAND gdal_unit_test)
 set(TEST_ENV)
@@ -82,8 +82,8 @@ add_test(NAME test-block-cache-2 COMMAND testblockcache -check -co TILED=YES --d
                                          GDAL_RB_LOCK_DEBUG_CONTENTION YES --config GDAL_RB_LOCK_TYPE SPIN)
 add_test(NAME test-block-cache-3 COMMAND testblockcache -check -co TILED=YES -migrate)
 add_test(NAME test-block-cache-4 COMMAND testblockcache -check -memdriver)
-add_test(NAME test-block-cache-5 COMMAND testblockcache --config GDAL_BAND_BLOCK_CACHE HASHSET -check -co TILED=YES --debug
-                                         TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES)
+add_test(NAME test-block-cache-5 COMMAND testblockcache --config GDAL_BAND_BLOCK_CACHE HASHSET -check -co TILED=YES
+                                         --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES)
 add_test(NAME test-block-cache-6
          COMMAND testblockcache --config GDAL_BAND_BLOCK_CACHE HASHSET -check -co TILED=YES --debug TEST,LOCK -loops 3
                  --config GDAL_RB_LOCK_DEBUG_CONTENTION YES --config GDAL_RB_LOCK_TYPE SPIN)

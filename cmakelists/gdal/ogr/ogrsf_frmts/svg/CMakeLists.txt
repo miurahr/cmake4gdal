@@ -1,11 +1,4 @@
-add_gdal_driver(
-  TARGET
-  ogr_SVG
-  SOURCES
-  ogr_svg.h
-  ogrsvgdatasource.cpp
-  ogrsvgdriver.cpp
-  ogrsvglayer.cpp)
+add_gdal_driver(TARGET ogr_SVG SOURCES ogr_svg.h ogrsvgdatasource.cpp ogrsvgdriver.cpp ogrsvglayer.cpp)
 gdal_standard_includes(ogr_SVG)
 if (HAVE_EXPAT)
   target_include_directories(ogr_SVG PRIVATE ${EXPAT_INCLUDE_DIRS})

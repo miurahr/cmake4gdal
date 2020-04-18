@@ -1,14 +1,12 @@
 add_gdal_driver(
-  TARGET
-  gdal_PCRaster
-  SOURCES
-  pcrasterdataset.h
-  pcrasterrasterband.h
-  pcrasterutil.h
-  pcrasterdataset.cpp
-  pcrastermisc.cpp
-  pcrasterrasterband.cpp
-  pcrasterutil.cpp)
+  TARGET gdal_PCRaster
+  SOURCES pcrasterdataset.h
+          pcrasterrasterband.h
+          pcrasterutil.h
+          pcrasterdataset.cpp
+          pcrastermisc.cpp
+          pcrasterrasterband.cpp
+          pcrasterutil.cpp)
 gdal_standard_includes(gdal_PCRaster)
 
 if (GDAL_USE_LIBCSF_INTERNAL)

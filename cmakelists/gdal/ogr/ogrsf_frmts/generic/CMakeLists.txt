@@ -28,8 +28,7 @@ add_library(
   ogrlayer.cpp
   ogrdatasource.cpp
   ogrsfdriver.cpp
-  # handled in parent directory.
-  # ogrregisterall.cpp
+  # handled in parent directory. ogrregisterall.cpp
   ogr_gensql.cpp
   ogr_attrind.cpp
   ogr_miattrind.cpp

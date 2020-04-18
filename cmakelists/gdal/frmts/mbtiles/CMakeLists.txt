@@ -1,4 +1,7 @@
-add_gdal_driver(TARGET gdal_MBTiles SOURCES mbtilesdataset.cpp BUILTIN)
+add_gdal_driver(
+  TARGET gdal_MBTiles
+  SOURCES mbtilesdataset.cpp
+  BUILTIN)
 gdal_standard_includes(gdal_MBTiles)
 target_include_directories(gdal_MBTiles PRIVATE $<TARGET_PROPERTY:ogr_MVT,SOURCE_DIR>)
 if (GDAL_USE_LIBZ_INTERNAL)

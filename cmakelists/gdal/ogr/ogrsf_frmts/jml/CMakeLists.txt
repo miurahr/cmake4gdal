@@ -1,11 +1,4 @@
-add_gdal_driver(
-  TARGET
-  ogr_JML
-  SOURCES
-  ogr_jml.h
-  ogrjmldataset.cpp
-  ogrjmllayer.cpp
-  ogrjmlwriterlayer.cpp)
+add_gdal_driver(TARGET ogr_JML SOURCES ogr_jml.h ogrjmldataset.cpp ogrjmllayer.cpp ogrjmlwriterlayer.cpp)
 gdal_standard_includes(ogr_JML)
 target_include_directories(ogr_JML PRIVATE $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>)
 if (HAVE_EXPAT)

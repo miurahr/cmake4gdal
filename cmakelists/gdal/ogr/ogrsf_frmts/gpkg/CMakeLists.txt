@@ -1,24 +1,22 @@
 # GeoPackage has raster and vector drivers in single module and referred from mbtiles driver
 add_gdal_driver(
-  TARGET
-  ogr_GeoPackage
-  DEF
-  GPKG_ENALBED
-  SOURCES
-  ogr_geopackage.h
-  gpkgmbtilescommon.h
-  ogrgeopackageutility.h
-  ogrgeopackagedatasource.cpp
-  ogrgeopackagedriver.cpp
-  ogrgeopackagelayer.cpp
-  ogrgeopackageselectlayer.cpp
-  ogrgeopackagetablelayer.cpp
-  ogrgeopackageutility.cpp
-  gdalgeopackagerasterband.cpp
+  TARGET ogr_GeoPackage
+  DEF GPKG_ENALBED
+  SOURCES ogr_geopackage.h
+          gpkgmbtilescommon.h
+          ogrgeopackageutility.h
+          ogrgeopackagedatasource.cpp
+          ogrgeopackagedriver.cpp
+          ogrgeopackagelayer.cpp
+          ogrgeopackageselectlayer.cpp
+          ogrgeopackagetablelayer.cpp
+          ogrgeopackageutility.cpp
+          gdalgeopackagerasterband.cpp
   BUILTIN)
 gdal_standard_includes(ogr_GeoPackage)
-target_include_directories(ogr_GeoPackage PRIVATE $<TARGET_PROPERTY:alg,SOURCE_DIR> $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>
-                                                  $<TARGET_PROPERTY:ogr_SQLite,SOURCE_DIR>)
+target_include_directories(
+  ogr_GeoPackage PRIVATE $<TARGET_PROPERTY:alg,SOURCE_DIR> $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>
+                         $<TARGET_PROPERTY:ogr_SQLite,SOURCE_DIR>)
 if (HAVE_SQLITE3)
   gdal_target_link_libraries(TARGET ogr_GeoPackage PRIVATE LIBRARIES SQLITE3::SQLITE3)
   if (SQLITE_HAS_COLUMN_METADATA)

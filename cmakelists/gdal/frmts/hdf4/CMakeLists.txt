@@ -14,7 +14,10 @@ set(_SOURCES
     hdf4imagedataset.cpp
     hdf4multidim.cpp)
 if (GDAL_ENABLE_FRMT_HDF4_PLUGIN)
-  add_gdal_driver(TARGET gdal_HDF4 SOURCES ${_SOURCES} PLUGIN)
+  add_gdal_driver(
+    TARGET gdal_HDF4
+    SOURCES ${_SOURCES}
+    PLUGIN)
 else ()
   add_gdal_driver(TARGET gdal_HDF4 SOURCES ${_SOURCES})
 endif ()

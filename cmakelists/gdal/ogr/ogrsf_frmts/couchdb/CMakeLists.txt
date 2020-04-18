@@ -1,13 +1,7 @@
 add_gdal_driver(
-  TARGET
-  ogr_CouchDB
-  SOURCES
-  ogr_couchdb.h
-  ogrcouchdbdatasource.cpp
-  ogrcouchdbdriver.cpp
-  ogrcouchdblayer.cpp
-  ogrcouchdbrowslayer.cpp
-  ogrcouchdbtablelayer.cpp
+  TARGET ogr_CouchDB
+  SOURCES ogr_couchdb.h ogrcouchdbdatasource.cpp ogrcouchdbdriver.cpp ogrcouchdblayer.cpp ogrcouchdbrowslayer.cpp
+          ogrcouchdbtablelayer.cpp
   BUILTIN)
 gdal_standard_includes(ogr_CouchDB)
 target_include_directories(ogr_CouchDB PRIVATE $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>)

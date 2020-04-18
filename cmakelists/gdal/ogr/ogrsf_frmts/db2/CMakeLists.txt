@@ -11,7 +11,10 @@ set(_SOURCES
     ogrdb2selectlayer.cpp
     ogrdb2tablelayer.cpp)
 if (OGR_ENABLE_DB2_PLUGIN)
-  add_gdal_driver(TARGET ogr_DB2 SOURCES ${_SOURCES} PLUGIN)
+  add_gdal_driver(
+    TARGET ogr_DB2
+    SOURCES ${_SOURCES}
+    PLUGIN)
 else ()
   add_gdal_driver(TARGET ogr_DB2 SOURCES ${_SOURCES})
 endif ()

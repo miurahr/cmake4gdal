@@ -62,7 +62,8 @@ endif ()
 
 add_library(rasterio OBJECT rasterio.cpp rasterio_ssse3.cpp)
 gdal_standard_includes(rasterio)
-target_include_directories(rasterio PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR> $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>)
+target_include_directories(rasterio PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
+                                            $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>)
 set_property(TARGET rasterio PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_sources(gdal PRIVATE $<TARGET_OBJECTS:gcore> $<TARGET_OBJECTS:gdaldrivermanager> $<TARGET_OBJECTS:rasterio>)
 include(TargetPublicHeader)
