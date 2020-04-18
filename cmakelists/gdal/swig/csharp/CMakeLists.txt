@@ -1,29 +1,6 @@
-# ******************************************************************************
-# * Project:  CMake4GDAL
-# * Purpose:  CMake build scripts *       Author: Hiroshi Miura
-# ******************************************************************************
-# * Copyright (C) 2018 Hiroshi Miura *
-# * Permission is hereby granted, free of charge, to any person obtaining a
-# * copy of this software and associated documentation files (the "Software"),
-# * to deal in the Software without restriction, including without limitation
-# * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# * and/or sell copies of the Software, and to permit persons to whom the
-# * Software is furnished to do so, subject to the following conditions: *
-# * The above copyright notice and this permission notice shall be included
-# * in all copies or substantial portions of the Software. *
-# * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-# * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-# * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# * DEALINGS IN THE SOFTWARE.
-# ******************************************************************************
-
 find_package(SWIG REQUIRED)
 find_package(CSharp REQUIRED)
 include(GdalStandardIncludes)
-
 # function for csharp build
 function (gdal_csharp_dll)
   set(_options)
@@ -60,126 +37,111 @@ endfunction ()
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/gdal.snk
                    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/gdal.snk ${CMAKE_CURRENT_BINARY_DIR})
 gdal_csharp_dll(
-  TARGET
-  gdal_csharp.dll
-  NAMESPACE
-  OSGeo.GDAL
-  WRAPPER
-  gdal_wrap
-  SWIG_INTERFACE
-  ${CMAKE_SOURCE_DIR}/gdal/swig/include/gdal.i
-  CS_SOURCES
-  gdal/Access.cs
-  gdal/GDALWarpAppOptions.cs
-  gdal/AsyncReader.cs
-  gdal/Gdal.cs
-  gdal/AsyncStatusType.cs
-  gdal/GdalPINVOKE.cs
-  gdal/Band.cs
-  gdal/MajorObject.cs
-  gdal/CPLErr.cs
-  gdal/PaletteInterp.cs
-  gdal/ColorEntry.cs
-  gdal/RATFieldType.cs
-  gdal/ColorInterp.cs
-  gdal/RATFieldUsage.cs
-  gdal/RATTableType.cs
-  gdal/ColorTable.cs
-  gdal/RIOResampleAlg.cs
-  gdal/DataType.cs
-  gdal/RWFlag.cs
-  gdal/Dataset.cs
-  gdal/RasterAttributeTable.cs
-  gdal/Driver.cs
-  gdal/RasterIOExtraArg.cs
-  gdal/GCP.cs
-  gdal/ResampleAlg.cs
-  gdal/GDALBuildVRTOptions.cs
-  gdal/SWIGTYPE_p_GDALProgressFunc.cs
-  gdal/GDALDEMProcessingOptions.cs
-  gdal/SWIGTYPE_p_int.cs
-  gdal/GDALGridOptions.cs
-  gdal/SWIGTYPE_p_p_GDALDatasetShadow.cs
-  gdal/GDALInfoOptions.cs
-  gdal/SWIGTYPE_p_p_GDALRasterBandShadow.cs
-  gdal/GDALNearblackOptions.cs
-  gdal/Transformer.cs
-  gdal/GDALRasterizeOptions.cs
-  gdal/XMLNode.cs
-  gdal/GDALTranslateOptions.cs
-  gdal/XMLNodeType.cs
-  gdal/GDALVectorTranslateOptions.cs
-  gdal/SWIGTYPE_p_void.cs
-  WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/gdal
-  DEPENDS
-  ogr_csharp.dll)
+  TARGET gdal_csharp.dll
+  NAMESPACE OSGeo.GDAL
+            WRAPPER
+            gdal_wrap
+            SWIG_INTERFACE
+            ${CMAKE_SOURCE_DIR}/gdal/swig/include/gdal.i
+            CS_SOURCES
+            gdal/Access.cs
+            gdal/GDALWarpAppOptions.cs
+            gdal/AsyncReader.cs
+            gdal/Gdal.cs
+            gdal/AsyncStatusType.cs
+            gdal/GdalPINVOKE.cs
+            gdal/Band.cs
+            gdal/MajorObject.cs
+            gdal/CPLErr.cs
+            gdal/PaletteInterp.cs
+            gdal/ColorEntry.cs
+            gdal/RATFieldType.cs
+            gdal/ColorInterp.cs
+            gdal/RATFieldUsage.cs
+            gdal/RATTableType.cs
+            gdal/ColorTable.cs
+            gdal/RIOResampleAlg.cs
+            gdal/DataType.cs
+            gdal/RWFlag.cs
+            gdal/Dataset.cs
+            gdal/RasterAttributeTable.cs
+            gdal/Driver.cs
+            gdal/RasterIOExtraArg.cs
+            gdal/GCP.cs
+            gdal/ResampleAlg.cs
+            gdal/GDALBuildVRTOptions.cs
+            gdal/SWIGTYPE_p_GDALProgressFunc.cs
+            gdal/GDALDEMProcessingOptions.cs
+            gdal/SWIGTYPE_p_int.cs
+            gdal/GDALGridOptions.cs
+            gdal/SWIGTYPE_p_p_GDALDatasetShadow.cs
+            gdal/GDALInfoOptions.cs
+            gdal/SWIGTYPE_p_p_GDALRasterBandShadow.cs
+            gdal/GDALNearblackOptions.cs
+            gdal/Transformer.cs
+            gdal/GDALRasterizeOptions.cs
+            gdal/XMLNode.cs
+            gdal/GDALTranslateOptions.cs
+            gdal/XMLNodeType.cs
+            gdal/GDALVectorTranslateOptions.cs
+            gdal/SWIGTYPE_p_void.cs
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/gdal
+  DEPENDS ogr_csharp.dll)
 gdal_csharp_dll(
-  TARGET
-  ogr_csharp.dll
-  NAMESPACE
-  OSGeo.OGR
-  WRAPPER
-  ogr_wrap
-  SWIG_INTERFACE
-  ${CMAKE_SOURCE_DIR}/gdal/swig/include/ogr.i
-  CS_SOURCES
-  ogr/DataSource.cs
-  ogr/FieldDefn.cs
-  ogr/Layer.cs
-  ogr/Driver.cs
-  ogr/FieldSubType.cs
-  ogr/Ogr.cs
-  ogr/Envelope.cs
-  ogr/FieldType.cs
-  ogr/OgrPINVOKE.cs
-  ogr/Envelope3D.cs
-  ogr/GeomFieldDefn.cs
-  ogr/StyleTable.cs
-  ogr/Feature.cs
-  ogr/Geometry.cs
-  ogr/wkbByteOrder.cs
-  ogr/FeatureDefn.cs
-  ogr/Justification.cs
-  ogr/wkbGeometryType.cs
-  WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/ogr
-  DEPENDS
-  osr_csharp.dll)
+  TARGET ogr_csharp.dll
+  NAMESPACE OSGeo.OGR
+            WRAPPER
+            ogr_wrap
+            SWIG_INTERFACE
+            ${CMAKE_SOURCE_DIR}/gdal/swig/include/ogr.i
+            CS_SOURCES
+            ogr/DataSource.cs
+            ogr/FieldDefn.cs
+            ogr/Layer.cs
+            ogr/Driver.cs
+            ogr/FieldSubType.cs
+            ogr/Ogr.cs
+            ogr/Envelope.cs
+            ogr/FieldType.cs
+            ogr/OgrPINVOKE.cs
+            ogr/Envelope3D.cs
+            ogr/GeomFieldDefn.cs
+            ogr/StyleTable.cs
+            ogr/Feature.cs
+            ogr/Geometry.cs
+            ogr/wkbByteOrder.cs
+            ogr/FeatureDefn.cs
+            ogr/Justification.cs
+            ogr/wkbGeometryType.cs
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ogr
+  DEPENDS osr_csharp.dll)
 gdal_csharp_dll(
-  TARGET
-  osr_csharp.dll
-  NAMESPACE
-  OSGeo.OSR
-  WRAPPER
-  osr_wrap
-  SWIG_INTERFACE
-  ${CMAKE_SOURCE_DIR}/gdal/swig/include/osr.i
-  CS_SOURCES
-  osr/AxisOrientation.cs
-  osr/Osr.cs
-  osr/SpatialReference.cs
-  osr/CoordinateTransformation.cs
-  osr/OsrPINVOKE.cs
-  WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/osr)
+  TARGET osr_csharp.dll
+  NAMESPACE OSGeo.OSR
+            WRAPPER
+            osr_wrap
+            SWIG_INTERFACE
+            ${CMAKE_SOURCE_DIR}/gdal/swig/include/osr.i
+            CS_SOURCES
+            osr/AxisOrientation.cs
+            osr/Osr.cs
+            osr/SpatialReference.cs
+            osr/CoordinateTransformation.cs
+            osr/OsrPINVOKE.cs
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/osr)
 gdal_csharp_dll(
-  TARGET
-  gdalconst_csharp.dll
-  NAMESPACE
-  OSGeo.GDAL
-  WRAPPER
-  gdalconst_wrap
-  SWIG_INTERFACE
-  ${CMAKE_SOURCE_DIR}/gdal/swig/include/gdalconst.i
-  CS_SOURCES
-  const/GdalConst.cs
-  const/GdalConstPINVOKE.cs
-  WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/const)
+  TARGET gdalconst_csharp.dll
+  NAMESPACE OSGeo.GDAL
+            WRAPPER
+            gdalconst_wrap
+            SWIG_INTERFACE
+            ${CMAKE_SOURCE_DIR}/gdal/swig/include/gdalconst.i
+            CS_SOURCES
+            const/GdalConst.cs
+            const/GdalConstPINVOKE.cs
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/const)
 # ######################################################################################################################
 # sample commands
-#
 add_custom_command(
   OUTPUT ogrinfo.exe
   COMMAND ${CSHARP_COMPILER} /r:ogr_csharp.dll /r:osr_csharp.dll /out:ogrinfo.exe
@@ -259,7 +221,6 @@ add_custom_command(
   COMMAND ${CSHARP_COMPILER} /r:gdal_csharp.dll /out:GDALGetHistogram.exe
           ${CMAKE_CURRENT_SOURCE_DIR}/apps/GDALGetHistogram.cs
   DEPENDS gdal_csharp.dll)
-
 add_custom_target(
   csharp_samples
   DEPENDS ogrinfo.exe
@@ -279,6 +240,5 @@ add_custom_target(
           GDALOverviews.exe
           GDALCreateCopy.exe
           GDALGetHistogram.exe)
-
 add_custom_target(csharp_binding ALL DEPENDS csharp_samples gdalconst_csharp.dll gdal_csharp.dll ogr_csharp.dll
                                              osr_csharp.dll)

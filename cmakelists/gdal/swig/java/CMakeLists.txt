@@ -1,29 +1,3 @@
-# ******************************************************************************
-# * Project:  CMake4GDAL
-# * Purpose:  CMake build scripts
-# * Author: Dmitriy Baryshnikov (aka Bishop), polimax@mail.ru, *                       Hiroshi Miura <miurahr@linux.com>
-# ******************************************************************************
-# * Copyright (C) 2017,2018 Hiroshi Miura *
-# * Permission is hereby granted, free of charge, to any person obtaining a
-# * copy of this software and associated documentation files (the "Software"),
-# * to deal in the Software without restriction, including without limitation
-# * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# * and/or sell copies of the Software, and to permit persons to whom the
-# * Software is furnished to do so, subject to the following conditions: *
-# * The above copyright notice and this permission notice shall be included
-# * in all copies or substantial portions of the Software. *
-# * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-# * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-# * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# * DEALINGS IN THE SOFTWARE.
-# ******************************************************************************
-
-find_package(SWIG REQUIRED)
-find_package(JNI REQUIRED)
-
 include(GdalStandardIncludes)
 function (GDAL_JAVA_WRAP)
   set(_options CXX)
@@ -61,30 +35,25 @@ endfunction ()
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/org/gdal)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/org/gdal/gdalconst)
 gdal_java_wrap(
-  TARGET
-  gdalconst
-  ARGS
-  -Wall
-  -I${CMAKE_SOURCE_DIR}/gdal/swig/include
-  -I${CMAKE_SOURCE_DIR}/gdal/swig/include/java
-  -outdir
-  ${CMAKE_CURRENT_BINARY_DIR}/org/gdal/gdalconst/
-  -package
-  "org.gdal.gdalconst")
+  TARGET gdalconst
+  ARGS -Wall
+       -I${CMAKE_SOURCE_DIR}/gdal/swig/include
+       -I${CMAKE_SOURCE_DIR}/gdal/swig/include/java
+       -outdir
+       ${CMAKE_CURRENT_BINARY_DIR}/org/gdal/gdalconst/
+       -package
+       "org.gdal.gdalconst")
 foreach (tgt IN ITEMS gdal ogr osr gnm)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/org/gdal/${tgt})
   gdal_java_wrap(
-    TARGET
-    ${tgt}
-    CXX
-    ARGS
-    -Wall
-    -I${CMAKE_SOURCE_DIR}/gdal/swig/include
-    -I${CMAKE_SOURCE_DIR}/gdal/swig/include/java
-    -outdir
-    ${CMAKE_CURRENT_BINARY_DIR}/org/gdal/${tgt}/
-    -package
-    "org.gdal.${tgt}")
+    TARGET ${tgt} CXX
+    ARGS -Wall
+         -I${CMAKE_SOURCE_DIR}/gdal/swig/include
+         -I${CMAKE_SOURCE_DIR}/gdal/swig/include/java
+         -outdir
+         ${CMAKE_CURRENT_BINARY_DIR}/org/gdal/${tgt}/
+         -package
+         "org.gdal.${tgt}")
 endforeach ()
 
 add_custom_target(java_binding ALL DEPENDS gdaljni ogrjni osrjni gnmjni gdalconstjni)
