@@ -5,14 +5,27 @@ with section("parse"):
 
   # Specify structure for custom cmake functions
   additional_commands = {
-    'add_gdal_driver': {
-      'flags': ['BUILTIN', 'PLUGIN'],
-      'kwargs': {'DEF': '*', 'TARGET': '*', 'SOURCES': '*'}
-    },
+    'add_gdal_driver': { 'flags': ['BUILTIN', 'PLUGIN'], 'kwargs': {'DEF': 1, 'TARGET': 1, 'SOURCES': '+'}},
     'gdal_driver': {
       'flags': ['BUILTIN'],
-      'kwargs': {'TARGET': '*', 'SOURCES': '*', 'INCLUDES': '*', 'LIBRARIES': '*', 'DEFINITIONS': '*'}
-    }
+      'kwargs': {'TARGET': 1, 'SOURCES': '+', 'INCLUDES': '*', 'LIBRARIES': '*', 'DEFINITIONS': '*'}},
+    'gdal_dependent_format': {'pargs': {'nargs': 3}},
+    'gdal_driver_standard_includes': {'pargs': {'nargs': 1}},
+    'gdal_format': {'pargs': {'nargs': 2}},
+    'gdal_optional_format': {'pargs': {'nargs': 2}},
+    'gdal_target_interfaces': {'pargs': {'nargs': 1}},
+    'gdal_target_link_libraries': {'kwargs': {'TARGET': 1, 'LIBRARIES': '*'}},
+    'is_plugin': {'pargs': {'nargs': 2}},
+    'ogr_default_driver': {'pargs': {'nargs': 2}},
+    'ogr_default_driver2': {'pargs': {'nargs': 3}},
+    'ogr_dependent_driver': {'pargs': {'nargs': 3}},
+    'ogr_optional_driver': {'pargs': {'nargs': 2}},
+    'gdal_swig_binding_target': {'kwargs': {}, 'pargs': {'flags': [], 'nargs': '*'}},
+    'gdal_swig_bindings': {'kwargs': {}, 'pargs': {'flags': [], 'nargs': '*'}},
+    'gdal_csharp_dll': {
+      'flags': [],
+      'kwargs': {'TARGET': '*', 'NAMESPACE': '*', 'WORKING_DIRECTORY': '*', 'DEPENDS': '*'}},
+    'gdal_java_wrap': { 'flags': ['CXX'], 'kwargs': {'TARGET': '*', 'ARGS': '*'}}
   }
 
   # Specify variable tags.
