@@ -19,7 +19,6 @@ add_library(
   core/pcidsk_utils.cpp
   core/sysvirtualfile.cpp
   port/io_stdio.cpp
-  port/pthread_mutex.cpp
   segment/cpcidsk_array.cpp
   segment/cpcidskbinarysegment.cpp
   segment/cpcidskephemerissegment.cpp
