@@ -85,15 +85,11 @@ jobs:
       shell: bash -l {0}
       run: |
         conda install --yes --quiet --name gdalenv -c conda-forge python=3.7 swig numpy pytest
-        conda install --yes --quiet --name gdalenv -c conda-forge proj geos hdf4 hdf5 libnetcdf jasper openjpeg libtiff zlib curl libpng giflib libjpeg-turbo xerces-c expat libiconv libxml2 kealib
+        conda install --yes --quiet --name gdalenv -c conda-forge proj geos hdf4 hdf5 libnetcdf jasper openjpeg poppler libtiff zlib curl libpng giflib xerces-c expat libiconv libxml2 kealib
+        conda install --yes --quiet --name gdalenv -c conda-forge cfitsio freexl geotiff icu jpeg json-c libkml libpq libspatialite libtiff libwebp-base pcre postgresql sqlite tiledb zlib zstd
         python -m pip install -U pip wheel setuptools numpy
         python -m pip install -r gdal/autotest/requirements.txt
         cinst -y --no-progress 7zip wget git
-        wget -q http://download.gisinternals.com/sdk/downloads/${SDK}-dev.zip
-        7z x ${SDK}-dev.zip
-        rm ${SDK}/include/gdal*.h
-        rm ${SDK}/lib/gdal_i.lib
-        rm ${SDK}/include/ogr*.h
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
         mkdir -p $GITHUB_WORKSPACE/build
     - name: Configure
