@@ -84,9 +84,10 @@ jobs:
     - name: Install proj by miniconda
       shell: bash -l {0}
       run: |
-        conda install --yes --quiet --name gdalenv -c conda-forge python=3.7 swig numpy pytest
-        conda install --yes --quiet --name gdalenv -c conda-forge proj geos hdf4 hdf5 libnetcdf jasper openjpeg poppler libtiff zlib curl libpng giflib xerces-c expat libiconv libxml2 kealib
-        conda install --yes --quiet --name gdalenv -c conda-forge cfitsio freexl geotiff icu jpeg json-c libkml libpq libspatialite libtiff libwebp-base pcre postgresql sqlite tiledb zlib zstd
+        conda install --yes --quiet --name gdalenv -c conda-forge python=3.7 swig numpy pytest proj geos hdf4 hdf5 \
+            libnetcdf jasper openjpeg poppler libtiff zlib curl libpng giflib xerces-c expat libiconv libxml2 kealib \
+            cfitsio freexl geotiff icu jpeg json-c libkml libpq libspatialite libtiff libwebp-base \
+            pcre postgresql sqlite tiledb zlib zstd
         python -m pip install -U pip wheel setuptools numpy
         python -m pip install -r gdal/autotest/requirements.txt
         cinst -y --no-progress 7zip wget git
@@ -106,7 +107,7 @@ jobs:
     runs-on: macOS-latest
     env:
       CONFIGURATION: ../gdal/cmake4gdal/configurations/full_drivers.cmake
-      CMAKE_OPTIONS: -DGDAL_USE_GIFLIB_INTERNAL=YES -DCFITSIO_ROOT=/usr/local/Cellar/cfitsio/3.450_1 -DPROJ_ROOT=/usr/local/Cellar/proj/6.2.0 -DLibXml2_ROOT=/usr/local/opt/libxml2 -DSPATIALITE_ROOT=/usr/local/opt/libspatialite/ -DPostgreSQL_ROOT=/usr/local/opt/libpq/ -DEXPAT_ROOT=/usr/local/opt/expat/ -DSQLite3_ROOT=/usr/local/opt/sqlite/ -DOpenSSL_ROOT=/usr/local/opt/openssl -DPNG_ROOT=/usr/local/Cellar/libpng/1.6.37 -DJPEG_ROOT=/usr/local/Cellar/jpeg/9c -DOpenJPEG_ROOT=/usr/local/Cellar/openjpeg/2.3.1
+      CMAKE_OPTIONS: -DGDAL_USE_GIFLIB_INTERNAL=YES -DCFITSIO_ROOT=/usr/local/Cellar/cfitsio/3.450_1 -DPOPPLER_ROOT=/usr/local/Cellar/poppler/0.87.0 -DPROJ_ROOT=/usr/local/Cellar/proj/6.2.0 -DLibXml2_ROOT=/usr/local/opt/libxml2 -DSPATIALITE_ROOT=/usr/local/opt/libspatialite/ -DPostgreSQL_ROOT=/usr/local/opt/libpq/ -DEXPAT_ROOT=/usr/local/opt/expat/ -DSQLite3_ROOT=/usr/local/opt/sqlite/ -DOpenSSL_ROOT=/usr/local/opt/openssl -DPNG_ROOT=/usr/local/Cellar/libpng/1.6.37 -DJPEG_ROOT=/usr/local/Cellar/jpeg/9c -DOpenJPEG_ROOT=/usr/local/Cellar/openjpeg/2.3.1
     steps:
     - name: Checkout GDAL master HEAD
       uses: actions/checkout@v2
@@ -126,7 +127,8 @@ jobs:
         brew install postgresql || brew link --overwrite postgresql
         brew install freexl libxml2 libspatialite geos proj openjpeg giflib szip postgis poppler doxygen
         brew install ccache swig
-        rm -f /usr/local/include/vrtdataset.h
+        # gdal is automatically installed as a dependency for postgis
+        brew uninstall --force gdal || exit 0
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
         mkdir -p $GITHUB_WORKSPACE/build
     - name: Configure
