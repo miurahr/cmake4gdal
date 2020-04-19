@@ -107,6 +107,7 @@ endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Poppler
+                                  FOUND_VAR POPPLER_FOUND
                                   REQUIRED_VARS POPPLER_LIBRARY POPPLER_INCLUDE_DIR
                                   VERSION_VAR  POPPLER_VERSION_STRING
                                   HANDLE_COMPONENTS)
