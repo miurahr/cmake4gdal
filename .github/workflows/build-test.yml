@@ -52,7 +52,7 @@ jobs:
     - name: Build
       run: |
         cmake --build $GITHUB_WORKSPACE/build
-    - name: Quick Test
+    - name: Quicktest
       run: |
         cmake --build $GITHUB_WORKSPACE/build --target quicktest
 
@@ -84,24 +84,25 @@ jobs:
     - name: Install proj by miniconda
       shell: bash -l {0}
       run: |
-        conda install --yes --quiet --name gdalenv -c conda-forge python=3.7 swig numpy pytest proj geos hdf4 hdf5 \
+        conda install --yes --quiet --name gdalenv -c conda-forge python=3.7 swig numpy pytest git proj geos hdf4 hdf5 \
             libnetcdf jasper openjpeg poppler libtiff zlib curl libpng giflib xerces-c expat libiconv libxml2 kealib \
             cfitsio freexl geotiff icu jpeg libkml libpq libspatialite libtiff libwebp-base \
             pcre postgresql sqlite tiledb zlib zstd
         python -m pip install -U pip wheel setuptools numpy
         python -m pip install -r gdal/autotest/requirements.txt
-        cinst -y --no-progress 7zip wget git
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
-        mkdir -p $GITHUB_WORKSPACE/build
     - name: Configure
       shell: bash -l {0}
       run: |
+        mkdir -p $GITHUB_WORKSPACE/build
         cd $GITHUB_WORKSPACE/build
         cmake -A ${architecture} -G "${generator}" -C "${CONFIGURATION}" "-DECW_ROOT=${GITHUB_WORKSPACE}/${SDK}" -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
     - name: Build
       shell: bash -l {0}
-      run: |
-        cmake --build $GITHUB_WORKSPACE/build --config Release
+      run: cmake --build $GITHUB_WORKSPACE/build --config Release
+    - name: Quicktest
+      shell: bash -l {0}
+      run: cmake --build $GITHUB_WORKSPACE/build --config Release --target quicktest
 
   build-mac:
     runs-on: macOS-latest
@@ -128,13 +129,14 @@ jobs:
         brew install freexl libxml2 libspatialite geos proj openjpeg giflib szip postgis poppler doxygen
         brew install ccache swig
         # gdal is automatically installed as a dependency for postgis
-        brew uninstall --force gdal || exit 0
+        brew uninstall --ignore-dependencies gdal
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
-        mkdir -p $GITHUB_WORKSPACE/build
     - name: Configure
       run: |
+        mkdir -p $GITHUB_WORKSPACE/build
         cd $GITHUB_WORKSPACE/build
         cmake -C ${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install-gdal ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
     - name: Build
-      run: |
-        cmake --build $GITHUB_WORKSPACE/build
+      run: cmake --build $GITHUB_WORKSPACE/build
+    - name: Quicktest
+      run: cmake --build $GITHUB_WORKSPACE/build --target quicktest
