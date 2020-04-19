@@ -108,7 +108,7 @@ jobs:
     runs-on: macOS-latest
     env:
       CONFIGURATION: ../gdal/cmake4gdal/configurations/full_drivers.cmake
-      CMAKE_OPTIONS: -DGDAL_USE_GIFLIB_INTERNAL=YES -DCFITSIO_ROOT=/usr/local/Cellar/cfitsio/3.450_1 -DPOPPLER_ROOT=/usr/local/Cellar/poppler/0.87.0 -DPROJ_ROOT=/usr/local/Cellar/proj/6.2.0 -DLibXml2_ROOT=/usr/local/opt/libxml2 -DSPATIALITE_ROOT=/usr/local/opt/libspatialite/ -DPostgreSQL_ROOT=/usr/local/opt/libpq/ -DEXPAT_ROOT=/usr/local/opt/expat/ -DSQLite3_ROOT=/usr/local/opt/sqlite/ -DOpenSSL_ROOT=/usr/local/opt/openssl -DPNG_ROOT=/usr/local/Cellar/libpng/1.6.37 -DJPEG_ROOT=/usr/local/Cellar/jpeg/9c -DOpenJPEG_ROOT=/usr/local/Cellar/openjpeg/2.3.1
+      CMAKE_OPTIONS: -DGDAL_USE_GIFLIB_INTERNAL=YES -DCFITSIO_ROOT=/usr/local/Cellar/cfitsio/3.450_1 -DPOPPLER_ROOT=/usr/local/Cellar/poppler/0.87.0 -DPROJ_ROOT=/usr/local/Cellar/proj/6.2.0 -DLibXml2_ROOT=/usr/local/opt/libxml2 -DSPATIALITE_ROOT=/usr/local/opt/libspatialite/ -DPostgreSQL_ROOT=/usr/local/opt/libpq/ -DEXPAT_ROOT=/usr/local/opt/expat/ -DXercesC_ROOT=/usr/local/Cellar/xerces-c/3.2.3 -DSQLite3_ROOT=/usr/local/opt/sqlite/ -DOpenSSL_ROOT=/usr/local/opt/openssl -DPNG_ROOT=/usr/local/Cellar/libpng/1.6.37 -DJPEG_ROOT=/usr/local/Cellar/jpeg/9c -DOpenJPEG_ROOT=/usr/local/Cellar/openjpeg/2.3.1
     steps:
     - name: Checkout GDAL master HEAD
       uses: actions/checkout@v2
