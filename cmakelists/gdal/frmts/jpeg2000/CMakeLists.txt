@@ -1,5 +1,6 @@
-add_gdal_driver(TARGET gdal_JPEG2000 SOURCES jpeg2000_vsil_io.h jpeg2000_vsil_io.cpp jpeg2000dataset.cpp)
+add_gdal_driver(TARGET gdal_JPEG2000 SOURCES jpeg2000_vsil_io.cpp jpeg2000dataset.cpp)
 gdal_standard_includes(gdal_JPEG2000)
+target_include_directories(gdal_JPEG2000 PRIVATE ${JASPER_INCLUDE_DIRS})
 gdal_target_link_libraries(TARGET gdal_JPEG2000 LIBRARIES JASPER::Jasper)
 
 if (HAVE_JASPER_UUID)

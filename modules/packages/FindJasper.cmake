@@ -30,12 +30,13 @@ endif()
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Jasper
                                   FOUND_VAR JASPER_FOUND
-                                  REQUIRED_VARS JASPER_LIBRARIES JASPER_INCLUDE_DIR JPEG_LIBRARIES
+                                  REQUIRED_VARS JASPER_LIBRARIES JASPER_INCLUDE_DIR
                                   VERSION_VAR JASPER_VERSION_STRING)
 mark_as_advanced(JASPER_INCLUDE_DIR)
 
 if(JASPER_FOUND)
     set(JASPER_LIBRARIES ${JASPER_LIBRARIES})
+    set(JASPER_INCLUDE_DIRS ${JASPER_INCLUDE_DIR})
     if(NOT TARGET JASPER::Jasper)
         add_library(JASPER::Jasper UNKNOWN IMPORTED)
         set_target_properties(JASPER::Jasper PROPERTIES
