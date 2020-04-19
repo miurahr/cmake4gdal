@@ -86,7 +86,7 @@ jobs:
       run: |
         conda install --yes --quiet --name gdalenv -c conda-forge python=3.7 swig numpy pytest proj geos hdf4 hdf5 \
             libnetcdf jasper openjpeg poppler libtiff zlib curl libpng giflib xerces-c expat libiconv libxml2 kealib \
-            cfitsio freexl geotiff icu jpeg json-c libkml libpq libspatialite libtiff libwebp-base \
+            cfitsio freexl geotiff icu jpeg libkml libpq libspatialite libtiff libwebp-base \
             pcre postgresql sqlite tiledb zlib zstd
         python -m pip install -U pip wheel setuptools numpy
         python -m pip install -r gdal/autotest/requirements.txt
