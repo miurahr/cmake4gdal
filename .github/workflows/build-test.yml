@@ -84,10 +84,11 @@ jobs:
     - name: Install proj by miniconda
       shell: bash -l {0}
       run: |
-        conda install --yes --quiet --name gdalenv -c conda-forge python=3.7 swig numpy pytest git proj geos hdf4 hdf5 \
-            libnetcdf openjpeg poppler libtiff zlib curl libpng xerces-c expat libiconv libxml2 kealib \
-            cfitsio freexl geotiff icu jpeg libkml libpq libspatialite libtiff libwebp-base \
-            pcre postgresql sqlite tiledb zlib zstd
+        conda install --yes --quiet --name gdalenv curl libiconv icu git python=3.7 swig numpy pytest zlib
+        conda install --yes --quiet --name gdalenv -c conda-forge proj geos hdf4 hdf5 \
+            libnetcdf openjpeg poppler libtiff libpng xerces-c expat libxml2 kealib \
+            cfitsio freexl geotiff jpeg libkml libpq libspatialite libtiff libwebp-base \
+            pcre postgresql sqlite tiledb zstd
         python -m pip install -U pip wheel setuptools numpy
         python -m pip install -r gdal/autotest/requirements.txt
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
@@ -136,7 +137,6 @@ jobs:
         mkdir -p $GITHUB_WORKSPACE/build
         cd $GITHUB_WORKSPACE/build
         cmake -C ${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install-gdal ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
-        cat $GITHUB_WORKSPACE/build/gdal/ogr/ogrsf_frmts/gml/CMakeFiles/ogr_GML.dir/flags.make
     - name: Build
       run: cmake --build $GITHUB_WORKSPACE/build
     - name: Quicktest
