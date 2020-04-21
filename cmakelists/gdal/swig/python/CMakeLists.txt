@@ -63,31 +63,41 @@ else ()
   file(TO_NATIVE_PATH "${CMAKE_CURRENT_BINARY_DIR}/osgeo/" OSGEO_BINARY_DIR)
   file(TO_NATIVE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/osgeo/" OSGEO_SOURCE_DIR)
   if (Python_VERSION_MAJOR EQUAL 3 AND Python_EXECUTABLE)
-    add_custom_target(
-      python_mod
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${OSGEO_BINARY_DIR}
-      COMMAND
-        ${Python_EXECUTABLE} -m lib2to3 --fix=import --fix=next --fix=renames --fix=unicode --fix=ws_comma --fix=xrange
-        --write --write-unchanged-files --nobackups --output-dir=${OSGEO_BINARY_DIR} ${OSGEO_SOURCE_DIR}__init__.py
-        ${OSGEO_SOURCE_DIR}gdal.py ${OSGEO_SOURCE_DIR}gdalconst.py ${OSGEO_SOURCE_DIR}gdalnumeric.py
-        ${OSGEO_SOURCE_DIR}ogr.py ${OSGEO_SOURCE_DIR}osr.py ${OSGEO_SOURCE_DIR}gnm.py ${OSGEO_SOURCE_DIR}gdal_array.py
-      BYPRODUCTS ${GDAL_PYTHON_PYSOURCES}
-      COMMENT "Generate and install python3 binding modules to ${OSGEO_BINARY_DIR} using lib2to3 utility.")
+    add_custom_command(OUTPUT ${GDAL_PYTHON_PYSOURCES}
+                          COMMAND ${CMAKE_COMMAND} -E make_directory ${OSGEO_BINARY_DIR}
+                          COMMAND ${Python_EXECUTABLE} -m lib2to3
+                          --fix=import --fix=next --fix=renames
+                          --fix=unicode --fix=ws_comma --fix=xrange
+                          --write --write-unchanged-files --nobackups
+                          --output-dir=${OSGEO_BINARY_DIR}
+                          ${osgeo_source_dir}__init__.py
+                          ${osgeo_source_dir}gdal.py
+                          ${osgeo_source_dir}gdalconst.py
+                          ${osgeo_source_dir}gdalnumeric.py
+                          ${osgeo_source_dir}ogr.py
+                          ${osgeo_source_dir}osr.py
+                          ${osgeo_source_dir}gnm.py
+                          ${osgeo_source_dir}gdal_array.py
+                          BYPRODUCTS ${GDAL_PYTHON_PYSOURCES})
   else ()
-    add_custom_target(
-      python_mod
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${OSGEO_BINARY_DIR}
-      COMMAND
-        ${CMAKE_COMMAND} -E copy ${OSGEO_SOURCE_DIR}__init__.py ${OSGEO_SOURCE_DIR}gdal.py
-        ${OSGEO_SOURCE_DIR}gdalconst.py ${OSGEO_SOURCE_DIR}gdalnumeric.py ${OSGEO_SOURCE_DIR}ogr.py
-        ${OSGEO_SOURCE_DIR}osr.py ${OSGEO_SOURCE_DIR}gnm.py ${OSGEO_SOURCE_DIR}gdal_array.py ${OSGEO_BINARY_DIR}
-      BYPRODUCTS ${GDAL_PYTHON_PYSOURCES}
-      COMMENT "Install python2 binding modules to ${OSGEO_BINARY_DIR}")
+        add_custom_command(OUTPUT ${GDAL_PYTHON_PYSOURCES}
+                          COMMAND ${CMAKE_COMMAND} -E make_directory ${osgeo_binary_dir}
+                          COMMAND ${CMAKE_COMMAND} -E copy
+                          ${osgeo_source_dir}__init__.py
+                          ${osgeo_source_dir}gdal.py
+                          ${osgeo_source_dir}gdalconst.py
+                          ${osgeo_source_dir}gdalnumeric.py
+                          ${osgeo_source_dir}ogr.py
+                          ${osgeo_source_dir}osr.py
+                          ${osgeo_source_dir}gnm.py
+                          ${osgeo_source_dir}gdal_array.py
+                          ${osgeo_binary_dir}
+                          BYPRODUCTS ${GDAL_PYTHON_PYSOURCES})
   endif ()
   set(GDAL_PYTHON_CSOURCES
-      ${GDAL_PYTHON_CSOURCE_DIR}/gdal_wrap.cpp ${GDAL_PYTHON_CSOURCE_DIR}/gdalconst_wrap.c
-      ${GDAL_PYTHON_CSOURCE_DIR}/gnm_wrap.cpp ${GDAL_PYTHON_CSOURCE_DIR}/ogr_wrap.cpp
-      ${GDAL_PYTHON_CSOURCE_DIR}/osr_wrap.cpp)
+    ${GDAL_PYTHON_CSOURCE_DIR}/gdal_wrap.cpp ${GDAL_PYTHON_CSOURCE_DIR}/gdalconst_wrap.c
+    ${GDAL_PYTHON_CSOURCE_DIR}/gnm_wrap.cpp ${GDAL_PYTHON_CSOURCE_DIR}/ogr_wrap.cpp
+    ${GDAL_PYTHON_CSOURCE_DIR}/osr_wrap.cpp)
 endif ()
 if (Python_FOUND)
   if (ENABLE_GNM)
@@ -102,24 +112,20 @@ if (Python_FOUND)
     COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/get_ext.py
     OUTPUT_VARIABLE PY_EXT_EXT
     OUTPUT_STRIP_TRAILING_WHITESPACE)
-  add_custom_target(
-    python_ext
-    COMMAND ${Python_EXECUTABLE} setup.py build_ext --inplace
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    BYPRODUCTS osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
-               osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT}
-    SOURCES ${GDAL_PYTHON_PYSOURCDES} ${GDAL_PYTHON_CSOURCES}
-    COMMENT "Build python binding modules with setuptools.")
-  add_custom_target(
-    python_binding ALL
-    DEPENDS python_mod python_ext gdal
-    COMMENT "Build all python binding files.")
-  add_custom_target(
-    python_wheel
-    COMMAND ${Python_EXECUTABLE} setup.py bdist_wheel
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS python_ext
-    COMMENT "Build wheel package for gdal python binding.")
+  add_custom_command(OUTPUT osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
+                     osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT}
+                     COMMAND ${Python_EXECUTABLE} setup.py build_ext --inplace
+                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                     BYPRODUCTS
+                     osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
+                     osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT}
+                     SOURCES ${GDAL_PYTHON_PYSOURCDES} ${GDAL_PYTHON_CSOURCES})
+  add_custom_target(python_binding ALL DEPENDS osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
+                    osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT} ${GDAL_PYTHON_PYSOURCES} gdal)
+  add_custom_target(python_wheel COMMAND ${Python_EXECUTABLE} setup.py bdist_wheel
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DEPENDS
+                    osgeo._gdal${PY_EXT_EXT} osgeo._gdalconst${PY_EXT_EXT} osgeo._gdal_array${PY_EXT_EXT}
+                    osgeo._gnm${PY_EXT_EXT} osgeo._ogr${PY_EXT_EXT} osgeo._osr${PY_EXT_EXT})
   if (CMAKE_INSTALL_PREFIX)
     install(CODE "execute_process(COMMAND ${Python_EXECUTABLE} setup.py install --prefix=\"${CMAKE_INSTALL_PREFIX}\"
                                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
