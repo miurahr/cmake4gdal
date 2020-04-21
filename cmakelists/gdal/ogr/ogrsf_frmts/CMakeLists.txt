@@ -54,6 +54,7 @@ ogr_optional_driver(selafin OSELAFIN)
 ogr_optional_driver(jml JML)
 ogr_optional_driver(vdv "VDV-451/VDV-452/INTREST Data Format")
 ogr_optional_driver(flatgeobuf FlatGeobuf)
+ogr_optional_driver(mapml MapML)
 
 # ######################################################################################################################
 #
@@ -76,6 +77,7 @@ ogr_dependent_driver(ngw "NextGIS Web" "HAVE_CURL")
 
 ogr_optional_driver(elastic ELASTIC)
 ogr_optional_driver(idrisi IDRISI)
+
 ogr_dependent_driver(pds "Planetary Data Systems TABLE" "GDAL_ENABLE_FRMT_PDS")
 
 ogr_dependent_driver(sqlite "SQLite3 / Spatialite RDBMS" "HAVE_SQLITE3")
