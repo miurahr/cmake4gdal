@@ -62,10 +62,10 @@ else ()
       ${CMAKE_CURRENT_BINARY_DIR}/osgeo/osr.py)
   file(TO_NATIVE_PATH "${CMAKE_CURRENT_BINARY_DIR}/osgeo/" OSGEO_BINARY_DIR)
   file(TO_NATIVE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/osgeo/" OSGEO_SOURCE_DIR)
+  file(MAKE_DIRECTORY  ${OSGEO_BINARY_DIR})
   if (Python_VERSION_MAJOR EQUAL 3 AND Python_EXECUTABLE)
     add_custom_command(
       OUTPUT ${GDAL_PYTHON_PYSOURCES}
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${OSGEO_BINARY_DIR}
       COMMAND
         ${Python_EXECUTABLE} -m lib2to3 --fix=import --fix=next --fix=renames --fix=unicode --fix=ws_comma --fix=xrange
         --write --write-unchanged-files --nobackups --output-dir=${OSGEO_BINARY_DIR} ${OSGEO_SOURCE_DIR}__init__.py
@@ -75,7 +75,6 @@ else ()
   else ()
     add_custom_command(
       OUTPUT ${GDAL_PYTHON_PYSOURCES}
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${OSGEO_BINARY_DIR}
       COMMAND
         ${CMAKE_COMMAND} -E copy ${OSGEO_SOURCE_DIR}__init__.py ${OSGEO_SOURCE_DIR}gdal.py
         ${OSGEO_SOURCE_DIR}gdalconst.py ${OSGEO_SOURCE_DIR}gdalnumeric.py ${OSGEO_SOURCE_DIR}ogr.py
