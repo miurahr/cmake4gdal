@@ -64,7 +64,9 @@ if (Python_FOUND)
               ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/autotest)
   endif ()
-  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/pytest_runner.cpp "
+  file(
+    WRITE ${CMAKE_CURRENT_BINARY_DIR}/pytest_runner.cpp
+    "
 #include <cstdlib>
 #include <filesystem>
 #include <string>

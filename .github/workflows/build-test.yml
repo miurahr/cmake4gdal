@@ -52,9 +52,9 @@ jobs:
     - name: Build
       run: |
         cmake --build $GITHUB_WORKSPACE/build
-    - name: Quicktest
+    - name: test
       run: |
-        cmake --build $GITHUB_WORKSPACE/build --target quicktest
+        cmake --build $GITHUB_WORKSPACE/build --target test-unit
 
   build-windows:
     runs-on: windows-latest
@@ -101,9 +101,9 @@ jobs:
     - name: Build
       shell: bash -l {0}
       run: cmake --build $GITHUB_WORKSPACE/build --config Release
-    - name: Quicktest
+    - name: test
       shell: bash -l {0}
-      run: cmake --build $GITHUB_WORKSPACE/build --config Release --target quicktest
+      run: cmake --build $GITHUB_WORKSPACE/build --config Release --target test-unit
 
   build-mac:
     runs-on: macOS-latest
@@ -139,5 +139,5 @@ jobs:
         cmake -C ${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install-gdal ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
     - name: Build
       run: cmake --build $GITHUB_WORKSPACE/build
-    - name: Quicktest
-      run: cmake --build $GITHUB_WORKSPACE/build --target quicktest
+    - name: test
+      run: cmake --build $GITHUB_WORKSPACE/build --target test-unit
