@@ -162,19 +162,19 @@ gdal_autotest_target(test_c_include_from_cpp_file test-C-include-from-CPP-file t
 gdal_autotest_target(testperfcopywords test-performance-copy-words testperfcopywords.cpp "")
 
 add_custom_target(
-        quicktest
-        DEPENDS test-unit
-        test-block-cache-1
-        test-block-cache-2
-        test-block-cache-3
-        test-block-cache-4
-        test-block-cache-5
-        test-block-cache-6
-        test-copy-words
-        test-closed-on-destroy-DM
-        test-threaded-condition
-        test-virtual-memory
-        test-block-cache-write
-        test-block-cache-limit
-        test-multi-threaded-writing
-        test-destroy)
+  quicktest
+  DEPENDS test-unit
+          test-block-cache-1
+          test-block-cache-2
+          test-block-cache-3
+          test-block-cache-4
+          test-block-cache-5
+          test-block-cache-6
+          test-copy-words
+          test-closed-on-destroy-DM
+          test-threaded-condition
+          test-virtual-memory
+          test-block-cache-write
+          test-block-cache-limit
+          test-multi-threaded-writing
+          test-destroy)
