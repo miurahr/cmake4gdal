@@ -54,7 +54,7 @@ jobs:
         cmake --build $GITHUB_WORKSPACE/build
     - name: test
       run: |
-        cmake --build $GITHUB_WORKSPACE/build --target test-unit
+        cmake --build $GITHUB_WORKSPACE/build --target quicktest
 
   build-windows:
     runs-on: windows-latest
@@ -103,7 +103,7 @@ jobs:
       run: cmake --build $GITHUB_WORKSPACE/build --config Release
     - name: test
       shell: bash -l {0}
-      run: cmake --build $GITHUB_WORKSPACE/build --config Release --target test-unit
+      run: cmake --build $GITHUB_WORKSPACE/build --config Release --target quicktest
 
   build-mac:
     runs-on: macOS-latest
@@ -140,4 +140,4 @@ jobs:
     - name: Build
       run: cmake --build $GITHUB_WORKSPACE/build
     - name: test
-      run: cmake --build $GITHUB_WORKSPACE/build --target test-unit
+      run: cmake --build $GITHUB_WORKSPACE/build --target quicktest
