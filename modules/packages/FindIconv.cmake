@@ -111,20 +111,30 @@ endif()
 find_library(Iconv_LIBRARY
   NAMES ${Iconv_LIBRARY_NAMES}
   DOC "iconv library (potentially the C library)")
-
+find_library(Iconv_CHARSET_LIBRARY
+             NAMES charset libcharset
+             DOC "iconv on windows has individual libcharset")
 mark_as_advanced(Iconv_INCLUDE_DIR)
-mark_as_advanced(Iconv_LIBRARY)
+mark_as_advanced(Iconv_LIBRARY Iconv_CHARSET_LIBRARY)
 
 include(FindPackageHandleStandardArgs)
 if(NOT Iconv_IS_BUILT_IN)
-  find_package_handle_standard_args(Iconv REQUIRED_VARS Iconv_LIBRARY Iconv_INCLUDE_DIR)
+  if(WIN32)
+    find_package_handle_standard_args(Iconv REQUIRED_VARS Iconv_LIBRARY Iconv_CHARSET_LIBRARY Iconv_INCLUDE_DIR)
+  else()
+    find_package_handle_standard_args(Iconv REQUIRED_VARS Iconv_LIBRARY Iconv_INCLUDE_DIR)
+  endif()
 else()
   find_package_handle_standard_args(Iconv REQUIRED_VARS Iconv_LIBRARY)
 endif()
 
 if(Iconv_FOUND)
   set(Iconv_INCLUDE_DIRS "${Iconv_INCLUDE_DIR}")
-  set(Iconv_LIBRARIES "${Iconv_LIBRARY}")
+  if(WIN32)
+    set(Iconv_LIBRARIES "${Iconv_LIBRARY}" "${Iconv_CHARSET_LIBRARY}")
+  else()
+    set(Iconv_LIBRARIES "${Iconv_LIBRARY}")
+  endif()
   if(NOT TARGET Iconv::Iconv)
     add_library(Iconv::Iconv INTERFACE IMPORTED)
   endif()
