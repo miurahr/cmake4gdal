@@ -67,8 +67,6 @@ if (Python_FOUND)
   file(
     WRITE ${CMAKE_CURRENT_BINARY_DIR}/pytest_runner.cpp
     "
-#include <cstdlib>
-#include <filesystem>
 #include <string>
 #include <Python.h>
 int main(int argc, char **argv) {
@@ -88,16 +86,18 @@ int main(int argc, char **argv) {
     wchar_t * program_name = Py_DecodeLocale(argv[0], NULL);
     Py_SetProgramName(program_name);
     Py_Initialize();
-    std::string prepend = std::string(\"../gdal/swig/python\") + ':';
-    std::wstring new_python_path = std::wstring(prepend.begin(), prepend.end()) + std::wstring(Py_GetPath());
-    Py_SetPath(new_python_path.c_str());
     PyRun_SimpleString(&*pycode.begin());
     Py_Finalize();
     return 0;
 }")
   add_executable(pytest_runner ${CMAKE_CURRENT_BINARY_DIR}/pytest_runner.cpp)
-  set_property(TARGET pytest_runner PROPERTY CXX_STANDARD 17)
+  set_property(TARGET pytest_runner PROPERTY CXX_STANDARD 11)
   target_link_libraries(pytest_runner PUBLIC gdal)
   target_include_directories(pytest_runner PRIVATE ${Python_INCLUDE_DIRS})
   target_link_libraries(pytest_runner PRIVATE ${Python_LIBRARIES})
+  add_custom_target(
+    autotest_runner
+    COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} $<TARGET_NAME:pytest_runner> -c ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
+    DEPENDS gdal gdalapps python_binding
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/autotest)
 endif ()
