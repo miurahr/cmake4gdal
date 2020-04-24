@@ -1,6 +1,6 @@
 # HDF5, BAG and HDF5Image
 option(GDAL_ENABLE_FRMT_HDF5_PLUGIN "build HDF5 driver as plugin" ON)
-set(_SOURCES
+set(SOURCE
     hdf5dataset.h
     iso19115_srs.h
     gh5_convenience.h
@@ -13,20 +13,26 @@ set(_SOURCES
 if (GDAL_ENABLE_FRMT_HDF5_PLUGIN)
   add_gdal_driver(
     TARGET gdal_HDF5
-    SOURCES ${_SOURCES}
+    SOURCES ${SOURCE}
     PLUGIN)
 else ()
-  add_gdal_driver(TARGET gdal_HDF5 SOURCES ${_SOURCES})
+  add_gdal_driver(TARGET gdal_HDF5 SOURCES ${SOURCE})
 endif ()
-unset(_SOURCES)
 # When build as plugin, initialize all drivers from Register_HDF5
 if (GDAL_ENABLE_PLUGIN OR GDAL_ENABLE_FRMT_HDF5_PLUGIN)
   target_compile_definitions(gdal_HDF5 PRIVATE -DHDF5_PLUGIN)
 endif ()
-
+target_compile_definitions(gdal_HDF5 PRIVATE ${HDF5_DEFINITIONS} -DH5_USE_16_API:BOOL=ON
+                                             -DDEFAULT_API_VERSION:STRING=v16)
 gdal_standard_includes(gdal_HDF5)
 if (WIN32)
-  target_compile_definitions(gdal_HDF5 PRIVATE -DWIN32 -D_HDF5USEDLL_)
+  target_compile_definitions(gdal_HDF5 PRIVATE -DWIN32)
 endif ()
 target_include_directories(gdal_HDF5 PRIVATE ${HDF5_INCLUDE_DIRS})
-gdal_target_link_libraries(TARGET gdal_HDF5 LIBRARIES ${HDF5_LIBRARIES})
+gdal_target_link_libraries(TARGET gdal_HDF5 LIBRARIES ${HDF5_CXX_LIBRARIES})
+
+if (HDF5_BUILD_SHARED_LIBS)
+  target_compile_definitions(gdal_HDF5 PRIVATE -DH5_BUILT_AS_DYNAMIC_LIB)
+else ()
+  target_compile_definitions(gdal_HDF5 PRIVATE -DH5_BUILT_AS_STATIC_LIB)
+endif ()
