@@ -54,22 +54,16 @@ define_find_package2(FME fmeobjects/cpp/issesion.h fme)
 
 find_package(ODBC COMPONENTS ODBCINST)
 set_package_properties(ODBC PROPERTIES PURPOSE "Enable DB support thru ODBC")
-if(ODBC_FOUND)
-    set(HAVE_ODBC ON)
-endif()
 option(GDAL_USE_XMLREFORMAT "Set ON to use xmlreformat" OFF)
 
 gdal_check_package(MySQL "MySQL")
 
 # basic libaries
 find_package(Boost)
-if(Boost_FOUND)
-    set(HAVE_BOOST ON)
-endif()
 gdal_check_package(CURL "Enable drivers to use web API")
-cmake_dependent_option(GDAL_USE_CURL "Set ON to use libcurl" ON "HAVE_CURL" OFF)
+cmake_dependent_option(GDAL_USE_CURL "Set ON to use libcurl" ON "CURL_FOUND" OFF)
 if(GDAL_USE_CURL)
-    if(NOT HAVE_CURL)
+    if(NOT CURL_FOUND)
         message(FATAL_ERROR "Configured to use libcurl, but not found")
     endif()
 endif()
@@ -212,9 +206,6 @@ else()
 endif()
 
 find_package(LibKML COMPONENTS DOM ENGINE)
-if(LIBKML_FOUND)
-    set(HAVE_LIBKML)
-endif()
 gdal_check_package(Jasper "Enable JPEG2000 support")
 
 if(HAVE_JASPER)
@@ -266,11 +257,6 @@ gdal_check_package(RASDAMAN "enable rasdaman driver")
 
 # OpenJPEG's cmake-CONFIG is broken, so call module explicitly
 find_package(OpenJPEG MODULE)
-if(OPENJPEG_FOUND)
-    set(HAVE_OPENJPEG ON CACHE INTERNAL "")
-else()
-    set(HAVE_OPENJPEG OFF CACHE INTERNAL "")
-endif()
 
 # Only GRASS 7 is currently supported but we keep dual version support in cmake for possible future switch to GRASS 8.
 set(TMP_GRASS OFF)

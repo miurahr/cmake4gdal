@@ -170,7 +170,7 @@ if (HAVE_ICONV)
   endif ()
 endif ()
 
-if (HAVE_ODBC)
+if (ODBC_FOUND)
   target_sources(cpl PRIVATE cpl_odbc.cpp)
   target_public_header(TARGET gdal HEADERS cpl_odbc.h)
   target_link_libraries(cpl PRIVATE ODBC::ODBC ODBC::ODBCINST)

@@ -14,17 +14,7 @@ endif ()
 
 add_executable(
   gdal_unit_test
-  tut/tut.hpp
-  tut/tut_assert.hpp
-  tut/tut_console_reporter.hpp
-  tut/tut_exception.hpp
-  tut/tut_gdal.h
   tut/tut_gdal.cpp
-  tut/tut_posix.hpp
-  tut/tut_reporter.hpp
-  tut/tut_restartable.hpp
-  tut/tut_result.hpp
-  tut/tut_runner.hpp
   gdal_unit_test.cpp
   test_alg.cpp
   test_cpl.cpp
