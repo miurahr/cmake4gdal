@@ -1,0 +1,25 @@
+name: Show build environment
+
+on: push
+
+jobs:
+  on-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        cmake --version
+
+  on-windows:
+    runs-on: windows-latest
+    steps:
+    - run: |
+        cmake --version
+
+  on-macosx:
+    runs-on: macOS-latest
+    steps:
+    - run: |
+        cmake --version
+        brew update
+        brew outdated
+        grep -n -A30 -B30 INFINITY /Applications/Xcode_11.3.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/cmath
