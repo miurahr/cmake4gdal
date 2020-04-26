@@ -88,7 +88,7 @@ endif ()
 add_feature_info(ogr_GPKG OGR_ENABLE_SQLITE "GeoPackage")
 ogr_dependent_driver(osm "OpenStreetMap XML and PBF" "OGR_ENABLE_SQLITE")
 ogr_dependent_driver(vfk "Czech Cadastral Exchange Data Format" "SQLITE3_FOUND")
-ogr_dependent_driver(mvt "MVT" "SQLITE3_FOUND")
+ogr_dependent_driver(mvt "MVT" "SQLITE3_FOUND;OGR_ENABLE_OSM")
 
 # ODBC/POSTGRES/MYSQL/INGRESS/COUCHDB
 ogr_dependent_driver(amigocloud AMIGOCLOUD "CURL_FOUND;OGR_ENABLE_PGDUMP")
