@@ -1,16 +1,12 @@
 add_library(
   libpng STATIC
   png.c
-  pngconf.h
-  pnggccrd.c
   pngmem.c
   pngread.c
   pngrtran.c
   pngset.c
-  pngvcrd.c
   pngwrite.c
   pngwutil.c
-  png.h
   pngerror.c
   pngget.c
   pngpread.c
