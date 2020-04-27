@@ -86,7 +86,7 @@ else ()
       ${GDAL_PYTHON_CSOURCE_DIR}/gnm_wrap.cpp ${GDAL_PYTHON_CSOURCE_DIR}/ogr_wrap.cpp
       ${GDAL_PYTHON_CSOURCE_DIR}/osr_wrap.cpp)
 endif ()
-if (Python_FOUND)
+if (Python_FOUND AND NOT WIN32)
   if (ENABLE_GNM)
     set(GNM_ENABLED "True")
   else ()
