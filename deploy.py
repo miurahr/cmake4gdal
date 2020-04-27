@@ -37,7 +37,7 @@ def remove_links():
             os.unlink(os.path.join(cur, 'CMakeLists.txt'))
 
 
-def create_links():
+def create_links(as_symlink=False):
     """create symlinks of CMakeLists in each project folders"""
     for cur, _, files in os.walk(listpath):
         if 'CMakeLists.txt' in files:
@@ -45,7 +45,10 @@ def create_links():
             target_file = os.path.join(target, 'CMakeLists.txt')
             if os.path.exists(target_file):
                 os.unlink(target_file)
-            os.link(os.path.abspath(os.path.join(cur, 'CMakeLists.txt')), target_file)
+            if as_symlink:
+                os.symlink(os.path.abspath(os.path.join(cur, 'CMakeLists.txt')), target_file)
+            else:
+                os.link(os.path.abspath(os.path.join(cur, 'CMakeLists.txt')), target_file)
 
 
 def main(arg=None):
@@ -53,6 +56,7 @@ def main(arg=None):
                                      formatter_class=argparse.RawTextHelpFormatter, add_help=True)
     parser.add_argument("-t", "--test", action='store_true', help="Check cmakefile integrity.")
     parser.add_argument("-r", "--remove", action='store_true', help="Remove all linked CMakeLists.txt")
+    parser.add_argument("-s", "--symlink", action='store_true', help="Create symbolic links instead of hard links")
     args = parser.parse_args(arg)
 
     if args.test:
@@ -60,7 +64,7 @@ def main(arg=None):
     elif args.remove:
         remove_links()
     else:
-        create_links()
+        create_links(args.symlink)
     return 0
 
 

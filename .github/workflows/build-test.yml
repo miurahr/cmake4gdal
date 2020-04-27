@@ -86,7 +86,7 @@ jobs:
       run: |
         conda install --yes --quiet --name gdalenv curl libiconv icu git python=3.7 swig numpy pytest zlib
         conda install --yes --quiet --name gdalenv -c conda-forge proj geos hdf4 hdf5 \
-            libnetcdf openjpeg poppler libtiff libpng xerces-c expat libxml2 kealib \
+            libnetcdf openjpeg poppler libtiff libpng xerces-c expat libxml2 kealib shapelib \
             cfitsio freexl geotiff jpeg libkml libpq libspatialite libtiff libwebp-base \
             pcre postgresql sqlite tiledb zstd
         python -m pip install -U pip wheel setuptools numpy
@@ -97,7 +97,7 @@ jobs:
       run: |
         mkdir -p $GITHUB_WORKSPACE/build
         cd $GITHUB_WORKSPACE/build
-        cmake -A ${architecture} -G "${generator}" -C "${CONFIGURATION}" "-DECW_ROOT=${GITHUB_WORKSPACE}/${SDK}" -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
+        cmake -A ${architecture} -G "${generator}" -C "${CONFIGURATION}" "-DCMAKE_PREFIX_PATH=${CONDA_PREFIX}" -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
     - name: Build
       shell: bash -l {0}
       run: cmake --build $GITHUB_WORKSPACE/build --config Release
