@@ -81,14 +81,14 @@ jobs:
         channels: conda-forge
     - run: |
         cmake --version
-    - name: Install proj by miniconda
+    - name: Install dependency
       shell: bash -l {0}
       run: |
-        conda install --yes --quiet --name gdalenv curl libiconv icu git python=3.7 swig numpy pytest zlib
-        conda install --yes --quiet --name gdalenv -c conda-forge proj geos hdf4 hdf5 \
+        conda install --yes --name gdalenv curl libiconv icu git python=3.7 swig numpy pytest zlib
+        conda install --yes --name gdalenv -c conda-forge proj geos hdf4 hdf5 \
             libnetcdf openjpeg poppler libtiff libpng xerces-c expat libxml2 kealib \
             cfitsio freexl geotiff jpeg libkml libpq libspatialite libtiff libwebp-base \
-            pcre postgresql sqlite tiledb zstd
+            pcre postgresql sqlite tiledb zstd charls cryptopp cgal json-c jasper
         python -m pip install -U pip wheel setuptools numpy
         python -m pip install -r gdal/autotest/requirements.txt
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
