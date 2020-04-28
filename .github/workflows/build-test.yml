@@ -14,7 +14,7 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     env:
-      CONFIGURATION: ../gdal/cmake4gdal/configurations/full_drivers.cmake
+      CONFIGURATION: gdal/cmake4gdal/configurations/full_drivers.cmake
       CMAKE_OPTIONS: -DPython_LOOKUP_VERSION=3.6 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_COMPILER_LAUNCHER=ccache
     steps:
     - name: Checkout GDAL master HEAD
@@ -48,7 +48,7 @@ jobs:
     - name: Configure
       run: |
         cd $GITHUB_WORKSPACE/build
-        cmake -C ${CONFIGURATION} ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${UNITY_BUILD} ${GITHUB_WORKSPACE}/gdal
+        cmake -C ${GITHUB_WORKSPACE}/${CONFIGURATION} ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${UNITY_BUILD} ${GITHUB_WORKSPACE}/gdal
     - name: Build
       run: |
         cmake --build $GITHUB_WORKSPACE/build
@@ -56,13 +56,79 @@ jobs:
       run: |
         cmake --build $GITHUB_WORKSPACE/build --target quicktest
 
-  build-windows:
+  build-windows-msys2-mingw:
+    runs-on: windows-latest
+    env:
+      MSYS2_PATH_TYPE: inherit
+      MSYS2_PATH_LIST: D:\msys64\mingw64\bin;D:\msys64\usr\local\bin;D:\msys64\usr\bin;D:\msys64\bin
+      MSYS2_TARBALL_URL: https://github.com/msys2/msys2-installer/releases/download/nightly-x86_64/msys2-base-x86_64-latest.tar.xz
+      generator: MINGW Makefile
+      CONFIGURATION: "gdal\\cmake4gdal\\configurations\\windows.cmake"
+      JAVA_HOME: "C:\\Program Files\\Java\\zulu-11-azure-jdk_11.33.15-11.0.4-win_x64"
+    steps:
+      - name: Checkout GDAL master HEAD
+        uses: actions/checkout@v2
+        with:
+          repository: 'osgeo/gdal'
+          path: 'gdal'
+      - name: Checkout CMake4GDAL
+        uses: actions/checkout@v2
+        with:
+          path: 'gdal/cmake4gdal'
+      - name: Install MSYS2
+        shell: bash -l {0}
+        run: |
+          curl -f -L -o msys2.tar.xz $MSYS2_TARBALL_URL
+          7z x msys2.tar.xz -so | 7z x -aoa -si -ttar -oD:
+          ls -l /d/
+      - name: Add MSYS2 path
+        run: |
+          echo "::set-env name=PATH::$env:MSYS2_PATH_LIST;$env:PATH"
+      - name: Update MSYS2
+        shell: bash -l {0}
+        run: |
+          pacman --version
+          pacman -Syyuu --noconfirm
+      - name: Install MinGW-w64
+        shell: bash -l {0}
+        run: |
+          pacman --version
+          pacman -S --noconfirm base-devel &&
+          pacman -S --noconfirm mingw64/mingw-w64-x86_64-toolchain
+      - run: |
+          cmake --version
+      - name: Install dependency
+        shell: bash -l {0}
+        run: |
+          pacman -S --noconfirm mingw-w64-x86_64-proj mingw-w64-x86_64-geos mingw-w64_x86_64-hdf5 \
+              mingw-w64-x86_64-netcdf mingw-w64-x86_64-openjpeg mingw-w64-x86_64-poppler mingw-w64-x86_64-libtiff \
+              mingw-w64-x86_64-libpng mingw-w64-x86_64-xerces-c mingw-w64-x86_64-expat mingw-w64-x86_64-libxml2 \
+              mingw-w64-x86_64-libfreexl mingw-w64-x86_64-libgeotiff mingw-w64-x86_64-libspatialite mingw-w64-x86_64-libtiff \
+              mingw-w64-x86_64-pcre mingw-w64-x86_64-postgresql mingw-w64-x86_64-sqlite3 mingw-w64-x86_64-tiledb \
+              mingw-w64-x86_64-zstd mingw-w64-x86_64-crypto++ mingw-w64-x86_64-cgal jmingw-w64-x86_64-asper \
+              mingw-w64-x86_64-python mingw-w64-x86_64-python-numpy
+          python -m pip install -U pip wheel setuptools numpy
+          python -m pip install -r gdal/autotest/requirements.txt
+          python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
+      - name: Configure
+        shell: bash -l {0}
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/build
+          cd $GITHUB_WORKSPACE/build
+          cmake -G "${generator}" -C "${GITHUB_WORKSPACE}\\${CONFIGURATION}" "-DCMAKE_PREFIX_PATH=/mssy64/mingw64" -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
+      - name: Build
+        shell: bash -l {0}
+        run: cmake --build $GITHUB_WORKSPACE/build --config Release
+      - name: test
+        shell: bash -l {0}
+        run: cmake --build $GITHUB_WORKSPACE/build --config Release --target quicktest
+
+  build-windows-conda:
     runs-on: windows-latest
     env:
         architecture: x64
         generator: Visual Studio 16 2019
-        SDK: release-1911-x64
-        CONFIGURATION: ../gdal/cmake4gdal/configurations/windows.cmake
+        CONFIGURATION: "gdal\\cmake4gdal\\configurations\\windows.cmake"
         JAVA_HOME: "C:\\Program Files\\Java\\zulu-11-azure-jdk_11.33.15-11.0.4-win_x64"
     steps:
     - name: Checkout GDAL master HEAD
@@ -84,11 +150,12 @@ jobs:
     - name: Install dependency
       shell: bash -l {0}
       run: |
-        conda install --yes --name gdalenv curl libiconv icu git python=3.7 swig numpy pytest zlib
-        conda install --yes --name gdalenv -c conda-forge proj geos hdf4 hdf5 \
+        conda install --yes --quiet --name gdalenv curl libiconv icu git python=3.7 swig numpy pytest zlib
+        conda install --yes --quiet --name gdalenv -c conda-forge proj geos hdf4 hdf5 \
             libnetcdf openjpeg poppler libtiff libpng xerces-c expat libxml2 kealib \
-            cfitsio freexl geotiff jpeg libkml libpq libspatialite libtiff libwebp-base \
-            pcre postgresql sqlite tiledb zstd charls cryptopp cgal json-c jasper
+            cfitsio freexl geotiff jpeg libpq libspatialite libtiff libwebp-base \
+            pcre postgresql sqlite tiledb zstd charls cryptopp cgal jasper \
+            doxygen
         python -m pip install -U pip wheel setuptools numpy
         python -m pip install -r gdal/autotest/requirements.txt
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
@@ -97,7 +164,7 @@ jobs:
       run: |
         mkdir -p $GITHUB_WORKSPACE/build
         cd $GITHUB_WORKSPACE/build
-        cmake -A ${architecture} -G "${generator}" -C "${CONFIGURATION}" "-DCMAKE_PREFIX_PATH=${CONDA_PREFIX}" -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
+        cmake -A ${architecture} -G "${generator}" -C "${GITHUB_WORKSPACE}\\${CONFIGURATION}" "-DCMAKE_PREFIX_PATH=${CONDA_PREFIX}" -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
     - name: Build
       shell: bash -l {0}
       run: cmake --build $GITHUB_WORKSPACE/build --config Release
@@ -108,7 +175,7 @@ jobs:
   build-mac:
     runs-on: macOS-latest
     env:
-      CONFIGURATION: ../gdal/cmake4gdal/configurations/full_drivers.cmake
+      CONFIGURATION: gdal/cmake4gdal/configurations/full_drivers.cmake
       CMAKE_OPTIONS: -DGDAL_USE_GIFLIB_INTERNAL=YES -DCFITSIO_ROOT=/usr/local/opt/cfitsio  -DPoppler_ROOT=/usr/local/opt/poppler -DPROJ_ROOT=/usr/local/opt/proj -DLibXml2_ROOT=/usr/local/opt/libxml2 -DSPATIALITE_ROOT=/usr/local/opt/libspatialite -DPostgreSQL_ROOT=/usr/local/opt/libpq -DEXPAT_ROOT=/usr/local/opt/expat -DXercesC_ROOT=/usr/local/opt/xerces-c -DSQLite3_ROOT=/usr/local/opt/sqlite -DOpenSSL_ROOT=/usr/local/opt/openssl -DPNG_ROOT=/usr/local/opt/libpng -DJPEG_ROOT=/usr/local/opt/jpeg -DOpenJPEG_ROOT=/usr/local/opt/openjpeg
     steps:
     - name: Checkout GDAL master HEAD
@@ -136,7 +203,7 @@ jobs:
       run: |
         mkdir -p $GITHUB_WORKSPACE/build
         cd $GITHUB_WORKSPACE/build
-        cmake -C ${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install-gdal ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
+        cmake -C $GITHUB_WORKSPACE/${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install-gdal ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${UNITY_BUILD} $GITHUB_WORKSPACE/gdal
     - name: Build
       run: cmake --build $GITHUB_WORKSPACE/build
     - name: test

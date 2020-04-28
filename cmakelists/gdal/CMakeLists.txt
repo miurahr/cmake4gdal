@@ -9,7 +9,7 @@ option(BUILD_DOCS "Build documents" ON)
 option(GDAL_ENABLE_PLUGIN "Set ON prefer to build most drivers as plugin" OFF)
 option(GDAL_ENABLE_QHULL "use qhull" ON)
 option(GDAL_USE_LIBPCIDSK_INTERNAL "Set ON to build pcidsk driver with internal sdk" OFF)
-option(ENABLE_LTO "Enable Link-Time Optimization if possible" ON)
+option(ENABLE_LTO "Enable Link-Time Optimization if possible" OFF)
 option(GDAL_ENABLE_MACOSX_FRAMEWORK "Enable Framework on Mac OS X" OFF)
 
 # libgdal shared/satic library generation
