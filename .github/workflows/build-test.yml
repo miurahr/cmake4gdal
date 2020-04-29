@@ -87,7 +87,8 @@ jobs:
         run: msys2do pacman -S --noconfirm  mingw-w64-x86_64-python-numpy mingw-w64-x86_64-python-pytest mingw-w64-x86_64-cmake
       - name: Install python dependenccies
         run: |
-          msys2do python -m pip install -U pip wheel setuptools numpy
+          msys2do python -m ensurepip --upgrade
+          msys2do python -m pip install -U wheel setuptools numpy
           msys2do python -m pip install -r $GITHUB_WORKSPACE/gdal/autotest/requirements.txt
       - name: deploy cmake scripts to gdal project
         run: msys2do python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
