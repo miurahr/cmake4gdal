@@ -50,19 +50,18 @@ endif ()
 if (POLICY CMP0094)
   cmake_policy(SET CMP0094 NEW)
 endif ()
-
+#
 project(gdal LANGUAGES C CXX)
-
+#
 # setup cmake modules paths
 include(cmake4gdal/modules/init.cmake)
-
 set(CMAKE_CONFIGURATION_TYPES
     "Debug;Release"
     CACHE STRING "Configs" FORCE)
-
+#
 # template files path
 set(GDAL_CMAKE_TEMPLATE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake4gdal/template)
-
+#
 # Custom global properties
 define_property(
   GLOBAL
@@ -84,15 +83,11 @@ define_property(
   PROPERTY PLUGIN_OUTPUT_DIR
   BRIEF_DOCS "Plugin modules build directories"
   FULL_DOCS "Plugin modules build directories")
-
+#
 # check compiler and set preferences.
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wno-unused-command-line-argument)
-endif ()
-
+#
 if (MSVC)
   set(CMAKE_DEBUG_POSTFIX "d")
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE)
@@ -100,10 +95,10 @@ if (MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4127 -wd4251 -wd4275 -wd4786 -wd4100 -wd4245 -wd4206 -wd4018 -wd4389")
   add_definitions(-DNOMINMAX)
 endif ()
-
+#
 include(CheckCompilerMachineOption)
 include(CheckCompilerSIMDFeature)
-
+#
 if ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "(x86|AMD64)")
   set(ARCH_FLAG)
   check_compiler_machine_option(flag SSE)
@@ -120,7 +115,7 @@ if ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "(x86|AMD64)")
   check_compiler_simd_feature(RESULT res FLAG ${ARCH_FLAG} QUERY HAVE_AVX)
   set(HAVE_AVX_AT_COMPILE_TIME ${res})
 endif ()
-
+#
 option(CLANG_TIDY_ENABLED "Run clang-tidy with the compiler." OFF)
 set(CLANG_TIDY_CHECKS
     "-*,clang-analyzer-alpha.unix.cstring.*"
@@ -142,7 +137,7 @@ if (RUN_CLANG_TIDY)
         "-warnings-as-errors='${CLANG_TIDY_WARNINGS_AS_ERRORS}'")
   endif ()
 endif ()
-
+#
 # Developer may want to specify some variable to find proper version.
 # ~~~
 # Priority is as same order as follows:
@@ -156,7 +151,8 @@ endif ()
 #   $ cmake -DPython_FIND_VIRTUALENV=ONLY ..
 #   $ cmake -DPython_ROOT=C:\Python36 ..
 # ~~~
-
+#
+include(FeatureSummary)
 if (Python_LOOKUP_VERSION)
   set(Python_FIND_STRATEGY VERSION)
   find_package(Python ${Python_LOOKUP_VERSION} COMPONENTS Interpreter Development NumPy)
@@ -164,21 +160,15 @@ else ()
   set(Python_FIND_STRATEGY LOCATION)
   find_package(Python COMPONENTS Interpreter Development NumPy)
 endif ()
-
-include(FeatureSummary)
 set_package_properties(Python PROPERTIES PURPOSE "SWIG_PYTHON: Python binding")
-
+#
 add_subdirectory(gdal)
-
 # unit tests
 add_subdirectory(autotest/cpp)
-
 # please comment out if you want to exclude autotest from distribution.
 add_subdirectory(autotest)
-
 # Google OSS-Fuzz project utilities
 add_subdirectory(gdal/fuzzers)
 # Google OSS-Fuzz tests
 add_subdirectory(gdal/fuzzers/tests)
-
 # vim: ts=4 sw=4 sts=4 et
