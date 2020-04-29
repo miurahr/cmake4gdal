@@ -74,34 +74,29 @@ jobs:
         with:
           path: 'gdal/cmake4gdal'
       - name: Install MSYS2
-        shell: pwsh
-        run: |
-          choco install msys2 --no-progress --yes --params "/InstallDir:$env:GITHUB_WORKSPACE\msys2"
-          echo "::add-path::$GITHUB_WORKSPACE/msys2/usr/bin/"
-      - name: Install toolchains and dependency
-        shell: bash.exe -ilc '{0}'
-        run: |
-          pacman -S --noconfirm base-devel
-          pacman -S --noconfirm mingw64/mingw-w64-x86_64-toolchain
-          pacman -S --noconfirm mingw-w64-x86_64-proj mingw-w64-x86_64-geos mingw-w64_x86_64-hdf5 \
-              mingw-w64-x86_64-netcdf mingw-w64-x86_64-openjpeg mingw-w64-x86_64-poppler mingw-w64-x86_64-libtiff \
-              mingw-w64-x86_64-libpng mingw-w64-x86_64-xerces-c mingw-w64-x86_64-expat mingw-w64-x86_64-libxml2 \
-              mingw-w64-x86_64-libfreexl mingw-w64-x86_64-libgeotiff mingw-w64-x86_64-libspatialite \
-              mingw-w64-x86_64-libtiff mingw-w64-x86_64-pcre mingw-w64-x86_64-postgresql mingw-w64-x86_64-sqlite3 \
-              mingw-w64-x86_64-zstd mingw-w64-x86_64-crypto++ mingw-w64-x86_64-cgal jmingw-w64-x86_64-asper \
-              mingw-w64-x86_64-python mingw-w64-x86_64-python-numpy mingw-w64-x86_64-tiledb python3-pip
-          python -m pip install -U pip wheel setuptools numpy
-          python -m pip install -r $GITHUB_WORKSPACE/gdal/autotest/requirements.txt
-          python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
+        uses: numworks/setup-msys2@v1
+        with:
+          update: true
+      - name: Install base development packages
+        run: msys2do pacman -S --noconfirm base-devel
+      - name: Install mingw toolchain
+        run: msys2do pacman -S --noconfirm mingw64/mingw-w64-x86_64-toolchain
+      - name: Install dependency libraries
+        run: msys2do pacman -S --noconfirm mingw-w64-x86_64-proj mingw-w64-x86_64-geos mingw-w64-x86_64-hdf5 mingw-w64-x86_64-netcdf mingw-w64-x86_64-openjpeg mingw-w64-x86_64-poppler mingw-w64-x86_64-libtiff mingw-w64-x86_64-libpng mingw-w64-x86_64-xerces-c mingw-w64-x86_64-libxml2 mingw-w64-x86_64-libfreexl mingw-w64-x86_64-libgeotiff mingw-w64-x86_64-libspatialite mingw-w64-x86_64-libtiff mingw-w64-x86_64-pcre mingw-w64-x86_64-postgresql mingw-w64-x86_64-sqlite3 mingw-w64-x86_64-zstd mingw-w64-x86_64-crypto++ mingw-w64-x86_64-cgal mingw-w64-x86_64-asper mingw-w64-x86_64-python mingw-w64-x86_64-python-numpy mingw-w64-x86_64-tiledb
+      - name: Install cmake and python
+        run: msys2do pacman -S --noconfirm mingw-w64-x86_64-cmake mingw-w64-x86_64-python mingw-w64-python-numpy mingw-w64-x86_64-python-pytest
+      - name: Update pyhton pip
+        run: msys2do python -m pip install -U pip wheel setuptools numpy
+      - name: Install python dependenccies
+        run: msys2do python -m pip install -r $GITHUB_WORKSPACE/gdal/autotest/requirements.txt
+      - name: deploy cmake scripts to gdal project
+        run: msys2do python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
       - name: Configure
-        shell: bash.exe -ilc '{0}'
-        run: cmake -G "${generator}" -C "${GITHUB_WORKSPACE}\\${CONFIGURATION}" "-DCMAKE_PREFIX_PATH=D:/msys64/mingw64" -DCMAKE_UNITY_BUILD=${UNITY_BUILD} -S "$GITHUB_WORKSPACE/gdal" -B "$GITHUB_WORKSPACE/build"
+        run: cmake -G "${env:generator}" -C "${env:GITHUB_WORKSPACE}\${env:CONFIGURATION}" "-DCMAKE_PREFIX_PATH=$env:GITHUB_WORKSPACE\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:UNITY_BUILD}" -S "${env:GITHUB_WORKSPACE}\gdal" -B "${env:GITHUB_WORKSPACE}\build"
       - name: Build
-        shell: bash.exe -ilc '{0}'
-        run: cmake --build $GITHUB_WORKSPACE/build --config Release
+        run: cmake --build $env:GITHUB_WORKSPACE/build --config Release
       - name: test
-        shell: bash.exe -ilc '{0}'
-        run: cmake --build $GITHUB_WORKSPACE/build --config Release --target quicktest
+        run: cmake --build $env:GITHUB_WORKSPACE/build --config Release --target quicktest
 
   build-windows-conda:
     runs-on: windows-latest
