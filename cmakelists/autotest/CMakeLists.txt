@@ -32,38 +32,35 @@ if (Python_FOUND)
 
   set(PYTHON_RUN_ENV "PYTHONPATH=${CMAKE_BINARY_DIR}/gdal/swig/python/"
                      "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/gdal${_SEP}$ENV{LD_LIBRARY_PATH}")
-  if (UNIX OR CMAKE_VERSION VERSION_GREATER 3.13)
-    foreach (
-      tgt IN
-      ITEMS ogr
-            gcore
-            gdrivers
-            alg
-            osr
-            gnm
-            pyscripts
-            utilities)
-      execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/${tgt}
-                              ${CMAKE_CURRENT_BINARY_DIR}/${tgt})
-      add_custom_target(
-        autotest_${tgt}
-        COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c
-                ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini ${tgt}
-        DEPENDS gdal gdalapps python_binding)
-    endforeach ()
+  foreach (
+    tgt IN
+    ITEMS ogr
+          gcore
+          gdrivers
+          alg
+          osr
+          gnm
+          pyscripts
+          utilities)
+    if (CMAKE_VERSION VERSION_GREATER 3.14)
+      file(
+        CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/${tgt} ${CMAKE_CURRENT_BINARY_DIR}/${tgt}
+        RESULT res
+        COPY_ON_ERROR SYMBOLIC)
+    else ()
+      file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${tgt} ${CMAKE_CURRENT_BINARY_DIR}/${tgt})
+    endif ()
     add_custom_target(
-      autotest
+      autotest_${tgt}
       COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c
-              ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
+              ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini ${tgt}
       DEPENDS gdal gdalapps python_binding)
-  else ()
-    # Fall back to run test on source directory. FIXME: this breaks out-of-source build
-    add_custom_target(
-      autotest
-      COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c
-              ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/autotest)
-  endif ()
+  endforeach ()
+  add_custom_target(
+    autotest
+    COMMAND ${CMAKE_COMMAND} -E env ${PYTHON_RUN_ENV} ${Python_EXECUTABLE} -m pytest -c
+            ${CMAKE_CURRENT_BINARY_DIR}/pytest.ini
+    DEPENDS gdal gdalapps python_binding)
   file(
     WRITE ${CMAKE_CURRENT_BINARY_DIR}/pytest_runner.cpp
     "
