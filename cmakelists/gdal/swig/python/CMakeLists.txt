@@ -136,7 +136,7 @@ if (Python_FOUND AND NOT WIN32)
     install(CODE "execute_process(COMMAND ${Python_EXECUTABLE} setup.py install
                                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
   endif ()
-elseif (Python_INCLUDE_DIRS AND Python_LIBRARIES)
+elseif (Python_Development_FOUND)
   macro (py_ext name v source)
     set(GDAL_PYTHON_EXT_SOURCE_DIR "${GDAL_PYTHON_CSOURCE_DIR}")
     python_add_library(${name}${v} MODULE ${GDAL_PYTHON_EXT_SOURCE_DIR}/${source})
@@ -189,6 +189,7 @@ elseif (Python_INCLUDE_DIRS AND Python_LIBRARIES)
           ${CMAKE_CURRENT_BINARY_DIR}/osgeo/osr.py
     COMPONENT python
     DESTINATION ${Python_SITELIB}/osgeo)
+else ()
 endif ()
 add_subdirectory(scripts)
 file(COPY ${CMAKE_SOURCE_DIR}/gdal/Doxyfile DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
