@@ -49,7 +49,6 @@ if (BUILD_APPS)
   add_executable(gdalenhance gdalenhance.cpp)
   add_executable(gdallocationinfo gdallocationinfo.cpp)
   add_executable(gdalmanage gdalmanage.cpp)
-  add_executable(gdalserver gdalserver.cpp)
   add_executable(gdalsrsinfo gdalsrsinfo.cpp)
   add_executable(gdaltindex gdaltindex.cpp)
   add_executable(gdal_rasterize gdal_rasterize_bin.cpp)
@@ -68,7 +67,6 @@ if (BUILD_APPS)
       gdaladdo
       gdal_grid
       gdal_translate
-      gdalserver
       gdal_rasterize
       gdalsrsinfo
       gdalenhance

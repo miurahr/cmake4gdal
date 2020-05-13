@@ -25,7 +25,6 @@ add_library(
   gdaldefaultasync.cpp
   gdaldllmain.cpp
   gdalexif.cpp
-  gdalclientserver.cpp
   gdalgeorefpamdataset.cpp
   gdaljp2abstractdataset.cpp
   gdalvirtualmem.cpp
@@ -41,7 +40,8 @@ add_library(
   rawdataset.cpp
   gdalmultidim.cpp
   gdalpython.cpp
-  gdalpythondriverloader.cpp)
+  gdalpythondriverloader.cpp
+  tilematrixset.cpp)
 gdal_standard_includes(gcore)
 target_include_directories(
   gcore
