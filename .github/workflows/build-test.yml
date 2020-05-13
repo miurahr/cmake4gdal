@@ -93,7 +93,7 @@ jobs:
           msys2do python -m pip install -U wheel setuptools numpy
           msys2do python -m pip install -r $GITHUB_WORKSPACE/gdal/autotest/requirements.txt
       - name: Configure
-        run: cmake -G "${env:generator}" -C "${env:GITHUB_WORKSPACE}\${env:CONFIGURATION}" "-DCMAKE_PREFIX_PATH=$env:GITHUB_WORKSPACE\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:UNITY_BUILD}" -S "${env:GITHUB_WORKSPACE}\gdal" -B "${env:GITHUB_WORKSPACE}\build"
+        run: cmake -G "${env:generator}" -C "${env:GITHUB_WORKSPACE}\${env:CONFIGURATION}" "-DCMAKE_PREFIX_PATH=${env:GITHUB_WORKSPACE}\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:UNITY_BUILD}" -S "${env:GITHUB_WORKSPACE}\gdal" -B "${env:GITHUB_WORKSPACE}\build"
       - name: Build
         run: cmake --build $env:GITHUB_WORKSPACE/build --config Release
       - name: test
