@@ -22,7 +22,7 @@ target_include_directories(
 
 if (HAVE_XERCESC)
   target_include_directories(ogr_GMLAS PRIVATE ${XercesC_INCLUDE_DIRS} ${XercesC_INCLUDE_DIRS}/xercesc)
-  target_compile_definitions(ogr_GMLAS PRIVATE -DHAVE_XERCES=1)
+  target_compile_definitions(ogr_GMLAS PRIVATE -DHAVE_XERCES=1 -DINFINITY_XERCES=INFINITY)
   gdal_target_link_libraries(TARGET ogr_GMLAS LIBRARIES XercesC::XercesC)
 endif ()
 
