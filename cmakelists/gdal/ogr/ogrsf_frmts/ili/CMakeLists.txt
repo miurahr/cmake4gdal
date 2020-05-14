@@ -24,7 +24,7 @@ gdal_standard_includes(ogr_ILI)
 
 if (HAVE_XERCESC)
   target_include_directories(ogr_ILI PRIVATE ${XercesC_INCLUDE_DIRS} ${XercesC_INCLUDE_DIRS}/xercesc)
-  target_compile_definitions(ogr_ILI PRIVATE -DHAVE_XERCES -DINFINITY_XERCES=INFINITY)
+  target_compile_definitions(ogr_ILI PRIVATE -DHAVE_XERCES)
   gdal_target_link_libraries(TARGET ogr_ILI LIBRARIES XercesC::XercesC)
 endif ()
 if (HAVE_GEOS)
