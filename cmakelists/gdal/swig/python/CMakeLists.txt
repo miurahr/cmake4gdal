@@ -46,10 +46,6 @@ if (SWIG_REGENERATE_PYTHON)
     list(APPEND GDAL_PYTHON_CSOURCES "${GDAL_PYTHON_CSOURCE_DIR}/gdal_array_wrap.cpp")
     list(APPEND GDAL_PYTHON_PYSOURCES "${CMAKE_CURRENT_BINARY_DIR}/osgeo/gdal_array.py")
   endif ()
-  add_custom_target(
-    python_mod
-    DEPENDS ${GDAL_PYTHON_PYSOURCES} ${GDAL_PYTHON_CSOURCES}
-    COMMENT "Generate all Python binding modules by SWiG command.")
 else ()
   set(GDAL_PYTHON_CSOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extensions/")
   set(GDAL_PYTHON_PYSOURCES
@@ -177,7 +173,14 @@ elseif (Python_Development_FOUND)
     COMMENT "Build python binding modules.")
   add_custom_target(
     python_binding ALL
-    DEPENDS python_mod python_ext_mod
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/osgeo/__init__.py
+            ${CMAKE_CURRENT_BINARY_DIR}/osgeo/gdal.py
+            ${CMAKE_CURRENT_BINARY_DIR}/osgeo/gdalconst.py
+            ${CMAKE_CURRENT_BINARY_DIR}/osgeo/gdalnumeric.py
+            ${CMAKE_CURRENT_BINARY_DIR}/osgeo/gnm.py
+            ${CMAKE_CURRENT_BINARY_DIR}/osgeo/ogr.py
+            ${CMAKE_CURRENT_BINARY_DIR}/osgeo/osr.py
+            python_ext_mod
     COMMENT "Build all python binding files.")
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/osgeo/__init__.py
@@ -190,6 +193,7 @@ elseif (Python_Development_FOUND)
     COMPONENT python
     DESTINATION ${Python_SITELIB}/osgeo)
 else ()
+
 endif ()
 add_subdirectory(scripts)
 file(COPY ${CMAKE_SOURCE_DIR}/gdal/Doxyfile DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
