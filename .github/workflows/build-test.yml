@@ -128,7 +128,7 @@ jobs:
       run: |
         conda install --yes --quiet --name gdalenv curl libiconv icu git python=3.7 swig numpy pytest zlib
         conda install --yes --quiet --name gdalenv -c conda-forge proj geos hdf4 hdf5 \
-            libnetcdf openjpeg poppler libtiff libpng xerces-c expat libxml2 kealib \
+            libnetcdf openjpeg poppler libtiff libpng xerces-c expat libxml2 kealib json-c \
             cfitsio freexl geotiff jpeg libpq libspatialite libtiff libwebp-base \
             pcre postgresql sqlite tiledb zstd charls cryptopp cgal jasper \
             doxygen
