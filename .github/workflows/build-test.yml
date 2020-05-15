@@ -92,7 +92,7 @@ jobs:
         run: |
           msys2do python -m ensurepip --upgrade
           msys2do python -m pip install -U wheel setuptools numpy
-          msys2do python -m pip install -r $GITHUB_WORKSPACE/gdal/autotest/requirements.txt
+          msys2do python -m pip install pytest pytest-sugar pytest-env
       - name: Configure
         run: cmake -G "${env:generator}" -C "${env:GITHUB_WORKSPACE}\${env:CONFIGURATION}" "-DCMAKE_PREFIX_PATH=${env:GITHUB_WORKSPACE}\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:UNITY_BUILD}" -S "${env:GITHUB_WORKSPACE}\gdal" -B "${env:GITHUB_WORKSPACE}\build"
       - name: Build
