@@ -73,6 +73,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: 'gdal/cmake4gdal'
+      - name: deploy cmake scripts to gdal project
+        shell: bash
+        run: python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
       - name: Install MSYS2
         uses: numworks/setup-msys2@v1
         with:
@@ -85,8 +88,6 @@ jobs:
         run: msys2do pacman -S --noconfirm mingw-w64-x86_64-proj mingw-w64-x86_64-geos mingw-w64-x86_64-hdf5 mingw-w64-x86_64-netcdf mingw-w64-x86_64-openjpeg mingw-w64-x86_64-poppler mingw-w64-x86_64-libtiff mingw-w64-x86_64-libpng mingw-w64-x86_64-xerces-c mingw-w64-x86_64-libxml2 mingw-w64-x86_64-libfreexl mingw-w64-x86_64-libgeotiff mingw-w64-x86_64-libspatialite mingw-w64-x86_64-libtiff mingw-w64-x86_64-pcre mingw-w64-x86_64-postgresql mingw-w64-x86_64-zstd mingw-w64-x86_64-crypto++ mingw-w64-x86_64-cgal mingw-w64-x86_64-jasper
       - name: Install cmake, numpy, and pytest
         run: msys2do pacman -S --noconfirm  mingw-w64-x86_64-python-numpy mingw-w64-x86_64-python-pytest mingw-w64-x86_64-cmake
-      - name: deploy cmake scripts to gdal project
-        run: msys2do python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
       - name: Install python dependencies for autotest
         run: |
           msys2do python -m ensurepip --upgrade
