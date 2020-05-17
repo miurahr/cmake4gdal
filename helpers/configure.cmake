@@ -1,5 +1,4 @@
-# Distributed under the GDAL/OGR MIT/X style License.  See accompanying
-# file gdal/LICENSE.TXT.
+# Distributed under the GDAL/OGR MIT/X style License.  See accompanying file gdal/LICENSE.TXT.
 
 #[=======================================================================[.rst:
 configure
@@ -8,7 +7,6 @@ configure
 Configure function for GDAL/OGR and generate gdal_config.h
 
 #]=======================================================================]
-
 
 # Include all the necessary files for macros
 include(CheckFunctionExists)
@@ -50,24 +48,17 @@ check_include_file("direct.h" HAVE_DIRECT_H)
 check_include_file("dlfcn.h" HAVE_DLFCN_H)
 check_include_file("dbmalloc.h" HAVE_DBMALLOC_H)
 
-test_big_endian(WORDS_BIGENDIAN)
-if (WORDS_BIGENDIAN)
-  set(HOST_FILLORDER FILLORDER_MSB2LSB)
-else ()
-  set(HOST_FILLORDER FILLORDER_LSB2MSB)
-endif ()
-
 check_type_size("int" SIZEOF_INT)
 check_type_size("unsigned long" SIZEOF_UNSIGNED_LONG)
 check_type_size("void*" SIZEOF_VOIDP)
 
-#check_include_file("ieeefp.h" HAVE_IEEEFP_H)
-#if(HAVE_IEEEFP_H)
+# check_include_file("ieeefp.h" HAVE_IEEEFP_H) if(HAVE_IEEEFP_H)
 set(HAVE_IEEEFP TRUE)
-#endif()
+# endif()
 
 if (SQLITE3_FOUND AND NOT WITH_SQLITE3_EXTERNAL)
-  set(SQLITE_COL_TEST_CODE "#ifdef __cplusplus
+  set(SQLITE_COL_TEST_CODE
+      "#ifdef __cplusplus
 extern \"C\"
 #endif
 char sqlite3_column_table_name ();
@@ -95,7 +86,8 @@ if (Iconv_FOUND)
     set(CMAKE_REQUIRED_FLAGS "-Werror")
   endif ()
 
-  set(ICONV_CONST_TEST_CODE "#include <stdlib.h>
+  set(ICONV_CONST_TEST_CODE
+      "#include <stdlib.h>
     #include <iconv.h>
     #ifdef __cplusplus
     extern \"C\"
@@ -115,11 +107,9 @@ if (Iconv_FOUND)
       return 0;
     }")
   if (CMAKE_C_COMPILER_LOADED)
-    check_c_source_compiles("${ICONV_CONST_TEST_CODE}"
-                            _ICONV_SECOND_ARGUMENT_IS_NOT_CONST)
+    check_c_source_compiles("${ICONV_CONST_TEST_CODE}" _ICONV_SECOND_ARGUMENT_IS_NOT_CONST)
   elseif (CMAKE_CXX_COMPILER_LOADED)
-    check_cxx_source_compiles("${ICONV_CONST_TEST_CODE}"
-                              _ICONV_SECOND_ARGUMENT_IS_NOT_CONST)
+    check_cxx_source_compiles("${ICONV_CONST_TEST_CODE}" _ICONV_SECOND_ARGUMENT_IS_NOT_CONST)
   endif ()
   if (_ICONV_SECOND_ARGUMENT_IS_NOT_CONST)
     set(ICONV_CPP_CONST "")
@@ -199,6 +189,8 @@ if (MSVC)
 
   set(lfind _lfind)
 
+  unset(WORDS_BIGENDIAN)
+
   if (MSVC_VERSION LESS 1310)
     set(VSI_STAT64 _stat)
     set(VSI_STAT64_T _stat)
@@ -210,6 +202,7 @@ if (MSVC)
   set(HAVE_LONG_LONG 1)
 else (MSVC)
   # linux, mac and mingw/windows
+  test_big_endian(WORDS_BIGENDIAN)
   if (MINGW)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
   endif ()
@@ -226,31 +219,40 @@ else (MSVC)
   find_library(M_LIB m)
   set(TARGET_LINK_LIB ${TARGET_LINK_LIB} ${M_LIB})
 
-  option(GDAL_USE_CPL_MULTIPROC_PTHREAD "Set to ON if you want to use pthreads based multiprocessing support." ${_WITH_PT_OPTION_ON})
+  option(GDAL_USE_CPL_MULTIPROC_PTHREAD "Set to ON if you want to use pthreads based multiprocessing support."
+         ${_WITH_PT_OPTION_ON})
   set(CPL_MULTIPROC_PTHREAD ${GDAL_USE_CPL_MULTIPROC_PTHREAD})
-  check_c_source_compiles("
+  check_c_source_compiles(
+    "
         #define _GNU_SOURCE
         #include <pthread.h>
         int main() { return (PTHREAD_MUTEX_RECURSIVE); }
-        " HAVE_PTHREAD_MUTEX_RECURSIVE)
+        "
+    HAVE_PTHREAD_MUTEX_RECURSIVE)
 
-  check_c_source_compiles("
+  check_c_source_compiles(
+    "
         #define _GNU_SOURCE
         #include <pthread.h>
         int main() { return (PTHREAD_MUTEX_ADAPTIVE_NP); }
-        " HAVE_PTHREAD_MUTEX_ADAPTIVE_NP)
+        "
+    HAVE_PTHREAD_MUTEX_ADAPTIVE_NP)
 
-  check_c_source_compiles("
+  check_c_source_compiles(
+    "
         #define _GNU_SOURCE
         #include <pthread.h>
         int main() { pthread_spinlock_t spin; return 1; }
-        " HAVE_PTHREAD_SPINLOCK)
+        "
+    HAVE_PTHREAD_SPINLOCK)
 
-  check_c_source_compiles("
+  check_c_source_compiles(
+    "
         #define _GNU_SOURCE
         #include <sys/mman.h>
         int main() { return (mremap(0,0,0,0,0)); }
-        " HAVE_5ARGS_MREMAP)
+        "
+    HAVE_5ARGS_MREMAP)
 
   check_include_file("inttypes.h" HAVE_INTTYPES_H)
 
@@ -290,11 +292,13 @@ else (MSVC)
   endif ()
 
   if (NOT VSI_FTELL64 AND NOT VSI_FSEEK64)
-    check_c_source_compiles("
+    check_c_source_compiles(
+      "
             #define _LARGEFILE64_SOURCE
             #include <stdio.h>
             int main() { long long off=0; fseeko64(NULL, off, SEEK_SET); off = ftello64(NULL); return 0; }
-        " VSI_NEED_LARGEFILE64_SOURCE)
+        "
+      VSI_NEED_LARGEFILE64_SOURCE)
 
     if (VSI_NEED_LARGEFILE64_SOURCE)
       set(VSI_FTELL64 "ftello64")
@@ -331,7 +335,8 @@ else (MSVC)
     endif ()
   endif ()
 
-  check_c_source_compiles("
+  check_c_source_compiles(
+    "
         #if defined(__MINGW32__)
         #ifndef __MSVCRT_VERSION__
         #define __MSVCRT_VERSION__ 0x0601
@@ -340,7 +345,8 @@ else (MSVC)
         #include <sys/types.h>
         #include <sys/stat.h>
         int main() { struct _stat64 buf; _wstat64( \"\", &buf ); return 0; }
-    " NO_UNIX_STDIO_64)
+    "
+    NO_UNIX_STDIO_64)
 
   if (NO_UNIX_STDIO_64)
     set(VSI_STAT64 _stat64)
@@ -364,7 +370,8 @@ else (MSVC)
   set(UNIX_STDIO_64 TRUE)
   set(VSI_LARGE_API_SUPPORTED TRUE)
 
-  check_c_source_compiles("
+  check_c_source_compiles(
+    "
         #define _XOPEN_SOURCE 700
         #include <locale.h>
         int main() {
@@ -374,31 +381,40 @@ else (MSVC)
             freelocale(alocale);
             return 0;
         }
-        " HAVE_USELOCALE)
+        "
+    HAVE_USELOCALE)
 
   set(CMAKE_REQUIRED_FLAGS "-fvisibility=hidden")
-  check_c_source_compiles("
+  check_c_source_compiles(
+    "
         int visible() { return 0; } __attribute__ ((visibility(\"default\")))
         int hidden() { return 0; }
         int main() { return 0; }
-    " HAVE_HIDE_INTERNAL_SYMBOLS)
+    "
+    HAVE_HIDE_INTERNAL_SYMBOLS)
   unset(CMAKE_REQUIRED_FLAGS)
 
-  check_c_source_compiles("
+  check_c_source_compiles(
+    "
         int main() { int i; __sync_add_and_fetch(&i, 1); __sync_sub_and_fetch(&i, 1); __sync_bool_compare_and_swap(&i, 0, 1); return 0; }
-    " HAVE_GCC_ATOMIC_BUILTINS)
+    "
+    HAVE_GCC_ATOMIC_BUILTINS)
 
-  check_c_source_compiles("
+  check_c_source_compiles(
+    "
         #include <sys/types.h>
         #include <sys/socket.h>
         #include <netdb.h>
         int main() { getaddrinfo(0,0,0,0); return 0; }
-    " HAVE_GETADDRINFO)
+    "
+    HAVE_GETADDRINFO)
 
-  check_c_source_compiles("
+  check_c_source_compiles(
+    "
         #include <unistd.h>
         int main () { return (sysconf(_SC_PHYS_PAGES)); return 0; }
-    " HAVE_SC_PHYS_PAGES)
+    "
+    HAVE_SC_PHYS_PAGES)
 
   include(FindInt128)
   if (INT128_FOUND)
@@ -419,13 +435,21 @@ else (MSVC)
   endif (HAVE_STDDEF_H AND HAVE_STDINT_H)
 
   message(STATUS "checking if sprintf can be overloaded for GDAL compilation")
-  check_cxx_source_compiles("#define _XOPEN_SOURCE\n#include <vector>\n#include <stdio.h>\nextern \"C\"\n {int sprintf(char *str, const char* fmt, ...);}" DEPRECATE_SPRINTF)
+  check_cxx_source_compiles(
+    "#define _XOPEN_SOURCE\n#include <vector>\n#include <stdio.h>\nextern \"C\"\n {int sprintf(char *str, const char* fmt, ...);}"
+    DEPRECATE_SPRINTF)
   if (NOT DEPRECATE_SPRINTF)
     set(DONT_DEPRECATE_SPRINTF 1)
     add_definitions(-DDONT_DEPRECATE_SRPINTF)
   endif ()
 
   check_include_file('linux/userfaultfd.h' HAVE_USERFAULTFD_H)
+endif ()
+
+if (WORDS_BIGENDIAN)
+  set(HOST_FILLORDER FILLORDER_MSB2LSB)
+else ()
+  set(HOST_FILLORDER FILLORDER_LSB2MSB)
 endif ()
 
 if (UNIX)
