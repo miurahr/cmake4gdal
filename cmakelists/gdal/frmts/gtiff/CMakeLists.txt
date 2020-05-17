@@ -71,4 +71,7 @@ gdal_target_link_libraries(TARGET gdal_GTIFF LIBRARIES PROJ::PROJ)
 
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
   set_property(SOURCE geotiff.cpp gt_wkt_srs.cpp PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+  # These files has CPL_CVSID("$id$") which break ODR and UNITY_BUILD
+  set_property(SOURCE gt_citation.cpp gt_wkt_srs.cpp geotiff.cpp gt_jpeg_copy.cpp tifvsi.cpp gt_overview.cpp
+               PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
 endif ()
