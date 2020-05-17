@@ -43,6 +43,7 @@ if (RENAME_INTERNAL_LIBGEOTIFF_SYMBOLS)
   target_sources(geotiff PRIVATE gdal_libgeotiff_symbol_rename.h)
 endif ()
 set_property(TARGET geotiff PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_property(TARGET geotiff PROPERTY ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(GDAL_LINK_LIBRARY INTERFACE geotiff)
 
 target_link_libraries(geotiff PRIVATE PROJ::PROJ)

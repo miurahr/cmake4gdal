@@ -43,7 +43,7 @@ add_library(gdal gcore/gdal.h)
 add_library(GDAL_LINK_LIBRARY INTERFACE)
 target_link_libraries(gdal PRIVATE $<TARGET_NAME:GDAL_LINK_LIBRARY>)
 set_property(TARGET gdal PROPERTY PLUGIN_OUTPUT_DIR $<TARGET_FILE_DIR:gdal>/gdalplugins)
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/gdalplugins)
+file(MAKE_DIRECTORY  $<TARGET_FILE_DIR:gdal>/gdalplugins)
 
 # Set project and C++ Standard properties
 set_target_properties(

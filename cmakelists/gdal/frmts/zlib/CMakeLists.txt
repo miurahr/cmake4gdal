@@ -24,4 +24,5 @@ add_library(
   uncompr.c
   zutil.c)
 set_property(TARGET libz PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_property(TARGET libz PROPERTY ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(GDAL_LINK_LIBRARY INTERFACE libz)

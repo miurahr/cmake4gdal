@@ -79,4 +79,5 @@ add_library(
 target_include_directories(csf PRIVATE $<TARGET_PROPERTY:cpl,SOURCE_DIR> $<TARGET_PROPERTY:cpl,BINARY_DIR>)
 target_compile_definitions(csf PRIVATE -DUSE_IN_GDAL)
 set_property(TARGET csf PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_property(TARGET csf PROPERTY ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(GDAL_LINK_LIBRARY INTERFACE csf)

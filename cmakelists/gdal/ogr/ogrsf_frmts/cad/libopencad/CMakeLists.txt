@@ -29,5 +29,7 @@ add_library(
 target_include_directories(
   libopencad PRIVATE $<TARGET_PROPERTY:cpl,SOURCE_DIR> $<TARGET_PROPERTY:cpl,BINARY_DIR>
                      $<TARGET_PROPERTY:ogr_CAD,SOURCE_DIR> ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/dwg)
-set_property(TARGET libopencad PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_target_properties(libopencad PROPERTIES
+                      POSITION_INDEPENDENT_CODE ON
+                      ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(GDAL_LINK_LIBRARY INTERFACE libopencad)
