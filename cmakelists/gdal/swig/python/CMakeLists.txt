@@ -138,11 +138,11 @@ elseif (Python_Development_FOUND)
     python_add_library(${name}${v} MODULE ${GDAL_PYTHON_EXT_SOURCE_DIR}/${source})
     set_property(TARGET ${name}${v} PROPERTY LIBRARY_OUTPUT_NAME ${name})
     if (GENERATOR_IS_MULTI_CONFIG)
-      set_target_properties(TARGET ${name}${v} PROPERTIES LIBRARY_OUTPUT_NAME ${name}
+      set_target_properties(${name}${v} PROPERTIES LIBRARY_OUTPUT_NAME ${name}
                             LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_BINARY_DIR}/debug/osgeo
                             LIBRARY_OUTPUT_DIRECTORY_REL ${CMAKE_CURRENT_BINARY_DIR}/osgeo)
     else ()
-      set_target_properties(TARGET ${name}${v} PROPERTIES LIBRARY_OUTPUT_NAME ${name}
+      set_target_properties(${name}${v} PROPERTIES LIBRARY_OUTPUT_NAME ${name}
                             LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/osgeo)
     endif ()
 
