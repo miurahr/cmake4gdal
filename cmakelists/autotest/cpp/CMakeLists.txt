@@ -57,7 +57,7 @@ else ()
   set(ENVSEP ":")
 endif ()
 file(TO_NATIVE_PATH $<TARGET_FILE_DIR:gdal> GDAL_OUTPUT_DIR)
-get_property(_plugindir TARGET gdal PROPERTY PLUGIN_OUTPUT_DIR)
+get_target_property(_plugindir gdal PLUGIN_OUTPUT_DIR)
 file(TO_NATIVE_PATH "${_plugindir}" GDAL_DRIVER_PATH)
 file(TO_NATIVE_PATH "${CMAKE_SOURCE_DIR}/gdal/data" GDAL_DATA)
 list(APPEND TEST_ENV PATH="${GDAL_OUTPUT_DIR}${ENVSEP}$ENV{PATH}"
