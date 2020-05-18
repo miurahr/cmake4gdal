@@ -55,7 +55,7 @@ if (WIN32)
   set(ENVSEP ";")
 else ()
   set(ENVSEP ":")
-endif ()
+endif () 
 # FIXME: better handling of output path w/o hard coded.
 ## set(GDAL_OUTPUT_DIR "$<TARGET_PROPERTY:gdal,LIBRARY_OUTPUT_DIRECTORY>")
 file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/gdal" GDAL_OUTPUT_DIR)

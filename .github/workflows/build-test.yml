@@ -59,10 +59,9 @@ jobs:
   build-windows-msys2-mingw:
     runs-on: windows-latest
     env:
-      generator: MINGW Makefile
+      generator: MinGW Makefiles
       CONFIGURATION: "gdal\\cmake4gdal\\configurations\\windows.cmake"
       JAVA_HOME: "C:\\Program Files\\Java\\zulu-11-azure-jdk_11.33.15-11.0.4-win_x64"
-      MSYS2_PATH_TYPE: inherit
     steps:
       - name: Checkout GDAL master HEAD
         uses: actions/checkout@v2
@@ -77,28 +76,36 @@ jobs:
         shell: bash
         run: python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
       - name: Install MSYS2
-        uses: numworks/setup-msys2@v1
-        with:
-          update: true
-      - name: Install base development packages
-        run: msys2do pacman -S --noconfirm base-devel
-      - name: Install mingw toolchain
-        run: msys2do pacman -S --noconfirm mingw64/mingw-w64-x86_64-toolchain
-      - name: Install dependency libraries
-        run: msys2do pacman -S --noconfirm mingw-w64-x86_64-proj mingw-w64-x86_64-geos mingw-w64-x86_64-hdf5 mingw-w64-x86_64-netcdf mingw-w64-x86_64-openjpeg mingw-w64-x86_64-poppler mingw-w64-x86_64-libtiff mingw-w64-x86_64-libpng mingw-w64-x86_64-xerces-c mingw-w64-x86_64-libxml2 mingw-w64-x86_64-libfreexl mingw-w64-x86_64-libgeotiff mingw-w64-x86_64-libspatialite mingw-w64-x86_64-libtiff mingw-w64-x86_64-pcre mingw-w64-x86_64-postgresql mingw-w64-x86_64-zstd mingw-w64-x86_64-crypto++ mingw-w64-x86_64-cgal mingw-w64-x86_64-jasper
-      - name: Install cmake, numpy, and pytest
-        run: msys2do pacman -S --noconfirm  mingw-w64-x86_64-python-numpy mingw-w64-x86_64-python-pytest mingw-w64-x86_64-cmake
+        run: choco install --yes msys2
+      - name: Install development packages
+        run: |
+          $script = @'
+          pacman -S --noconfirm base-devel
+          pacman -S --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+          pacman -S --noconfirm mingw-w64-x86_64-proj mingw-w64-x86_64-geos mingw-w64-x86_64-hdf5 mingw-w64-x86_64-netcdf mingw-w64-x86_64-openjpeg mingw-w64-x86_64-poppler mingw-w64-x86_64-libtiff mingw-w64-x86_64-libpng mingw-w64-x86_64-xerces-c mingw-w64-x86_64-libxml2 mingw-w64-x86_64-libfreexl mingw-w64-x86_64-libgeotiff mingw-w64-x86_64-libspatialite mingw-w64-x86_64-libtiff mingw-w64-x86_64-pcre mingw-w64-x86_64-postgresql mingw-w64-x86_64-zstd mingw-w64-x86_64-crypto++ mingw-w64-x86_64-cgal mingw-w64-x86_64-jasper mingw-w64-x86_64-python-numpy mingw-w64-x86_64-python-pytest
+          '@
+          & c:\tools\msys64\usr\bin\bash.exe -lc $script
+        env:
+          MSYSTEM: MSYS
       - name: Install python dependencies for autotest
         run: |
-          msys2do python -m ensurepip --upgrade
-          msys2do python -m pip install -U wheel setuptools numpy
-          msys2do python -m pip install pytest pytest-sugar pytest-env
+          $script = @'
+          python -m ensurepip --upgrade
+          python -m pip install -U wheel setuptools numpy
+          python -m pip install pytest pytest-sugar pytest-env
+          '@
+          & c:\tools\msys64\usr\bin\bash.exe -lc $script
+        env:
+          MSYSTEM: MINGW64
       - name: Configure
-        run: cmake -G "${env:generator}" -C "${env:GITHUB_WORKSPACE}\${env:CONFIGURATION}" "-DCMAKE_PREFIX_PATH=${env:GITHUB_WORKSPACE}\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:UNITY_BUILD}" -S "${env:GITHUB_WORKSPACE}\gdal" -B "${env:GITHUB_WORKSPACE}\build"
+        run: cmake -G "${env:generator}" -C "${env:CONFIGURATION}" "-DCMAKE_PREFIX_PATH=C:\tools\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:UNITY_BUILD}" -S "gdal" -B "build"
+        working-directory: ${{ github.workspace }}
       - name: Build
-        run: cmake --build $env:GITHUB_WORKSPACE/build --config Release
+        run: cmake --build build
+        working-directory: ${{ github.workspace }}
       - name: test
-        run: cmake --build $env:GITHUB_WORKSPACE/build --config Release --target quicktest
+        run: cmake --build build --target quicktest
+        working-directory: ${{ github.workspace }}
 
   build-windows-conda:
     runs-on: windows-latest
@@ -170,7 +177,7 @@ jobs:
         brew update
         brew outdated
         brew install postgresql || brew link --overwrite postgresql
-        brew install freexl libxml2 libspatialite geos proj openjpeg giflib szip postgis poppler doxygen
+        brew install freexl libxml2 libspatialite geos proj openjpeg giflib szip postgis poppler doxygen unixodbc
         brew install ccache swig
         # gdal is automatically installed as a dependency for postgis
         brew uninstall --ignore-dependencies gdal
