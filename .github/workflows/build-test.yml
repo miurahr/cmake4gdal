@@ -98,7 +98,7 @@ jobs:
         env:
           MSYSTEM: MINGW64
       - name: Configure
-        run: cmake -G "${env:generator}" -C "${env:CONFIGURATION}" "-DCMAKE_PREFIX_PATH=${env:GITHUB_WORKSPACE}\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:UNITY_BUILD}" -S "gdal" -B "build"
+        run: cmake -G "${env:generator}" -C "${env:CONFIGURATION}" "-DCMAKE_PREFIX_PATH=C:\tools\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:UNITY_BUILD}" -S "gdal" -B "build"
         working-directory: ${{ github.workspace }}
       - name: Build
         run: cmake --build build
