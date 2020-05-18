@@ -75,4 +75,5 @@ endif ()
 
 target_compile_definitions(libjpeg PRIVATE -DDEFAULT_MAX_MEM=500000000L)
 set_property(TARGET libjpeg PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_property(TARGET libjpeg PROPERTY ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(GDAL_LINK_LIBRARY INTERFACE libjpeg)

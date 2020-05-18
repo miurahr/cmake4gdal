@@ -136,15 +136,23 @@ elseif (Python_Development_FOUND)
   macro (py_ext name v source)
     set(GDAL_PYTHON_EXT_SOURCE_DIR "${GDAL_PYTHON_CSOURCE_DIR}")
     python_add_library(${name}${v} MODULE ${GDAL_PYTHON_EXT_SOURCE_DIR}/${source})
-    set_target_properties(${name}${v} PROPERTIES LIBRARY_OUTPUT_NAME ${name} LIBRARY_OUTPUT_DIRECTORY
-                                                                             ${CMAKE_CURRENT_BINARY_DIR}/osgeo)
+    set_property(TARGET ${name}${v} PROPERTY LIBRARY_OUTPUT_NAME ${name})
+    if (GENERATOR_IS_MULTI_CONFIG)
+      set_target_properties(TARGET ${name}${v} PROPERTIES LIBRARY_OUTPUT_NAME ${name}
+                            LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_BINARY_DIR}/debug/osgeo
+                            LIBRARY_OUTPUT_DIRECTORY_REL ${CMAKE_CURRENT_BINARY_DIR}/osgeo)
+    else ()
+      set_target_properties(TARGET ${name}${v} PROPERTIES LIBRARY_OUTPUT_NAME ${name}
+                            LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/osgeo)
+    endif ()
+
     gdal_standard_includes(${name}${v})
     target_include_directories(${name}${v} PRIVATE $<TARGET_PROPERTY:appslib,SOURCE_DIR>
                                                    $<TARGET_PROPERTY:gnm,SOURCE_DIR>)
     if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
       target_compile_definitions(${name}${v} PRIVATE -D__MSVCRT_VERSION__=0x0601)
     endif ()
-    target_link_libraries(${name}${v} PRIVATE $<TARGET_NAME:gdal>)
+    target_link_libraries(${name}${v} PRIVATE $<TARGET_FILE:gdal>)
     install(
       TARGETS ${name}${v}
       COMPONENT python

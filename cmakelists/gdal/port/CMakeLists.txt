@@ -109,7 +109,12 @@ add_library(
   cpl_vsil_swift.cpp
   cpl_json_streaming_writer.cpp
   cpl_vax.cpp)
-set_target_properties(cpl PROPERTIES CXX_STANDARD 11 CXX_STANDARD_REQUIRED ON POSITION_INDEPENDENT_CODE ON)
+set_target_properties(cpl PROPERTIES
+                      CXX_STANDARD 11
+                      CXX_STANDARD_REQUIRED ON
+                      POSITION_INDEPENDENT_CODE ON
+                      LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                      ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(GDAL_LINK_LIBRARY INTERFACE cpl)
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
   set_property(

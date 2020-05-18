@@ -42,9 +42,6 @@ endif ()
 add_library(gdal gcore/gdal.h)
 add_library(GDAL_LINK_LIBRARY INTERFACE)
 target_link_libraries(gdal PRIVATE $<TARGET_NAME:GDAL_LINK_LIBRARY>)
-set_property(TARGET gdal PROPERTY PLUGIN_OUTPUT_DIR $<TARGET_FILE_DIR:gdal>/gdalplugins)
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/gdalplugins)
-
 # Set project and C++ Standard properties
 set_target_properties(
   gdal
@@ -56,6 +53,8 @@ set_target_properties(
              RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
              CXX_STANDARD 11
              CXX_STANDARD_REQUIRED YES)
+set_property(TARGET gdal PROPERTY PLUGIN_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/gdalplugins")
+file(MAKE_DIRECTORY "$<TARGET_PROPERTY:gdal,PLUGIN_OUTPUT_DIR>")
 
 if (MINGW)
   list(FIND CMAKE_EXE_LINKER_FLAGS "-municode" has_municode)
