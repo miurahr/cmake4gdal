@@ -54,7 +54,7 @@ set_target_properties(
              CXX_STANDARD 11
              CXX_STANDARD_REQUIRED YES)
 set_property(TARGET gdal PROPERTY PLUGIN_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/gdalplugins")
-file(MAKE_DIRECTORY "$<TARGET_PROPERTY:gdal,PLUGIN_OUTPUT_DIR>")
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/gdalplugins")
 
 if (MINGW)
   list(FIND CMAKE_EXE_LINKER_FLAGS "-municode" has_municode)
