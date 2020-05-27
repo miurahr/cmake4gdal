@@ -39,13 +39,13 @@ if (OpenEXR_FOUND)
   set(OpenEXR_INCLUDE_DIRS ${OpenEXR_INCLUDE_DIR})
   set(OpenEXR_LIBRARIES ${OpenEXR_LIBRARY} ${OpenEXR_UTIL_LIBRARY})
   if (NOT TARGET OpenEXR::OpenEXR)
-    add_library(OpenEXR::OpenEXR UNKNOWN IMPORTED)
-    add_library(OpenEXR::Util UNKNOWN IMPORTED)
-    set_target_properties(OpenEXR::OpenEXR PROPERTIES
+    add_library(OpenEXR::IlmImf UNKNOWN IMPORTED)
+    add_library(OpenEXR::IlmImfUtil UNKNOWN IMPORTED)
+    set_target_properties(OpenEXR::IlmImf  PROPERTIES
                           INTERFACE_INCLUDE_DIRECTORIES "${OpenEXR_INCLUDE_DIRS}"
                           IMPORTED_LINK_INTERFACE_LANGUAGES "C"
                           IMPORTED_LOCATION ${OpenEXR_LIBRARY})
-    set_target_properties(OpenEXR::Util PROPERTIES
+    set_target_properties(OpenEXR::IlmImfUtil PROPERTIES
                           INTERFACE_INCLUDE_DIRECTORIES "${OpenEXR_INCLUDE_DIRS}"
                           IMPORTED_LINK_INTERFACE_LANGUAGES "C"
                           IMPORTED_LOCATION ${OpenEXR_UTIL_LIBRARY})
