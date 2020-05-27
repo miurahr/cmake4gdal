@@ -14,10 +14,10 @@ autotest_dir = os.path.join(parent_dir, 'autotest')
 def check_folders():
     """traverse project folders and check."""
     ok = True
-    ignore_list = ['o']
+    ignore_list = ['o', 'null', 'hdf-eos', 'third_party', 'scripts']
     for cur, _, files in os.walk(gdalsrc_dir):
-        if 'GNUMakefile' in files:
-            if os.path.lexists(os.path.join('CMakeLists.txt')):
+        if 'GNUmakefile' in files:
+            if os.path.lexists(os.path.join(cur, 'CMakeLists.txt')):
                 continue
             else:
                 head, tail = os.path.split(cur)
@@ -54,9 +54,9 @@ def create_links(as_symlink=False):
 def main(arg=None):
     parser = argparse.ArgumentParser(prog='package.py', description='cmake for gdal packager',
                                      formatter_class=argparse.RawTextHelpFormatter, add_help=True)
-    parser.add_argument("-t", "--test", action='store_true', help="Check cmakefile integrity.")
-    parser.add_argument("-r", "--remove", action='store_true', help="Remove all linked CMakeLists.txt")
-    parser.add_argument("-s", "--symlink", action='store_true', help="Create symbolic links instead of hard links")
+    parser.add_argument("-t", "--test", action='store_true', help="Check CmakeLists.txt existence for gdal source trees.")
+    parser.add_argument("-r", "--remove", action='store_true', help="Remove all linked CMakeLists.txt in the gdal project")
+    parser.add_argument("-s", "--symlink", action='store_true', help="Create symbolic links instead of hard links(recommend)")
     args = parser.parse_args(arg)
 
     if args.test:
