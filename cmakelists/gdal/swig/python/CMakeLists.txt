@@ -47,8 +47,9 @@ if (SWIG_REGENERATE_PYTHON)
     list(APPEND GDAL_PYTHON_PYSOURCES "${CMAKE_CURRENT_BINARY_DIR}/osgeo/gdal_array.py")
   endif ()
 else ()
-  set(GDAL_PYTHON_CSOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extensions/")
+  set(GDAL_PYTHON_CSOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extensions")
   set(GDAL_PYTHON_PYSOURCES
+      ${CMAKE_CURRENT_BINARY_DIR}/osgeo/__init__.py
       ${CMAKE_CURRENT_BINARY_DIR}/osgeo/gdal.py
       ${CMAKE_CURRENT_BINARY_DIR}/osgeo/gdalconst.py
       ${CMAKE_CURRENT_BINARY_DIR}/osgeo/gdalnumeric.py
