@@ -119,6 +119,7 @@ gdal_dependent_format(jpeg2000 "JPEG2000 --- Implementation of the JPEG-2000 par
                       "HAVE_JASPER")
 gdal_dependent_format(pcidsk "PCI Geomatics Database File" "HAVE_PCIDSK")
 gdal_dependent_format(tiledb "TileDB tiledb.io" "HAVE_TILEDB")
+gdal_dependent_format(exr "EXR support via OpenEXR library" "OpenEXR_FOUND")
 
 # for circulate dependency, grass is NOT always compiled in.
 gdal_optional_format(grass "GRASS")

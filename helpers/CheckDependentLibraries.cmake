@@ -254,9 +254,11 @@ gdal_check_package(IDB "enable ogr_IDB driver")
 # libs: -lrasodmg -lclientcomm -lcompression -lnetwork -lraslib
 gdal_check_package(RASDAMAN "enable rasdaman driver")
 #gdal_check_package(TileDB "enable TileDB driver")
+gdal_check_package(OpenEXR "OpenEXR >=2.2")
 
 # OpenJPEG's cmake-CONFIG is broken, so call module explicitly
 find_package(OpenJPEG MODULE)
+
 
 # Only GRASS 7 is currently supported but we keep dual version support in cmake for possible future switch to GRASS 8.
 set(TMP_GRASS OFF)

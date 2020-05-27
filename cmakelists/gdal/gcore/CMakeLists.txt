@@ -41,7 +41,8 @@ add_library(
   gdalmultidim.cpp
   gdalpython.cpp
   gdalpythondriverloader.cpp
-  tilematrixset.cpp)
+  tilematrixset.cpp
+  gdal_thread_pool.cpp)
 gdal_standard_includes(gcore)
 target_include_directories(
   gcore

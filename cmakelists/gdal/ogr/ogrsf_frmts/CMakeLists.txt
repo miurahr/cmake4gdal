@@ -132,6 +132,7 @@ if (WIN32)
 endif ()
 ogr_dependent_driver(ods ODS "HAVE_EXPAT")
 ogr_dependent_driver(ogdi "OGDI" "HAVE_OGDI")
+ogr_dependent_driver(lvbag "LVBAG" "HAVE_EXPAT")
 
 # Add generic in last line
 add_subdirectory(generic)
