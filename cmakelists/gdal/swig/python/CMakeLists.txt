@@ -153,7 +153,7 @@ elseif (Python_Development_FOUND)
     if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
       target_compile_definitions(${name}${v} PRIVATE -D__MSVCRT_VERSION__=0x0601)
     endif ()
-    target_link_libraries(${name}${v} PRIVATE $<TARGET_FILE:gdal>)
+    target_link_libraries(${name}${v} PRIVATE $<TARGET_NAME:gdal>)
     install(
       TARGETS ${name}${v}
       COMPONENT python
