@@ -190,25 +190,15 @@ set(GDAL_DATA_FILES
     data/GDALLogoColor.svg
     data/GDALLogoGS.svg
     data/bag_template.xml
-    data/compdcs.csv
-    data/coordinate_axis.csv
     data/cubewerx_extra.wkt
-    data/datum_shift.csv
     data/default.rsc
     data/ecw_cs.wkt
     data/eedaconf.json
-    data/ellipsoid.csv
     data/epsg.wkt
     data/esri_StatePlane_extra.wkt
-    data/esri_Wisconsin_extra.wkt
-    data/esri_epsg.wkt
-    data/esri_extra.wkt
-    data/gcs.csv
-    data/gcs.override.csv
-    data/gdal_datum.csv
     data/gdalicon.png
+    data/gdalmdiminfo_output.schema.json
     data/gdalvrt.xsd
-    data/geoccs.csv
     data/gml_registry.xml
     data/gmlasconf.xml
     data/gmlasconf.xsd
@@ -255,12 +245,9 @@ set(GDAL_DATA_FILES
     data/ozi_ellips.csv
     data/pci_datum.txt
     data/pci_ellips.txt
-    data/pcs.csv
-    data/pcs.override.csv
+    data/pdfcomposition.xsd
     data/pds4_template.xml
     data/plscenesconf.json
-    data/prime_meridian.csv
-    data/projop_wparm.csv
     data/ruian_vf_ob_v1.gfs
     data/ruian_vf_st_uvoh_v1.gfs
     data/ruian_vf_st_v1.gfs
@@ -272,12 +259,13 @@ set(GDAL_DATA_FILES
     data/seed_2d.dgn
     data/seed_3d.dgn
     data/stateplane.csv
+    data/tms_LINZAntarticaMapTileGrid.json
+    data/tms_NZTM2000.json
     data/trailer.dxf
-    data/unit_of_measure.csv
     data/vdv452.xml
     data/vdv452.xsd
-    data/vertcs.csv
-    data/vertcs.override.csv)
+    data/vicar.json
+    )
 set_property(TARGET gdal APPEND PROPERTY RESOURCE "${GDAL_DATA_FILES}")
 
 install(
