@@ -21,5 +21,5 @@ target_include_directories(
 set_target_properties(libopencad PROPERTIES
                       POSITION_INDEPENDENT_CODE ON
                       ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(GDAL_LINK_LIBRARY INTERFACE libopencad libopencad_dwg)
+target_link_libraries(GDAL_LINK_LIBRARY INTERFACE libopencad)
 
