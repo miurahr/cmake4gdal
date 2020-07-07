@@ -264,8 +264,7 @@ set(GDAL_DATA_FILES
     data/trailer.dxf
     data/vdv452.xml
     data/vdv452.xsd
-    data/vicar.json
-    )
+    data/vicar.json)
 set_property(TARGET gdal APPEND PROPERTY RESOURCE "${GDAL_DATA_FILES}")
 
 install(
