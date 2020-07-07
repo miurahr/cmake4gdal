@@ -102,6 +102,7 @@ add_library(
   cpl_vsil_hdfs.cpp
   cpl_swift.cpp
   cpl_vsil_az.cpp
+  cpl_vsil_uploadonclose.cpp
   cpl_vsil_gs.cpp
   cpl_vsil_webhdfs.cpp
   cpl_vsil_s3.cpp

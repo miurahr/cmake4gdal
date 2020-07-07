@@ -1,11 +1,8 @@
 # depend from hdf4 and ogr_PDS
 add_gdal_driver(
   TARGET gdal_PDS
-  SOURCES nasakeywordhandler.h
-          vicarkeywordhandler.h
-          isis2dataset.cpp
+  SOURCES isis2dataset.cpp
           isis3dataset.cpp
-          nasakeywordhandler.cpp
           pdsdataset.cpp
           pds4dataset.cpp
           pds4vector.cpp

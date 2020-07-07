@@ -1,11 +1,7 @@
 # should not be a plugin - dependency from elastic
 add_gdal_driver(
   TARGET ogr_geojson
-  SOURCES ogr_geojson.h
-          ogrgeojsonreader.h
-          ogrgeojsonutils.h
-          ogrgeojsonwriter.h
-          ogrgeojsondatasource.cpp
+  SOURCES ogrgeojsondatasource.cpp
           ogrgeojsonlayer.cpp
           ogrgeojsonreader.cpp
           ogrgeojsonutils.cpp
