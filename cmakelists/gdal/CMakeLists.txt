@@ -173,7 +173,7 @@ endif ()
 
 # Windows(Mingw/MSVC) link libraries
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
-  target_link_libraries(gdal PRIVATE wsock32 ws2_32 psapi)
+  target_link_libraries(gdal PRIVATE wsock32 ws2_32 secur32 psapi)
 endif ()
 
 get_property(_plugins GLOBAL PROPERTY PLUGIN_MODULES)
