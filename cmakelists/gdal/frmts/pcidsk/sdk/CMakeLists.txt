@@ -15,44 +15,42 @@ add_library(
   channel/cpixelinterleavedchannel.cpp
   channel/ctiledchannel.cpp
   core/clinksegment.cpp
+  core/cpcidskblockfile.cpp
   core/cpcidskfile.cpp
   core/edb_pcidsk.cpp
   core/libjpeg_io.cpp
   core/metadataset_p.cpp
+  core/pcidsk_pubutils.cpp
+  core/pcidsk_raster.cpp
+  core/pcidsk_scanint.cpp
+  core/pcidsk_utils.cpp
   core/pcidskbuffer.cpp
   core/pcidskcreate.cpp
   core/pcidskexception.cpp
   core/pcidskinterfaces.cpp
   core/pcidskopen.cpp
-  core/pcidsk_pubutils.cpp
-  core/pcidsk_raster.cpp
-  core/pcidsk_utils.cpp
-  core/pcidsk_scanint.cpp
-  port/io_stdio.cpp
   segment/cpcidsk_array.cpp
+  segment/cpcidsk_tex.cpp
   segment/cpcidskbinarysegment.cpp
-  segment/cpcidskephemerissegment.cpp
-  segment/cpcidskgeoref.cpp
+  segment/cpcidskbitmap.cpp
+  segment/cpcidskblut.cpp
   segment/cpcidskpct.cpp
+  segment/cpcidskephemerissegment.cpp
+  segment/cpcidskgcp2segment.cpp
+  segment/cpcidskgeoref.cpp
+  segment/cpcidsklut.cpp
+  segment/cpcidskbpct.cpp
+  segment/cpcidskpolymodel.cpp
+  segment/cpcidskrpcmodel.cpp
   segment/cpcidsksegment.cpp
+  segment/cpcidsktoutinmodel.cpp
   segment/cpcidskvectorsegment.cpp
   segment/cpcidskvectorsegment_consistencycheck.cpp
   segment/metadatasegment_p.cpp
-  segment/cpcidskapmodel.cpp
-  segment/cpcidskads40model.cpp
-  segment/sysblockmap.cpp
   segment/systiledir.cpp
-  segment/cpcidskrpcmodel.cpp
-  segment/cpcidsktoutinmodel.cpp
-  segment/cpcidskgcp2segment.cpp
-  segment/cpcidskbitmap.cpp
-  segment/cpcidsk_tex.cpp
   segment/vecsegdataindex.cpp
   segment/vecsegheader.cpp
-  segment/cpcidskblut.cpp
-  segment/cpcidskbpct.cpp
-  segment/cpcidsklut.cpp
-  segment/cpcidskpolymodel.cpp)
+)
 if (WIN32)
   target_sources(pcidsk_sdk PRIVATE port/io_win32.cpp port/win32_mutex.cpp)
 else ()
