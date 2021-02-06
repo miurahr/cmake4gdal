@@ -7,7 +7,7 @@ on: push
 #  - cron: "48 5 * * 5"
 
 env:
-  UNITY_BUILD: OFF
+  CMAKE_UNITY_BUILD: OFF
 
 jobs:
 
@@ -48,7 +48,7 @@ jobs:
     - name: Configure
       run: |
         cd $GITHUB_WORKSPACE/build
-        cmake -C ${GITHUB_WORKSPACE}/${CONFIGURATION} ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${UNITY_BUILD} ${GITHUB_WORKSPACE}/gdal
+        cmake -C ${GITHUB_WORKSPACE}/${CONFIGURATION} ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${CMAKE_UNITY_BUILD} ${GITHUB_WORKSPACE}/gdal
     - name: Build
       run: |
         cmake --build $GITHUB_WORKSPACE/build
@@ -98,7 +98,7 @@ jobs:
         env:
           MSYSTEM: MINGW64
       - name: Configure
-        run: cmake -G "${env:generator}" -C "${env:CONFIGURATION}" "-DCMAKE_PREFIX_PATH=C:\tools\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:UNITY_BUILD}" -S "gdal" -B "build"
+        run: cmake -G "${env:generator}" -C "${env:CONFIGURATION}" "-DCMAKE_PREFIX_PATH=C:\tools\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:CMAKE_UNITY_BUILD}" -S "gdal" -B "build"
         working-directory: ${{ github.workspace }}
       - name: Build
         run: cmake --build build
@@ -147,7 +147,7 @@ jobs:
       shell: bash -l {0}
       run: |
         mkdir -p $GITHUB_WORKSPACE/build
-        cmake -A ${architecture} -G "${generator}" -C "${GITHUB_WORKSPACE}\\${CONFIGURATION}" "-DCMAKE_PREFIX_PATH=${CONDA_PREFIX}" -DCMAKE_UNITY_BUILD=${UNITY_BUILD} -S "$GITHUB_WORKSPACE/gdal" -B "$GITHUB_WORKSPACE/build"
+        cmake -A ${architecture} -G "${generator}" -C "${GITHUB_WORKSPACE}\\${CONFIGURATION}" "-DCMAKE_PREFIX_PATH=${CONDA_PREFIX}" -DCMAKE_UNITY_BUILD=${CMAKE_UNITY_BUILD} -S "$GITHUB_WORKSPACE/gdal" -B "$GITHUB_WORKSPACE/build"
     - name: Build
       shell: bash -l {0}
       run: cmake --build $GITHUB_WORKSPACE/build --config Release
@@ -185,7 +185,7 @@ jobs:
     - name: Configure
       run: |
         mkdir -p $GITHUB_WORKSPACE/build
-        cmake -C $GITHUB_WORKSPACE/${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install-gdal ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${UNITY_BUILD} -S "$GITHUB_WORKSPACE/gdal" -B "$GITHUB_WORKSPACE/build"
+        cmake -C $GITHUB_WORKSPACE/${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install-gdal ${CMAKE_OPTIONS} -DCMAKE_UNITY_BUILD=${CMAKE_UNITY_BUILD} -S "$GITHUB_WORKSPACE/gdal" -B "$GITHUB_WORKSPACE/build"
     - name: Build
       run: cmake --build $GITHUB_WORKSPACE/build
     - name: test
