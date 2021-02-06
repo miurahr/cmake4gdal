@@ -27,7 +27,6 @@ add_library(
   core/pcidsk_pubutils.cpp
   core/pcidsk_raster.cpp
   core/pcidsk_utils.cpp
-  core/sysvirtualfile.cpp
   core/pcidsk_scanint.cpp
   port/io_stdio.cpp
   segment/cpcidsk_array.cpp
