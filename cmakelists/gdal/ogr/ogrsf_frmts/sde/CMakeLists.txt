@@ -10,7 +10,4 @@ else ()
 endif ()
 gdal_standard_includes(ogr_SDE)
 target_include_directories(ogr_SDE PRIVATE ${SDE_INCLUDE_DIRS})
-gdal_target_link_libraries(
-  TARGET ogr_SDE
-         PRIVATE
-         ${SDE_LIBRARIES})
+gdal_target_link_libraries(TARGET ogr_SDE PRIVATE ${SDE_LIBRARIES})

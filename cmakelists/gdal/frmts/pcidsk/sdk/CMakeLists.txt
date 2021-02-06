@@ -53,8 +53,7 @@ add_library(
   segment/cpcidskblut.cpp
   segment/cpcidskbpct.cpp
   segment/cpcidsklut.cpp
-  segment/cpcidskpolymodel.cpp
-)
+  segment/cpcidskpolymodel.cpp)
 if (WIN32)
   target_sources(pcidsk_sdk PRIVATE port/io_win32.cpp port/win32_mutex.cpp)
 else ()

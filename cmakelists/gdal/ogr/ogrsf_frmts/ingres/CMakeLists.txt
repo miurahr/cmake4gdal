@@ -8,11 +8,7 @@ set(SOURCE
     ogringresstatement.cpp
     ogringrestablelayer.cpp)
 if (OGR_ENABLE_INGRESS_PLUGIN)
-  add_gdal_driver(
-    TARGET ogr_INGRESS
-           SOURCE
-           ${SOURCE}
-    PLUGIN)
+  add_gdal_driver(TARGET ogr_INGRESS SOURCE ${SOURCE} PLUGIN)
 else ()
   add_gdal_driver(TARGET ogr_INGRESS SOURCE ${SOURCE})
 endif ()

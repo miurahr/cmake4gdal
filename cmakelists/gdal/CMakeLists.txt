@@ -183,7 +183,10 @@ add_custom_target(gdal_plugins DEPENDS ${_plugins})
 configure_file(${GDAL_CMAKE_TEMPLATE_PATH}/gdal_def.h.in ${CMAKE_CURRENT_BINARY_DIR}/gcore/gdal_def.h @ONLY)
 
 # ######################################################################################################################
-set_property(TARGET gdal APPEND PROPERTY PUBLIC_HEADER ${CMAKE_CURRENT_BINARY_DIR}/port/cpl_config.h)
+set_property(
+  TARGET gdal
+  APPEND
+  PROPERTY PUBLIC_HEADER ${CMAKE_CURRENT_BINARY_DIR}/port/cpl_config.h)
 
 set(GDAL_DATA_FILES
     data/GDALLogoBW.svg
@@ -265,7 +268,10 @@ set(GDAL_DATA_FILES
     data/vdv452.xml
     data/vdv452.xsd
     data/vicar.json)
-set_property(TARGET gdal APPEND PROPERTY RESOURCE "${GDAL_DATA_FILES}")
+set_property(
+  TARGET gdal
+  APPEND
+  PROPERTY RESOURCE "${GDAL_DATA_FILES}")
 
 install(
   TARGETS gdal

@@ -53,7 +53,8 @@ gdal_java_wrap(
 foreach (tgt IN ITEMS gdal ogr osr gnm)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/org/gdal/${tgt})
   gdal_java_wrap(
-    TARGET ${tgt} CXX
+    TARGET ${tgt}
+    CXX
     ARGS -Wall
          -I${CMAKE_SOURCE_DIR}/gdal/swig/include
          -I${CMAKE_SOURCE_DIR}/gdal/swig/include/java

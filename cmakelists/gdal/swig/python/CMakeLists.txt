@@ -141,7 +141,8 @@ elseif (Python_Development_FOUND)
     if (GENERATOR_IS_MULTI_CONFIG)
       set_target_properties(
         ${name}${v}
-        PROPERTIES LIBRARY_OUTPUT_NAME ${name} LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_BINARY_DIR}/debug/osgeo
+        PROPERTIES LIBRARY_OUTPUT_NAME ${name}
+                   LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_BINARY_DIR}/debug/osgeo
                    LIBRARY_OUTPUT_DIRECTORY_REL ${CMAKE_CURRENT_BINARY_DIR}/osgeo)
     else ()
       set_target_properties(${name}${v} PROPERTIES LIBRARY_OUTPUT_NAME ${name} LIBRARY_OUTPUT_DIRECTORY

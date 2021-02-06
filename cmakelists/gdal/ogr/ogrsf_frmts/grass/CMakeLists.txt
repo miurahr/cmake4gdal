@@ -5,10 +5,7 @@ gdal_standard_includes(ogr_GRASS)
 target_compile_definitions(ogr_GRASS PRIVATE -DGRASS_GISBASE="${GRASS_PREFIX${GRASS_VERSION}}"
                                              -DGRASS_VERSION_MAJOR=${GRASS_VERSION})
 if (USE_CPL)
-  target_compile_definitions(
-    ogr_GRASS
-    PRIVAT
-    -DUSE_CPL)
+  target_compile_definitions(ogr_GRASS PRIVAT -DUSE_CPL)
 endif ()
 target_include_directories(ogr_GRASS PRIVATE ${GRASS_INCLUDE_DIR${GRASS_VERSION}} ${PostgreSQL_INCLUDE_DIRS})
 gdal_target_link_libraries(
