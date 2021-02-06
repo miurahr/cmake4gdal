@@ -1,5 +1,14 @@
 add_library(
   pcidsk_sdk STATIC
+  blockdir/asciitiledir.cpp
+  blockdir/asciitilelayer.cpp
+  blockdir/binarytiledir.cpp
+  blockdir/binarytilelayer.cpp
+  blockdir/blockdir.cpp
+  blockdir/blockfile.cpp
+  blockdir/blocklayer.cpp
+  blockdir/blocktiledir.cpp
+  blockdir/blocktilelayer.cpp
   channel/cbandinterleavedchannel.cpp
   channel/cexternalchannel.cpp
   channel/cpcidskchannel.cpp
@@ -16,8 +25,10 @@ add_library(
   core/pcidskinterfaces.cpp
   core/pcidskopen.cpp
   core/pcidsk_pubutils.cpp
+  core/pcidsk_raster.cpp
   core/pcidsk_utils.cpp
   core/sysvirtualfile.cpp
+  core/pcidsk_scanint.cpp
   port/io_stdio.cpp
   segment/cpcidsk_array.cpp
   segment/cpcidskbinarysegment.cpp
@@ -31,13 +42,19 @@ add_library(
   segment/cpcidskapmodel.cpp
   segment/cpcidskads40model.cpp
   segment/sysblockmap.cpp
+  segment/systiledir.cpp
   segment/cpcidskrpcmodel.cpp
   segment/cpcidsktoutinmodel.cpp
   segment/cpcidskgcp2segment.cpp
   segment/cpcidskbitmap.cpp
   segment/cpcidsk_tex.cpp
   segment/vecsegdataindex.cpp
-  segment/vecsegheader.cpp)
+  segment/vecsegheader.cpp
+  segment/cpcidskblut.cpp
+  segment/cpcidskbpct.cpp
+  segment/cpcidsklut.cpp
+  segment/cpcidskpolymodel.cpp
+)
 if (WIN32)
   target_sources(pcidsk_sdk PRIVATE port/io_win32.cpp port/win32_mutex.cpp)
 else ()

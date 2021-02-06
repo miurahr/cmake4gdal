@@ -101,6 +101,7 @@ add_library(
   cpl_md5.cpp
   cpl_vsil_hdfs.cpp
   cpl_swift.cpp
+  cpl_vsil_adls.cpp
   cpl_vsil_az.cpp
   cpl_vsil_uploadonclose.cpp
   cpl_vsil_gs.cpp

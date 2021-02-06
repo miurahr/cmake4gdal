@@ -2,6 +2,7 @@ option(OGR_ENABLE_DWG_PLUGIN "Enable plugin for dwg driver" ON)
 set(SOURCE
     ogrdgnv8datasource.cpp
     ogrdgnv8driver.cpp
+    ogrdgnv8layer.cpp
     ogrdwg_blockmap.cpp
     ogrdwg_hatch.cpp
     ogrdwgblockslayer.cpp

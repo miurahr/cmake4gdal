@@ -1,0 +1,2 @@
+add_gdal_driver(TARGET gdal_OGCAPI SOURCES gdalogcapidataset.cpp)
+gdal_standard_includes(gdal_OGCAPI)

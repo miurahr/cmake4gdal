@@ -82,6 +82,9 @@ gdal_format(gif "Graphics Interchange Format")
 gdal_format(bmp "Microsoft Windows Device Independent Bitmap")
 gdal_format(ignfheightasciigrid "IGNF Height ASCII Grid")
 gdal_format(daas "Airbus DS Intelligence Data As A Service(DAAS)")
+gdal_format(tga "TGA")
+gdal_format(stacta "STACTA")
+gdal_format(ogcapi "OGCAPI))
 
 # optioal Formats
 gdal_optional_format(bsb "Maptech/NOAA BSB Nautical Chart Format")
