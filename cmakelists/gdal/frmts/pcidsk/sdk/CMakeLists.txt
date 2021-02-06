@@ -49,8 +49,7 @@ add_library(
   segment/metadatasegment_p.cpp
   segment/systiledir.cpp
   segment/vecsegdataindex.cpp
-  segment/vecsegheader.cpp
-)
+  segment/vecsegheader.cpp)
 if (WIN32)
   target_sources(pcidsk_sdk PRIVATE port/io_win32.cpp port/win32_mutex.cpp)
 else ()
