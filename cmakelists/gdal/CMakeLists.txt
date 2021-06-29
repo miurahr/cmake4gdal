@@ -11,6 +11,8 @@ option(GDAL_ENABLE_QHULL "use qhull" ON)
 option(GDAL_USE_LIBPCIDSK_INTERNAL "Set ON to build pcidsk driver with internal sdk" OFF)
 option(ENABLE_LTO "Enable Link-Time Optimization if possible" OFF)
 option(GDAL_ENABLE_MACOSX_FRAMEWORK "Enable Framework on Mac OS X" OFF)
+option(GDAL_BUILD_OPTIONAL_DRIVERS "Whether to build GDAL optional drivers by default" ON)
+option(OGR_BUILD_OPTIONAL_DRIVERS "Whether to build OGR optional drivers by default" ON)
 
 # libgdal shared/satic library generation
 option(BUILD_SHARED_LIBS "Set ON to build shared library" ON)
