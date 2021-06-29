@@ -53,7 +53,7 @@ if (HAVE_GEOS)
   target_link_libraries(GDAL_LINK_LIBRARY INTERFACE GEOS::GEOS)
 endif ()
 
-if (HAVE_SFCGAL)
+if (GDAL_USE_SFCGAL)
   target_compile_definitions(alg PRIVATE -DHAVE_SFCGAL=1)
   target_link_libraries(GDAL_LINK_LIBRARY INTERFACE SFCGAL::SFCGAL)
   target_include_directories(alg PRIVATE ${SFCGAL_INCLUDE_DIRS})
