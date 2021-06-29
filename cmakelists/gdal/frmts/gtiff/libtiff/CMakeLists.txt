@@ -50,6 +50,7 @@ add_library(
   tif_luv.c
   tif_predict.c
   tif_version.c
+  tif_lerc.c
   tiffio.h)
 target_include_directories(libtiff PRIVATE $<TARGET_PROPERTY:cpl,SOURCE_DIR> $<TARGET_PROPERTY:cpl,BINARY_DIR>)
 target_compile_definitions(libtiff PRIVATE -DDONT_DEPRECATE_SPRINTF)
@@ -86,6 +87,11 @@ endif ()
 if (HAVE_WEBP)
   target_compile_definitions(libtiff PRIVATE -DWEBP_SUPPORT)
   target_link_libraries(GDAL_LINK_LIBRARY INTERFACE WEBP::WebP)
+endif ()
+
+if (HAVE_LERC)
+  target_compile_definitions(libtiff PRIVATE -DLERC_SUPPORT)
+  target_include_directories(libtiff PRIVATE $<TARGET_PROPERTY:lerc,SOURCE_DIR>)
 endif ()
 
 if (RENAME_INTERNAL_LIBTIFF_SYMBOLS)

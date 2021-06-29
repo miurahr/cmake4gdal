@@ -11,7 +11,6 @@ add_gdal_driver(
           gt_wkt_srs_for_gdal.h
           tifvsi.h
           tif_float.h
-          tif_lerc.h
           geotiff.cpp
           gt_jpeg_copy.cpp
           gt_citation.cpp
@@ -28,11 +27,6 @@ if (GDAL_USE_LIBTIFF_INTERNAL)
   target_include_directories(gdal_GTIFF PRIVATE $<TARGET_PROPERTY:libtiff,SOURCE_DIR>)
   if (RENAME_INTERNAL_LIBTIFF_SYMBOLS)
     target_compile_definitions(gdal_GTIFF PRIVATE -DRENAME_INTERNAL_LIBTIFF_SYMBOLS)
-  endif ()
-  if (HAVE_LERC)
-    target_sources(gdal_GTIFF PRIVATE tif_lerc.c)
-    target_compile_definitions(gdal_GTIFF PRIVATE -DHAVE_LERC)
-    target_include_directories(gdal_GTIFF PRIVATE $<TARGET_PROPERTY:lerc,SOURCE_DIR>)
   endif ()
 else ()
   target_compile_definitions(gdal_GTIFF PRIVATE -DHAVE_TIFF -DBIGTIFF_SUPPORT -DPIXARLOG_SUPPORT)
@@ -54,7 +48,7 @@ if (GDAL_USE_LIBGEOTIFF_INTERNAL)
     target_compile_definitions(gdal_GITFF PRIVATE -DRENAME_INTERNAL_LIBGEOTIFF_SYMBOLS)
   endif ()
 else ()
-  gdal_target_link_libraries(TARGET gdal_GTIFF LIBRARIES ${GEOTIFF_LIBRARY})
+  gdal_target_link_libraries(TARGET gdal_GTIFF LIBRARIES GEOTIFF::GEOTIFF)
 endif ()
 
 if (GDAL_USE_LIBZ_INTERNAL)
