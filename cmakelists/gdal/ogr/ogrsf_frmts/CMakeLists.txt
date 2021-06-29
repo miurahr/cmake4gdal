@@ -98,7 +98,7 @@ ogr_dependent_driver(walk "WALK Spatial data" "ODBC_FOUND")
 ogr_dependent_driver(pgeo "PGEO" "ODBC_FOUND")
 
 # for dependency problem, grass is not always compiled in.
-ogr_optional_driver(grass "GRASS Vector format")
+ogr_dependent_driver(grass "GRASS Vector format" "HAVE_GRASS")
 if (OGR_ENABLE_GRASS)
   if (HAVE_GRASS AND HAVE_POSTGRESQL)
 
@@ -109,7 +109,7 @@ endif ()
 
 ogr_dependent_driver(xlsx "Microsoft Office Excel(xlsx)" "HAVE_EXPAT")
 ogr_dependent_driver(xls "Microsoft Office Excel(xls)" "FREEXL_FOUND")
-ogr_optional_driver(mongodb "MongoDB")
+ogr_dependent_driver(mongodb "MongoDB" "MONGODB_FOUND")
 ogr_optional_driver(cad "OpenCAD")
 
 # ######################################################################################################################

@@ -58,7 +58,7 @@ gdal_optional_format(r "R Object Data Store")
 gdal_optional_format(northwood "NWT_GRD/NWT_GRC -- Northwood/Vertical Mapper File Format")
 gdal_optional_format(saga "SAGA GIS Binary Driver")
 gdal_optional_format(xyz "ASCII Gridded XYZ")
-gdal_optional_format(heif "HEIF")
+gdal_dependent_format(heif "HEIF" "HEIF_FOUND")
 gdal_optional_format(esric "ESRI compact cache")
 gdal_format(hf2 "HF2/HFZ heightfield raster")
 gdal_format(kmlsuperoverlay "")
@@ -84,7 +84,7 @@ gdal_format(tga "TGA")
 gdal_format(stacta "STACTA")
 gdal_format(ogcapi "OGCAPI")
 
-# optioal Formats
+# optional Formats
 gdal_optional_format(bsb "Maptech/NOAA BSB Nautical Chart Format")
 gdal_dependent_format(aigrid "Arc/Info Binary Grid Format" "OGR_ENABLE_AVC;OGR_ENABLE_SHAPE")
 gdal_optional_format(arg "ARG: Azavea Raster Grid")
@@ -94,7 +94,7 @@ gdal_optional_format(netcdf "NetCDF network Common Data Form")
 gdal_optional_format(ozi "OZF2/OZFX3 raster")
 gdal_optional_format(rda "RDA (DigitalGlobe Raster Data Access)")
 gdal_optional_format(sigdem "Scaled Integer Gridded DEM .sigdem Driver")
-gdal_optional_format(msg "Meteosat Second Generation")
+gdal_dependent_format(msg "Meteosat Second Generation" "MSG_FOUND") # FIXME: currently the build depend on copying the PublicDecompSDK in frmts/msg
 gdal_optional_format(rik "RIK -- Swedish Grid Maps")
 
 # formats with external library dependency
@@ -124,7 +124,7 @@ gdal_dependent_format(tiledb "TileDB tiledb.io" "HAVE_TILEDB")
 gdal_dependent_format(exr "EXR support via OpenEXR library" "OpenEXR_FOUND")
 
 # for circulate dependency, grass is NOT always compiled in.
-gdal_optional_format(grass "GRASS")
+gdal_dependent_format(grass "GRASS" "HAVE_GRASS")
 add_feature_info(gdal_GRASS GDAL_ENABLE_FRMT_GRASS "GRASS raster format")
 if (GDAL_ENABLE_FRMT_GRASS)
   if (HAVE_GRASS AND HAVE_POSTGRESQL)
