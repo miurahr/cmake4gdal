@@ -34,7 +34,6 @@ add_gdal_driver(
           snodasdataset.cpp
           byndataset.cpp
           byndataset.cpp
-          ntv1dataset.cpp
           envidataset.cpp
   BUILTIN)
 gdal_standard_includes(gdal_raw)
