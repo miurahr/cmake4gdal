@@ -19,6 +19,8 @@ add_gdal_driver(
           gdalwmscache.cpp
           minidriver_arcgis_server.cpp
           minidriver_mrf.cpp
+          minidriver_ogcapicoverage.cpp
+          minidriver_ogcapimaps.cpp
           minidriver_tileservice.cpp
           minidriver_virtualearth.cpp
           minidriver_worldwind.cpp
@@ -26,6 +28,8 @@ add_gdal_driver(
           gdalwmsdataset.cpp
           minidriver_arcgis_server.h
           minidriver_mrf.h
+          minidriver_ogcapicoverage.h
+          minidriver_ogcapimaps.h
           minidriver_tileservice.h
           minidriver_virtualearth.h
           minidriver_worldwind.h
