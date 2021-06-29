@@ -70,7 +70,7 @@ endif ()
 if (GDAL_ENABLE_MACOSX_FRAMEWORK)
   set(INSTALL_PLUGIN_DIR
       "${CMAKE_INSTALL_PREFIX}/PlugIns"
-      CACHE PATH "Installation direcotry for plugins")
+      CACHE PATH "Installation directory for plugins")
   set(CMAKE_MACOSX_RPATH ON)
   set_target_properties(
     gdal
@@ -88,7 +88,7 @@ else ()
   include(GNUInstallDirs)
   set(INSTALL_PLUGIN_DIR
       "${CMAKE_INSTALL_PREFIX}/lib/gdalplugins/${GDAL_VERSION_MAJOR}.${GDAL_VERSION_MINOR}"
-      CACHE PATH "Installation direcotry for plugins")
+      CACHE PATH "Installation directory for plugins")
 endif ()
 
 # detect portability libs and set, so it should add at first Common Portability layer
