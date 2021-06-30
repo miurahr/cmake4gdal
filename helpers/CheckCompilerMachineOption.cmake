@@ -62,7 +62,7 @@ function(check_compiler_machine_option outvar feature)
       endif()
     else() # not MSVC and not ICC => GCC, Clang, Open64
       string(TOLOWER ${feature} _flag)
-      __check_compiler_flag("-march=${_flag}" test_${_flag})
+      __check_compiler_flag("-m${_flag}" test_${_flag})
       if(test_${_flag})
         set(header_table "sse3" "pmmintrin.h" "ssse3" "tmmintrin.h" "sse4.1" "smmintrin.h"
             "sse4.2" "smmintrin.h" "sse4a" "ammintrin.h" "avx" "immintrin.h"

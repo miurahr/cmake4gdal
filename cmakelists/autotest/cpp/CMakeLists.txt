@@ -111,7 +111,6 @@ add_custom_target(
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 
 gdal_test_target(testsse1 testsse.cpp)
-target_compile_options(testsse1 PRIVATE ${GDAL_ARCH_FLAG})
 gdal_test_target(testsse2 testsse.cpp)
 gdal_test_target(testsse3 testsse.cpp)
 gdal_test_target(testsse4 testsse.cpp)

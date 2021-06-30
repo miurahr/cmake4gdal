@@ -37,6 +37,7 @@ add_library(
   gdalarraybandblockcache.cpp
   gdalhashsetbandblockcache.cpp
   overview.cpp
+  rasterio.cpp
   rawdataset.cpp
   gdalmultidim.cpp
   gdalpython.cpp
@@ -52,6 +53,10 @@ target_include_directories(
           $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR> $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)
 set_property(TARGET gcore PROPERTY POSITION_INDEPENDENT_CODE ON)
 
+if (HAVE_SSSE3_AT_COMPILE_TIME)
+  target_compile_definitions(gcore PRIVATE -DHAVE_SSSE3_AT_COMPILE_TIME)
+endif ()
+
 add_library(gdaldrivermanager OBJECT gdaldrivermanager.cpp)
 gdal_standard_includes(gdaldrivermanager)
 file(TO_CMAKE_PATH "${CMAKE_PREFIX_PATH}/${CMAKE_INSTALL_DATADIR}" INST_DATA_PATH)
@@ -63,12 +68,12 @@ if (HAVE_XERCESC)
   target_link_libraries(GDAL_LINK_LIBRARY INTERFACE XercesC::XercesC)
 endif ()
 
-add_library(rasterio OBJECT rasterio.cpp rasterio_ssse3.cpp)
-gdal_standard_includes(rasterio)
-target_include_directories(rasterio PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
+add_library(rasterio_ssse3 OBJECT rasterio_ssse3.cpp)
+gdal_standard_includes(rasterio_ssse3)
+target_include_directories(rasterio_ssse3 PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
                                             $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>)
-set_property(TARGET rasterio PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_sources(gdal PRIVATE $<TARGET_OBJECTS:gcore> $<TARGET_OBJECTS:gdaldrivermanager> $<TARGET_OBJECTS:rasterio>)
+set_property(TARGET rasterio_ssse3 PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_sources(gdal PRIVATE $<TARGET_OBJECTS:gcore> $<TARGET_OBJECTS:gdaldrivermanager> $<TARGET_OBJECTS:rasterio_ssse3>)
 include(TargetPublicHeader)
 target_public_header(
   TARGET
@@ -106,8 +111,8 @@ if (ENABLE_PAM)
 endif ()
 
 if (HAVE_SSSE3_AT_COMPILE_TIME)
-  target_compile_options(rasterio PRIVATE ${GDAL_ARCH_FLAG})
-  target_compile_definitions(rasterio PRIVATE -DHAVE_SSSE3_AT_COMPILE_TIME)
+  target_compile_options(rasterio_ssse3 PRIVATE ${GDAL_SSSE3_FLAG})
+  target_compile_definitions(rasterio_ssse3 PRIVATE -DHAVE_SSSE3_AT_COMPILE_TIME)
 endif ()
 
 add_subdirectory(mdreader)

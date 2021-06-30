@@ -35,8 +35,6 @@ else ()
   target_link_libraries(GDAL_LINK_LIBRARY INTERFACE ${JSONC_LIBRARIES})
 endif ()
 
-target_compile_options(appslib PRIVATE ${GDAL_ARCH_FLAG})
-
 if (BUILD_APPS)
   # Default Apps
   add_executable(gdalinfo gdal_utils_priv.h gdalinfo_bin.cpp)
