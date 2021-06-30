@@ -11,6 +11,8 @@ option(GDAL_ENABLE_QHULL "use qhull" ON)
 option(GDAL_USE_LIBPCIDSK_INTERNAL "Set ON to build pcidsk driver with internal sdk" OFF)
 option(ENABLE_LTO "Enable Link-Time Optimization if possible" OFF)
 option(GDAL_ENABLE_MACOSX_FRAMEWORK "Enable Framework on Mac OS X" OFF)
+option(GDAL_BUILD_OPTIONAL_DRIVERS "Whether to build GDAL optional drivers by default" ON)
+option(OGR_BUILD_OPTIONAL_DRIVERS "Whether to build OGR optional drivers by default" ON)
 
 # libgdal shared/satic library generation
 option(BUILD_SHARED_LIBS "Set ON to build shared library" ON)
@@ -70,7 +72,7 @@ endif ()
 if (GDAL_ENABLE_MACOSX_FRAMEWORK)
   set(INSTALL_PLUGIN_DIR
       "${CMAKE_INSTALL_PREFIX}/PlugIns"
-      CACHE PATH "Installation direcotry for plugins")
+      CACHE PATH "Installation directory for plugins")
   set(CMAKE_MACOSX_RPATH ON)
   set_target_properties(
     gdal
@@ -88,7 +90,7 @@ else ()
   include(GNUInstallDirs)
   set(INSTALL_PLUGIN_DIR
       "${CMAKE_INSTALL_PREFIX}/lib/gdalplugins/${GDAL_VERSION_MAJOR}.${GDAL_VERSION_MINOR}"
-      CACHE PATH "Installation direcotry for plugins")
+      CACHE PATH "Installation directory for plugins")
 endif ()
 
 # detect portability libs and set, so it should add at first Common Portability layer
@@ -107,9 +109,6 @@ if (GDAL_USE_LIBPCIDSK_INTERNAL)
 endif ()
 if (GDAL_USE_LIBJSONC_INTERNAL)
   add_subdirectory(ogr/ogrsf_frmts/geojson/libjson)
-endif ()
-if (GDAL_USE_OPENCAD_INTERNAL AND OGR_ENABLE_CAD)
-  add_subdirectory(ogr/ogrsf_frmts/cad/libopencad)
 endif ()
 if (GDAL_USE_LIBTIFF_INTERNAL)
   option(RENAME_INTERNAL_LIBTIFF_SYMBOLS "Rename internal libtiff symbols" OFF)

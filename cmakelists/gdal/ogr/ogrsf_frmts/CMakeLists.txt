@@ -21,11 +21,7 @@ ogr_default_driver(sdts SDTS) # depends ISO8211
 ogr_default_driver(gml GML) # when not found both EXPAT/XercesC, return error in driver, referenced by WCS
 
 # ######################################################################################################################
-ogr_optional_driver(segukooa SEGUKOOA)
-ogr_optional_driver(segy SEG)
-ogr_optional_driver(aeronavfaa AERONAVFAA)
 ogr_optional_driver(avc AVC)
-ogr_optional_driver(bna BNA)
 ogr_optional_driver(csv CSV)
 ogr_optional_driver(dgn DGN)
 ogr_optional_driver(gmt GMT)
@@ -36,15 +32,11 @@ ogr_optional_driver(s57 S57)
 ogr_optional_driver(shape "ESRI shape-file")
 ogr_optional_driver(tiger "U.S. Census TIGER/Line")
 ogr_optional_driver(geoconcept GEOCONCEPT)
-ogr_optional_driver(xplane XPLANE)
 ogr_optional_driver(georss GEORSS)
 ogr_optional_driver(gtm "GPS TrackMaker")
 ogr_optional_driver(dxf DXF)
 ogr_optional_driver(pgdump PGDump)
 ogr_optional_driver(gpsbabel GPSBABEL)
-ogr_optional_driver(sua "Tim Newport-Peace's Special Use Airspace Format")
-ogr_optional_driver(openair OPENAIR)
-ogr_optional_driver(htf HTF)
 ogr_optional_driver(edigeo EDIGEO)
 ogr_optional_driver(arcgen ARCGEN)
 ogr_optional_driver(sxf SXF)
@@ -106,7 +98,7 @@ ogr_dependent_driver(walk "WALK Spatial data" "ODBC_FOUND")
 ogr_dependent_driver(pgeo "PGEO" "ODBC_FOUND")
 
 # for dependency problem, grass is not always compiled in.
-ogr_optional_driver(grass "GRASS Vector format")
+ogr_dependent_driver(grass "GRASS Vector format" "HAVE_GRASS")
 if (OGR_ENABLE_GRASS)
   if (HAVE_GRASS AND HAVE_POSTGRESQL)
 
@@ -117,7 +109,7 @@ endif ()
 
 ogr_dependent_driver(xlsx "Microsoft Office Excel(xlsx)" "HAVE_EXPAT")
 ogr_dependent_driver(xls "Microsoft Office Excel(xls)" "FREEXL_FOUND")
-ogr_optional_driver(mongodb "MongoDB")
+ogr_dependent_driver(mongodb "MongoDB" "MONGODB_FOUND")
 ogr_optional_driver(cad "OpenCAD")
 
 # ######################################################################################################################

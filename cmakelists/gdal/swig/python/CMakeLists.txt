@@ -206,7 +206,8 @@ elseif (Python_Development_FOUND)
 else ()
 
 endif ()
-add_subdirectory(scripts)
+# FIXME !!!!
+#add_subdirectory(scripts)
 file(COPY ${CMAKE_SOURCE_DIR}/gdal/Doxyfile DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile "GENERATE_XML=YES")
 add_custom_command(

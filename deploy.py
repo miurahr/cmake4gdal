@@ -42,6 +42,11 @@ def create_links(as_symlink=False):
     for cur, _, files in os.walk(listpath):
         if 'CMakeLists.txt' in files:
             target = os.path.join(parent_dir, os.path.relpath(cur, start=listpath))
+            if not os.path.exists(target):
+                # FIXME !!!!
+                # related to swig/python/scripts no longer existing
+                print('Skip {}'.format(target))
+                continue
             target_file = os.path.join(target, 'CMakeLists.txt')
             if os.path.exists(target_file):
                 os.unlink(target_file)
