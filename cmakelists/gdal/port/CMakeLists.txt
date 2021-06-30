@@ -93,6 +93,7 @@ add_library(
   cpl_sha1.cpp
   cpl_sha256.cpp
   cpl_aws.cpp
+  cpl_aws_win32.cpp
   cpl_vsi_error.cpp
   cpl_cpu_features.cpp
   cpl_google_cloud.cpp
