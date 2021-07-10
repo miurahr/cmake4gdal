@@ -18,7 +18,7 @@ schedules:
 jobs:
 - job: Ubuntu_1804_gcc
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-18.04'
   container: miurahr/ubuntu-gdal-dev:latest
   steps:
     - template: ci/azure-pipelines/linux.yml
@@ -28,7 +28,7 @@ jobs:
 
 - job: Ubuntu_1804_clang
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-18.04'
   container: miurahr/ubuntu-gdal-dev:latest
   steps:
     - template: ci/azure-pipelines/linux.yml
@@ -38,7 +38,7 @@ jobs:
 
 - job: macOS
   pool:
-    vmImage: 'macOS-10.13'
+    vmImage: 'macOS-10.15'
   steps:
     - template: ci/azure-pipelines/osx.yml
       parameters:
