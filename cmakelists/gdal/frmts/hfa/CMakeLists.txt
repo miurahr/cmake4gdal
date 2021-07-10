@@ -15,6 +15,7 @@ add_gdal_driver(
           hfa_overviews.cpp
   BUILTIN)
 gdal_standard_includes(gdal_HFA)
+target_include_directories(gdal_HFA PRIVATE ${PROJ_INCLUDE_DIRS})
 
 add_executable(hfatest EXCLUDE_FROM_ALL hfatest.cpp)
 gdal_standard_includes(hfatest)
