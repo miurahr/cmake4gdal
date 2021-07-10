@@ -104,19 +104,19 @@ if ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "(x86|AMD64)")
   if (NOT ${flag} EQUAL "")
     set(HAVE_SSE_AT_COMPILE_TIME 1)
     set(GDAL_SSE_FLAG "-msse")
-  endif()
+  endif ()
 
   check_compiler_machine_option(flag SSSE3)
   if (NOT ${flag} EQUAL "")
     set(HAVE_SSSE3_AT_COMPILE_TIME 1)
     set(GDAL_SSSE3_FLAG "-mssse3")
-  endif()
+  endif ()
 
   check_compiler_machine_option(flag AVX)
   if (NOT ${flag} EQUAL "")
     set(HAVE_AVX_AT_COMPILE_TIME 1)
     set(GDAL_AVX_FLAG "-mavx")
-  endif()
+  endif ()
 
 endif ()
 #

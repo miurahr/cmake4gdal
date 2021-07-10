@@ -71,9 +71,10 @@ endif ()
 add_library(rasterio_ssse3 OBJECT rasterio_ssse3.cpp)
 gdal_standard_includes(rasterio_ssse3)
 target_include_directories(rasterio_ssse3 PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>
-                                            $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>)
+                                                  $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>)
 set_property(TARGET rasterio_ssse3 PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_sources(gdal PRIVATE $<TARGET_OBJECTS:gcore> $<TARGET_OBJECTS:gdaldrivermanager> $<TARGET_OBJECTS:rasterio_ssse3>)
+target_sources(gdal PRIVATE $<TARGET_OBJECTS:gcore> $<TARGET_OBJECTS:gdaldrivermanager>
+                            $<TARGET_OBJECTS:rasterio_ssse3>)
 include(TargetPublicHeader)
 target_public_header(
   TARGET

@@ -94,7 +94,8 @@ gdal_optional_format(netcdf "NetCDF network Common Data Form")
 gdal_optional_format(ozi "OZF2/OZFX3 raster")
 gdal_optional_format(rda "RDA (DigitalGlobe Raster Data Access)")
 gdal_optional_format(sigdem "Scaled Integer Gridded DEM .sigdem Driver")
-gdal_dependent_format(msg "Meteosat Second Generation" "MSG_FOUND") # FIXME: currently the build depend on copying the PublicDecompSDK in frmts/msg
+gdal_dependent_format(msg "Meteosat Second Generation" "MSG_FOUND") # FIXME: currently the build depend on copying the
+                                                                    # PublicDecompSDK in frmts/msg
 gdal_optional_format(rik "RIK -- Swedish Grid Maps")
 
 # formats with external library dependency
