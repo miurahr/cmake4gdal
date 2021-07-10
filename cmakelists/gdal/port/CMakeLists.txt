@@ -189,6 +189,7 @@ endif ()
 if (ODBC_FOUND)
   target_sources(cpl PRIVATE cpl_odbc.cpp)
   target_public_header(TARGET gdal HEADERS cpl_odbc.h)
+  target_include_directories(cpl PRIVATE ${ODBC_INCLUDE_DIRS})
   target_link_libraries(cpl PRIVATE ODBC::ODBC ODBC::ODBCINST)
 endif ()
 
