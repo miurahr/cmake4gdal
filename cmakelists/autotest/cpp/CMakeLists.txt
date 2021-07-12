@@ -84,34 +84,39 @@ add_custom_target(
   test-block-cache-1
   COMMAND ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testblockcache> -check -co TILED=YES --debug TEST,LOCK
           -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES
+  DEPENDS testblockcache
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 add_custom_target(
   test-block-cache-2
   COMMAND ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testblockcache> -check -co TILED=YES --debug TEST,LOCK
           -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES --config GDAL_RB_LOCK_TYPE SPIN
+  DEPENDS testblockcache
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 add_custom_target(
   test-block-cache-3
   COMMAND ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testblockcache> -check -co TILED=YES -migrate
+  DEPENDS testblockcache
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 add_custom_target(
   test-block-cache-4
   COMMAND ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testblockcache> -check -memdriver
+  DEPENDS testblockcache
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 add_custom_target(
   test-block-cache-5
   COMMAND ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testblockcache> --config GDAL_BAND_BLOCK_CACHE HASHSET
           -check -co TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES
+  DEPENDS testblockcache
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 add_custom_target(
   test-block-cache-6
   COMMAND
     ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testblockcache> --config GDAL_BAND_BLOCK_CACHE HASHSET -check -co
     TILED=YES --debug TEST,LOCK -loops 3 --config GDAL_RB_LOCK_DEBUG_CONTENTION YES --config GDAL_RB_LOCK_TYPE SPIN
+  DEPENDS testblockcache
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 
 gdal_test_target(testsse1 testsse.cpp)
-target_compile_options(testsse1 PRIVATE ${GDAL_ARCH_FLAG})
 gdal_test_target(testsse2 testsse.cpp)
 gdal_test_target(testsse3 testsse.cpp)
 gdal_test_target(testsse4 testsse.cpp)
@@ -123,22 +128,27 @@ target_compile_definitions(testsse5 PRIVATE -DUSE_SSE2_EMULATION)
 add_custom_target(
   test-sse1
   COMMAND ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testsse1>
+  DEPENDS testsse1
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 add_custom_target(
   test-sse2
   COMMAND ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testsse2>
+  DEPENDS testsse2
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 add_custom_target(
   test-sse3
   COMMAND ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testsse3>
+  DEPENDS testsse3
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 add_custom_target(
   test-sse4
   COMMAND ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testsse4>
+  DEPENDS testsse4
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 add_custom_target(
   test-sse5
   COMMAND ${CMAKE_COMMAND} -E env ${TEST_ENV} $<TARGET_FILE:testsse5>
+  DEPENDS testsse5
   WORKING_DIRECTORY ${GDAL_ROOT_TEST_DIR})
 
 macro (gdal_autotest_target _target testlabel _source options)

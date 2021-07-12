@@ -1,3 +1,7 @@
+if (GDAL_USE_OPENCAD_INTERNAL)
+  add_subdirectory(libopencad)
+endif ()
+
 add_gdal_driver(TARGET ogr_CAD SOURCES ogr_cad.h gdalcaddataset.cpp ogrcaddriver.cpp ogrcadlayer.cpp vsilfileio.cpp
                                        vsilfileio.h)
 gdal_standard_includes(ogr_CAD)

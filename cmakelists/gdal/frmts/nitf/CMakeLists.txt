@@ -16,6 +16,9 @@ add_gdal_driver(
           nitfwritejpeg_12.cpp
   BUILTIN)
 gdal_standard_includes(gdal_NITF)
+target_include_directories(gdal_NITF PRIVATE $<TARGET_PROPERTY:gdal_GTIFF,SOURCE_DIR>
+                                             $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)
+
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
   set_property(SOURCE nitfimage.c nitffile.c nitfdes.c PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
 endif ()
@@ -43,5 +46,3 @@ if (GDAL_USE_LIBJPEG_INTERNAL OR HAVE_JPEG)
     target_compile_definitions(gdal_NITF PRIVATE -DJPEG_DUAL_MODE_8_12)
   endif ()
 endif ()
-target_include_directories(gdal_NITF PRIVATE $<TARGET_PROPERTY:gdal_GTIFF,SOURCE_DIR>
-                                             $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)

@@ -93,6 +93,7 @@ add_library(
   cpl_sha1.cpp
   cpl_sha256.cpp
   cpl_aws.cpp
+  cpl_aws_win32.cpp
   cpl_vsi_error.cpp
   cpl_cpu_features.cpp
   cpl_google_cloud.cpp
@@ -138,6 +139,13 @@ else ()
   target_sources(cpl PRIVATE cpl_vsil_unix_stdio_64.cpp)
 endif ()
 
+if (HAVE_SSSE3_AT_COMPILE_TIME)
+  target_compile_definitions(cpl PRIVATE -DHAVE_SSSE3_AT_COMPILE_TIME)
+endif ()
+if (HAVE_AVX_AT_COMPILE_TIME)
+  target_compile_definitions(cpl PRIVATE -DHAVE_AVX_AT_COMPILE_TIME)
+endif ()
+
 if (GDAL_USE_LIBJSONC_INTERNAL)
   target_include_directories(cpl PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)
 else ()
@@ -181,6 +189,7 @@ endif ()
 if (ODBC_FOUND)
   target_sources(cpl PRIVATE cpl_odbc.cpp)
   target_public_header(TARGET gdal HEADERS cpl_odbc.h)
+  target_include_directories(cpl PRIVATE ${ODBC_INCLUDE_DIRS})
   target_link_libraries(cpl PRIVATE ODBC::ODBC ODBC::ODBCINST)
 endif ()
 
@@ -205,15 +214,6 @@ endif ()
 option(HDFS_ENABLED "Include HDFS support" OFF)
 if (HDFS_ENABLED)
   target_compile_definitions(cpl PRIVATE -DHDFS_ENABLED)
-endif ()
-
-target_compile_options(cpl PRIVATE ${GDAL_ARCH_FLAG})
-if (HAVE_SSE_AT_COMPILE_TIME)
-  target_compile_definitions(cpl PRIVATE -DHAVE_SSE_AT_COMPILE_TIME)
-endif ()
-
-if (HAVE_SSSE3_AT_COMPILE_TIME)
-  target_compile_definitions(cpl PRIVATE -DHAVE_SSSE3_AT_COMPILE_TIME)
 endif ()
 
 # for plugin DLFCN: for win32 https://github.com/dlfcn-win32/dlfcn-win32/archive/v1.1.1.tar.gz if(WIN32)

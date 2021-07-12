@@ -26,7 +26,7 @@ Copyright (c) 2018 Hiroshi Miura
 
 #]=======================================================================]
 
-find_path(PROJ_INCLUDE_DIR proj_api.h
+find_path(PROJ_INCLUDE_DIR proj.h
           PATHS ${PROJ_ROOT}/include
           DOC "Path to PROJ library include directory")
 
@@ -53,13 +53,11 @@ else()
 endif()
 
 if(PROJ_INCLUDE_DIR)
-    file(READ "${PROJ_INCLUDE_DIR}/proj_api.h" PROJ_API_H_CONTENTS)
-    string(REGEX MATCH "PJ_VERSION[ \t]+([0-9]+)" PJ_VERSION ${PROJ_API_H_CONTENTS})
-    string (REGEX MATCH "([0-9]+)" PJ_VERSION ${PJ_VERSION})
-    string(SUBSTRING ${PJ_VERSION} 0 1 PROJ_VERSION_MAJOR)
-    string(SUBSTRING ${PJ_VERSION} 1 1 PROJ_VERSION_MINOR)
-    string(SUBSTRING ${PJ_VERSION} 2 1 PROJ_VERSION_PATCH)
-    unset(PROJ_API_H_CONTENTS)
+    file(READ "${PROJ_INCLUDE_DIR}/proj.h" PROJ_H_CONTENTS)
+    string(REGEX REPLACE "^.*PROJ_VERSION_MAJOR +([0-9]+).*$" "\\1" PROJ_VERSION_MAJOR "${PROJ_H_CONTENTS}")
+    string(REGEX REPLACE "^.*PROJ_VERSION_MINOR +([0-9]+).*$" "\\1" PROJ_VERSION_MINOR "${PROJ_H_CONTENTS}")
+    string(REGEX REPLACE "^.*PROJ_VERSION_PATCH +([0-9]+).*$" "\\1" PROJ_VERSION_PATCH "${PROJ_H_CONTENTS}")
+    unset(PROJ_H_CONTENTS)
     set(PROJ_VERSION_STRING "${PROJ_VERSION_MAJOR}.${PROJ_VERSION_MINOR}.${PROJ_VERSION_PATCH}")
 endif ()
 
