@@ -90,7 +90,6 @@ gdal_dependent_format(aigrid "Arc/Info Binary Grid Format" "OGR_ENABLE_AVC;OGR_E
 gdal_optional_format(arg "ARG: Azavea Raster Grid")
 gdal_optional_format(usgsdem "USGS ASCII DEM (and CDED)")
 gdal_optional_format(airsar "AirSAR Polarimetric Format")
-gdal_optional_format(netcdf "NetCDF network Common Data Form")
 gdal_optional_format(ozi "OZF2/OZFX3 raster")
 gdal_optional_format(rda "RDA (DigitalGlobe Raster Data Access)")
 gdal_optional_format(sigdem "Scaled Integer Gridded DEM .sigdem Driver")
@@ -99,6 +98,7 @@ gdal_dependent_format(msg "Meteosat Second Generation" "MSG_FOUND") # FIXME: cur
 gdal_optional_format(rik "RIK -- Swedish Grid Maps")
 
 # formats with external library dependency
+gdal_dependent_format(netcdf "NetCDF network Common Data Form" "NETCDF_FOUND")
 gdal_dependent_format(eeda "Earth Engine Data API" "CURL_FOUND")
 gdal_dependent_format(fits "FIT Driver" "HAVE_CFITSIO")
 gdal_dependent_format(rasdaman "Rasdaman GDAL driver" "HAVE_RASDAMAN")
