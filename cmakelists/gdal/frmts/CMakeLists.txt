@@ -96,6 +96,7 @@ gdal_optional_format(sigdem "Scaled Integer Gridded DEM .sigdem Driver")
 gdal_dependent_format(msg "Meteosat Second Generation" "MSG_FOUND") # FIXME: currently the build depend on copying the
                                                                     # PublicDecompSDK in frmts/msg
 gdal_optional_format(rik "RIK -- Swedish Grid Maps")
+gdal_optional_format(stacit "STACIT")
 
 # formats with external library dependency
 gdal_dependent_format(netcdf "NetCDF network Common Data Form" "NETCDF_FOUND")
@@ -123,6 +124,7 @@ gdal_dependent_format(jpeg2000 "JPEG2000 --- Implementation of the JPEG-2000 par
 gdal_dependent_format(pcidsk "PCI Geomatics Database File" "HAVE_PCIDSK")
 gdal_dependent_format(tiledb "TileDB tiledb.io" "HAVE_TILEDB")
 gdal_dependent_format(exr "EXR support via OpenEXR library" "OpenEXR_FOUND")
+gdal_dependent_format(zarr "ZARR" "NETCDF_FOUND")
 
 # for circulate dependency, grass is NOT always compiled in.
 gdal_dependent_format(grass "GRASS" "HAVE_GRASS")
