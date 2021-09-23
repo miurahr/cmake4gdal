@@ -100,6 +100,7 @@ gdal_optional_format(stacit "STACIT")
 
 # formats with external library dependency
 gdal_dependent_format(netcdf "NetCDF network Common Data Form" "NETCDF_FOUND")
+gdal_dependent_format(zarr "ZARR" "NETCDF_FOUND;gdal_netCDF")
 gdal_dependent_format(eeda "Earth Engine Data API" "CURL_FOUND")
 gdal_dependent_format(fits "FIT Driver" "HAVE_CFITSIO")
 gdal_dependent_format(rasdaman "Rasdaman GDAL driver" "HAVE_RASDAMAN")
@@ -124,7 +125,6 @@ gdal_dependent_format(jpeg2000 "JPEG2000 --- Implementation of the JPEG-2000 par
 gdal_dependent_format(pcidsk "PCI Geomatics Database File" "HAVE_PCIDSK")
 gdal_dependent_format(tiledb "TileDB tiledb.io" "HAVE_TILEDB")
 gdal_dependent_format(exr "EXR support via OpenEXR library" "OpenEXR_FOUND")
-gdal_dependent_format(zarr "ZARR" "NETCDF_FOUND")
 
 # for circulate dependency, grass is NOT always compiled in.
 gdal_dependent_format(grass "GRASS" "HAVE_GRASS")
