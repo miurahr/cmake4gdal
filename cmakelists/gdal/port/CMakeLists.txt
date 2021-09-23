@@ -41,7 +41,8 @@ target_public_header(
   cpl_md5.h
   cpl_mem_cache.h
   cpl_worker_thread_pool.h
-  cpl_json_streaming_writer.h)
+  cpl_json_streaming_writer.h
+  cpl_compressor.h)
 
 add_library(
   cpl STATIC
@@ -111,7 +112,8 @@ add_library(
   cpl_vsil_oss.cpp
   cpl_vsil_swift.cpp
   cpl_json_streaming_writer.cpp
-  cpl_vax.cpp)
+  cpl_vax.cpp
+  cpl_compressor.cpp)
 set_target_properties(
   cpl
   PROPERTIES CXX_STANDARD 11
