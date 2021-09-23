@@ -9,3 +9,7 @@ endif ()
 if (DAP_VERSION VERSION_GREATER 3.9 OR DAP_VERSION VERSION_EQUAL 3.9)
   target_compile_definitions(gdal_DODS PRIVATE DEFINITIONS -DLIBDAP_39)
 endif ()
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+  # These files has CPL_CVSID("$id$") which break ODR and UNITY_BUILD
+  set_property(SOURCE dodsdataset2.cpp PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+endif ()

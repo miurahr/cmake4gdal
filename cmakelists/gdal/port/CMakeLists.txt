@@ -132,6 +132,81 @@ if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
            cpl_vsil_curl.cpp
            cpl_vsil_curl_streaming.cpp
     PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+  # These files has CPL_CVSID() which break UNITY_BUILD
+  set_property(
+    SOURCE cpl_alibaba_oss.cpp
+           cpl_atomic_ops.cpp
+           cpl_aws.cpp
+           cpl_azure.cpp
+           cpl_base64.cpp
+           cpl_conv.cpp
+           cpl_cpu_features.cpp
+           cpl_csv.cpp
+           cpl_error.cpp
+           cpl_findfile.cpp
+           cpl_getexecpath.cpp
+           cpl_google_cloud.cpp
+           cpl_google_oauth2.cpp
+           cpl_hash_set.cpp
+           cpl_http.cpp
+           cpl_list.cpp
+           cpl_md5.cpp
+           cpl_minixml.cpp
+           cpl_minizip_ioapi.cpp
+           cpl_minizip_unzip.cpp
+           cpl_minizip_zip.cpp
+           cpl_multiproc.cpp
+           cpl_odbc.cpp
+           cpl_path.cpp
+           cpl_progress.cpp
+           cpl_quad_tree.cpp
+           cpl_recode.cpp
+           cpl_recode_iconv.cpp
+           cpl_recode_stub.cpp
+           cpl_sha1.cpp
+           cpl_sha256.cpp
+           cpl_spawn.cpp
+           cpl_string.cpp
+           cpl_strtod.cpp
+           cpl_swift.cpp
+           cpl_time.cpp
+           cpl_vax.cpp
+           cpl_virtualmem.cpp
+           cpl_vsi_error.cpp
+           cpl_vsi_mem.cpp
+           cpl_vsil.cpp
+           cpl_vsil_abstract_archive.cpp
+           cpl_vsil_az.cpp
+           cpl_vsil_buffered_reader.cpp
+           cpl_vsil_cache.cpp
+           cpl_vsil_crypt.cpp
+           cpl_vsil_curl.cpp
+           cpl_vsil_curl_streaming.cpp
+           cpl_vsil_gs.cpp
+           cpl_vsil_gzip.cpp
+           cpl_vsil_hdfs.cpp
+           cpl_vsil_oss.cpp
+           cpl_vsil_s3.cpp
+           cpl_vsil_simple.cpp
+           cpl_vsil_sparsefile.cpp
+           cpl_vsil_stdin.cpp
+           cpl_vsil_stdout.cpp
+           cpl_vsil_subfile.cpp
+           cpl_vsil_swift.cpp
+           cpl_vsil_tar.cpp
+           cpl_vsil_unix_stdio_64.cpp
+           cpl_vsil_webhdfs.cpp
+           cpl_vsil_win32.cpp
+           cpl_vsisimple.cpp
+           cpl_worker_thread_pool.cpp
+           cpl_xml_validate.cpp
+           cplgetsymbol.cpp
+           cplkeywordparser.cpp
+           cplstring.cpp
+           cplstringlist.cpp
+           vsipreload.cpp
+           xmlreformat.cpp
+    PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
 endif ()
 # include path to generated cpl_config.h
 target_include_directories(cpl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})

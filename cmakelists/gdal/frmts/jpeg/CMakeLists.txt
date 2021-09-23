@@ -20,3 +20,7 @@ if (GDAL_USE_LIBZ_INTERNAL)
 else ()
   gdal_target_link_libraries(TARGET gdal_JPEG LIBRARIES ZLIB::ZLIB)
 endif ()
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+  # These files has CPL_CVSID("$id$") which break ODR and UNITY_BUILD
+  set_property(SOURCE jpgdataset.cpp vsidataio.cpp PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
+endif ()
