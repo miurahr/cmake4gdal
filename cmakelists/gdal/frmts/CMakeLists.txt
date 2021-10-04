@@ -100,7 +100,7 @@ gdal_optional_format(stacit "STACIT")
 
 # formats with external library dependency
 gdal_dependent_format(netcdf "NetCDF network Common Data Form" "NETCDF_FOUND")
-gdal_dependent_format(zarr "ZARR" "NETCDF_FOUND;gdal_netCDF")
+gdal_dependent_format(zarr "ZARR" "NETCDF_FOUND")
 gdal_dependent_format(eeda "Earth Engine Data API" "CURL_FOUND")
 gdal_dependent_format(fits "FIT Driver" "HAVE_CFITSIO")
 gdal_dependent_format(rasdaman "Rasdaman GDAL driver" "HAVE_RASDAMAN")
