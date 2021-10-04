@@ -9,7 +9,7 @@ add_gdal_driver(
           JpegHelper.cpp
           JpegHelper.h)
 gdal_standard_includes(gdal_INGR)
-target_include_directories(gdal_INGR PRIVATE $<TARGET_PROPERTY:gdal_GTIFF,SOURCE_DIR>)
+target_include_directories(gdal_INGR PRIVATE ${GDAL_RASTER_FORMAT_SOURCE_DIR}/gtiff)
 
 if (GDAL_USE_LIBTIFF_INTERNAL)
   target_include_directories(gdal_INGR PRIVATE $<TARGET_PROPERTY:libtiff,SOURCE_DIR>)

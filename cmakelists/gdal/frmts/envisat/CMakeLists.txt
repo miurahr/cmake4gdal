@@ -10,7 +10,7 @@ add_gdal_driver(
           unwrapgcps.cpp
           envisatdataset.cpp)
 gdal_standard_includes(gdal_Envisat)
-target_include_directories(gdal_Envisat PRIVATE $<TARGET_PROPERTY:gdal_raw,SOURCE_DIR>)
+target_include_directories(gdal_Envisat PRIVATE ${GDAL_RASTER_FORMAT_SOURCE_DIR}/raw)
 
 add_executable(dumpgeo EXCLUDE_FROM_ALL dumpgeo.c EnvisatFile.c EnvisatFile.h)
 target_include_directories(dumpgeo PRIVATE $<TARGET_PROPERTY:cpl,SOURCE_DIR>)

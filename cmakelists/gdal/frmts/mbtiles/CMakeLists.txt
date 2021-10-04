@@ -3,7 +3,7 @@ add_gdal_driver(
   SOURCES mbtilesdataset.cpp
   BUILTIN)
 gdal_standard_includes(gdal_MBTiles)
-target_include_directories(gdal_MBTiles PRIVATE $<TARGET_PROPERTY:ogr_MVT,SOURCE_DIR>)
+target_include_directories(gdal_MBTiles PRIVATE ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/mvt)
 if (GDAL_USE_LIBZ_INTERNAL)
   target_include_directories(gdal_MBTiles PRIVATE $<TARGET_PROPERTY:libz,SOURCE_DIR>)
 endif ()
@@ -24,5 +24,5 @@ else ()
   gdal_target_link_libraries(TARGET gdal_MBTiles LIBRARIES ${JSONC_LIBRARIES})
 endif ()
 target_include_directories(
-  gdal_MBTiles PRIVATE $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR> $<TARGET_PROPERTY:ogr_GeoPackage,SOURCE_DIR>
-                       $<TARGET_PROPERTY:ogr_SQLite,SOURCE_DIR>)
+  gdal_MBTiles PRIVATE ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/geojson ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/geopackage
+                       ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/sqlite)

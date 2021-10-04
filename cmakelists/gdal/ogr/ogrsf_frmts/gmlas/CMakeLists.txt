@@ -17,8 +17,8 @@ add_gdal_driver(
           xercesc_headers.h)
 gdal_standard_includes(ogr_GMLAS)
 target_include_directories(
-  ogr_GMLAS PRIVATE $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR> $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>
-                    $<TARGET_PROPERTY:ogr_PGDump,SOURCE_DIR>)
+  ogr_GMLAS PRIVATE ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/geojson ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/mem
+                    ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/pgdump)
 
 if (HAVE_XERCESC)
   target_include_directories(ogr_GMLAS PRIVATE ${XercesC_INCLUDE_DIRS} ${XercesC_INCLUDE_DIRS}/xercesc)
