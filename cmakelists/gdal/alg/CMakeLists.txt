@@ -54,7 +54,7 @@ endif ()
 
 if (GDAL_USE_SFCGAL)
   target_compile_definitions(alg PRIVATE -DHAVE_SFCGAL=1)
-  target_link_libraries(GDAL_LINK_LIBRARY INTERFACE SFCGAL::SFCGAL)
+  target_link_libraries(GDAL_LINK_LIBRARY INTERFACE SFCGAL::SFCGAL Boost::boost)
   target_include_directories(alg PRIVATE ${SFCGAL_INCLUDE_DIRS})
 endif ()
 
