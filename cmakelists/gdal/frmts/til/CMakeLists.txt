@@ -1,6 +1,6 @@
 add_gdal_driver(TARGET gdal_TIL SOURCES tildataset.cpp)
 gdal_standard_includes(gdal_TIL)
-target_include_directories(gdal_TIL PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)
+target_include_directories(gdal_TIL PRIVATE ${GDAL_RASTER_SOURCE_DIR}/vrt)
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
   # These files has CPL_CVSID("$id$") which break ODR and UNITY_BUILD
   set_property(SOURCE tildataset.cpp PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)

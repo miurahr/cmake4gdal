@@ -1,6 +1,6 @@
 add_gdal_driver(TARGET gdal_PLMOSAIC SOURCES plmosaicdataset.cpp)
 gdal_standard_includes(gdal_PLMOSAIC)
-target_include_directories(gdal_PLMOSAIC PRIVATE $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>)
+target_include_directories(gdal_PLMOSAIC PRIVATE ${GDAL_VECTOR_SOURCE_DIR}/geojson)
 if (GDAL_USE_LIBJSONC_INTERNAL)
   target_include_directories(gdal_PLMOSAIC PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)
 else ()

@@ -5,4 +5,4 @@ add_gdal_driver(
   SOURCES grddataset.cpp grcdataset.cpp northwood.cpp northwood.h
   BUILTIN)
 gdal_standard_includes(gdal_northwood)
-target_include_directories(gdal_northwood PRIVATE $<TARGET_PROPERTY:ogr_TAB,SOURCE_DIR>)
+target_include_directories(gdal_northwood PRIVATE ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/tab)

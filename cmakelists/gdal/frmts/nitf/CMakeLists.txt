@@ -16,8 +16,8 @@ add_gdal_driver(
           nitfwritejpeg_12.cpp
   BUILTIN)
 gdal_standard_includes(gdal_NITF)
-target_include_directories(gdal_NITF PRIVATE $<TARGET_PROPERTY:gdal_GTIFF,SOURCE_DIR>
-                                             $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR>)
+target_include_directories(gdal_NITF PRIVATE ${GDAL_RASTER_FORMAT_SOURCE_DIR}/gtiff
+                                             ${GDAL_RASTER_FORMAT_SOURCE_DIR}/vrt)
 
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
   set_property(SOURCE nitfimage.c nitffile.c nitfdes.c PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
