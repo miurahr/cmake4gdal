@@ -16,9 +16,8 @@ add_gdal_driver(
           pdfwritabledataset.cpp
           pdfcreatefromcomposition.cpp)
 gdal_standard_includes(gdal_PDF)
-target_include_directories(
-  gdal_PDF PRIVATE $<TARGET_PROPERTY:gdal_vrt,SOURCE_DIR> $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>
-                   $<TARGET_PROPERTY:ogr_MEM,SOURCE_DIR>)
+target_include_directories(gdal_PDF PRIVATE ${GDAL_RASTER_FORMAT_SOURCE_DIR}/vrt ${GDAL_RASTER_FORMAT_SOURCE_DIR}/mem
+                                            ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/mem)
 if (HAVE_POPPLER
     OR HAVE_PODOFO
     OR HAVE_PDFIUM)

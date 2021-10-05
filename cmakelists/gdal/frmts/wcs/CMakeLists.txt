@@ -12,4 +12,4 @@ add_gdal_driver(
           wcsrasterband.h
           wcsutils.cpp)
 gdal_standard_includes(gdal_WCS)
-target_include_directories(gdal_WCS PRIVATE $<TARGET_PROPERTY:ogr_GML,SOURCE_DIR>)
+target_include_directories(gdal_WCS PRIVATE ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/gml)

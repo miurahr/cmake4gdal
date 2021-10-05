@@ -5,7 +5,7 @@ add_gdal_driver(
   BUILTIN)
 gdal_standard_includes(ogr_OSM)
 target_include_directories(ogr_OSM PRIVATE $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR>
-                                           $<TARGET_PROPERTY:ogr_SQLite,SOURCE_DIR>)
+                                           ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/sqlite)
 if (HAVE_EXPAT)
   target_compile_definitions(ogr_OSM PRIVATE -DHAVE_EXPAT=1)
   target_include_directories(ogr_OSM PRIVATE ${EXPAT_INCLUDE_DIRS})

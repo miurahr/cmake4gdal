@@ -146,6 +146,8 @@ endif ()
 add_subdirectory(gcore)
 
 # Raster/Vector drivers (built-in and plugins)
+set(GDAL_RASTER_FORMAT_SOURCE_DIR "${CMAKE_SOURCE_DIR}/gdal/frmts")
+set(GDAL_VECTOR_FORMAT_SOURCE_DIR "${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts")
 add_subdirectory(frmts)
 add_subdirectory(ogr/ogrsf_frmts)
 
