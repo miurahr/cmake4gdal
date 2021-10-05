@@ -1,6 +1,6 @@
 # Azure Pipelines to build GDAL library and to run test with CMake
 
-#trigger:
+trigger: none
 #  branches:
 #    include:
 #      - '*'
