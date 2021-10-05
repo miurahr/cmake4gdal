@@ -24,5 +24,5 @@ else ()
   gdal_target_link_libraries(TARGET gdal_MBTiles LIBRARIES ${JSONC_LIBRARIES})
 endif ()
 target_include_directories(
-  gdal_MBTiles PRIVATE ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/geojson ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/geopackage
+  gdal_MBTiles PRIVATE ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/geojson ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/gpkg
                        ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/sqlite)
