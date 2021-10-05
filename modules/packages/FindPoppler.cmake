@@ -96,12 +96,25 @@ if(NOT POPPLER_VERSION_STRING)
   if(POPPLER_VERSION_HEADER)
     file(READ ${POPPLER_VERSION_HEADER} _poppler_version_header_contents)
     string(REGEX REPLACE
-           "^.*[ \t]+POPPLER_VERSION[ \t]+\"([0-9d.]*)\".*$"
+           "^.*[ \t]+POPPLER_VERSION_MAJOR[ \t]+([0-9]+).*$"
            "\\1"
-           POPPLER_VERSION_STRING
+           POPPLER_VERSION_MAJOR
+           "${_poppler_version_header_contents}"
+           )
+    string(REGEX REPLACE
+           "^.*[ \t]+POPPLER_VERSION_MINOR[ \t]+([0-9]+).*$"
+           "\\1"
+           POPPLER_VERSION_MINOR
+           "${_poppler_version_header_contents}"
+           )
+    string(REGEX REPLACE
+           "^.*[ \t]+POPPLER_VERSION_MICRO[ \t]+([0-9]+).*$"
+           "\\1"
+           POPPLER_VERSION_MICRO
            "${_poppler_version_header_contents}"
            )
     unset(_poppler_version_header_contents)
+    set(POPPLER_VERSION_STRING "${POPPLER_VERSION_MAJOR}.${POPPLER_VERSION_MINOR}.${POPPLER_VERSION_MICRO}")
   endif()
 endif()
 
