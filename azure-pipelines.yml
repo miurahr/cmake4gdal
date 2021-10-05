@@ -1,11 +1,11 @@
 # Azure Pipelines to build GDAL library and to run test with CMake
 
-trigger:
-  branches:
-    include:
-      - '*'
-    exclude:
-      - docker
+#trigger:
+#  branches:
+#    include:
+#      - '*'
+#    exclude:
+#      - docker
 
 schedules:
 - cron: 48 5 * * 5
