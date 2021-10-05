@@ -20,7 +20,7 @@ add_gdal_driver(
           tif_float.c
   BUILTIN)
 gdal_standard_includes(gdal_GTIFF)
-target_include_directories(gdal_GTIFF PRIVATE ${GDAL_RASTER_FROMAT_SOURCE_DIR}/jpeg)
+target_include_directories(gdal_GTIFF PRIVATE ${GDAL_RASTER_FORMAT_SOURCE_DIR}/jpeg)
 option(HAVE_LERC "Enable LERC" ON)
 if (GDAL_USE_LIBTIFF_INTERNAL)
   target_compile_definitions(gdal_GTIFF PRIVATE -DINTERNAL_LIBTIFF)
