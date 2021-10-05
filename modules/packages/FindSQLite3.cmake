@@ -1,52 +1,70 @@
 # Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
 # file COPYING-CMAKE-SCRIPTS or https://cmake.org/licensing for details.
 
-#.rst
-# FindSQLITE3
-# -----------
-#
-# - Try to find Sqlite3
-# Once done this will define
-#
-#  SQLITE3_FOUND - system has Sqlite3
-#  SQLITE3_INCLUDE_DIRS - the Sqlite3 include directory
-#  SQLITE3_LIBRARIES - Link these to use Sqlite3
-#
-#  Copyright (c) 2008 Andreas Schneider <mail@cynapses.org>
-#  Copyright (c) 2016, NextGIS <info@nextgis.com>
-#  Copyright (c) 2018, Hiroshi Miura
-#
+#[=======================================================================[.rst:
+FindSQLite3
+-----------
+Find the SQLite libraries, v3
+IMPORTED targets
+^^^^^^^^^^^^^^^^
+This module defines the following :prop_tgt:`IMPORTED` target:
+``SQLite::SQLite3``
+Result variables
+^^^^^^^^^^^^^^^^
+This module will set the following variables if found:
+``SQLite3_INCLUDE_DIRS``
+  where to find sqlite3.h, etc.
+``SQLite3_LIBRARIES``
+  the libraries to link against to use SQLite3.
+``SQLite3_VERSION``
+  version of the SQLite3 library found
+``SQLite3_FOUND``
+  TRUE if found
 
-if(SQLITE3_INCLUDE_DIR AND SQLITE3_LIBRARY)
-  set(SQLITE3_FIND_QUIETLY TRUE)
+  Copyright (c) 2008 Andreas Schneider <mail@cynapses.org>
+  Copyright (c) 2016 NextGIS <info@nextgis.com>
+  Copyright (c) 2018,2021 Hiroshi Miura
+  Copyright (c) 2019 Chuck Atkins
+#]=======================================================================]
+
+
+if(SQLite3_INCLUDE_DIR AND SQLIite3_LIBRARY)
+  set(SQLite3_FIND_QUIETLY TRUE)
 endif()
 
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
     pkg_check_modules(PC_SQLITE3 QUIET sqlite3)
-    set(SQLITE3_VERSION_STRING ${PC_SQLITE3_VERSION} CACHE INTERNAL "")
 endif()
 
-find_path(SQLITE3_INCLUDE_DIR
+find_path(SQLite3_INCLUDE_DIR
           NAMES  sqlite3.h
-          HINTS ${PC_SQLITE3_INCLUDE_DIRS}
-                ${SQLITE3_ROOT})
-
-find_library(SQLITE3_LIBRARY
+          HINTS ${PC_SQLITE3_INCLUDE_DIRS})
+find_library(SQLite3_LIBRARY
              NAMES sqlite3 sqlite3_i
-             HINTS ${PC_SQLITE3_LIBRARY_DIRS}
-                   ${SQLITE3_ROOT})
-if(SQLITE3_INCLUDE_DIR AND SQLITE3_LIBRARY)
+             HINTS ${PC_SQLITE3_LIBRARY_DIRS})
+
+# Extract version information from the header file
+if(SQLite3_INCLUDE_DIR)
+    file(STRINGS ${SQLite3_INCLUDE_DIR}/sqlite3.h _ver_line
+         REGEX "^#define SQLITE_VERSION  *\"[0-9]+\\.[0-9]+\\.[0-9]+\""
+         LIMIT_COUNT 1)
+    string(REGEX MATCH "[0-9]+\\.[0-9]+\\.[0-9]+"
+           SQLite3_VERSION "${_ver_line}")
+    unset(_ver_line)
+endif()
+
+if(SQLite3_INCLUDE_DIR AND SQLite3_LIBRARY)
     get_filename_component(SQLITE3_LIBRARY_DIR ${SQLITE3_LIBRARY} DIRECTORY)
-    find_path(SQLITE3_PCRE_LIBRARY
+    find_path(SQLite3_PCRE_LIBRARY
               NAMES pcre.${CMAKE_SHARED_LIBRARY_SUFFIX}
               SUFFIX_PATHS sqlite3
               PATHS /usr/lib
               HINTS ${SQLITE3_LIBRARY_DIR})
-    if(EXISTS ${SQLITE3_PCRE_LIBRARY})
-        set(SQLITE_HAS_PCRE ON CACHE BOOL "")
+    if(EXISTS ${SQLite3_PCRE_LIBRARY})
+        set(SQLite_HAS_PCRE ON)
     else()
-        set(SQLITE_HAS_PCRE OFF CACHE BOOL "")
+        set(SQLite_HAS_PCRE OFF)
     endif()
     # check column metadata
     set(SQLITE_COL_TEST_CODE "#ifdef __cplusplus
@@ -60,33 +78,33 @@ return sqlite3_column_table_name ();
   return 0;
 }
 ")
-    check_c_source_compiles("${SQLITE_COL_TEST_CODE}"  SQLITE_HAS_COLUMN_METADATA)
-    set(SQLITE_HAS_COLUMN_METADATA ${SQLITE_HAS_COLUMN_METADATA} CACHE BOOL "SQLite has column metadata.")
+    check_c_source_compiles("${SQLITE_COL_TEST_CODE}"  SQLite_HAS_COLUMN_METADATA)
+    set(SQLite_HAS_COLUMN_METADATA ${SQLite_HAS_COLUMN_METADATA})
 endif()
-mark_as_advanced(SQLITE3_LIBRARY SQLITE3_INCLUDE_DIR SQLITE_HAS_PCRE SQLITE_HAS_COLUMN_METADATA)
+mark_as_advanced(SQLite3_LIBRARY SQLite3_INCLUDE_DIR SQLite_HAS_PCRE SQLite_HAS_COLUMN_METADATA)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(SQLite3
-                                  FOUND_VAR SQLITE3_FOUND
-                                  REQUIRED_VARS SQLITE3_LIBRARY SQLITE3_INCLUDE_DIR
-                                  VERSION_VAR SQLITE3_VERSION_STRING)
+                                  FOUND_VAR SQLite3_FOUND
+                                  REQUIRED_VARS SQLite3_LIBRARY SQLite3_INCLUDE_DIR
+                                  VERSION_VAR SQLite3_VERSION)
 
-if(SQLITE3_FOUND)
-  set(SQLITE3_LIBRARIES ${SQLITE3_LIBRARY})
-  set(SQLITE3_INCLUDE_DIRS ${SQLITE3_INCLUDE_DIR})
-  if(NOT TARGET SQLITE3::SQLITE3)
-    add_library(SQLITE3::SQLITE3 UNKNOWN IMPORTED)
-    set_target_properties(SQLITE3::SQLITE3 PROPERTIES
-                          INTERFACE_INCLUDE_DIRECTORIES "${SQLITE3_INCLUDE_DIRS}"
+if(SQLite3_FOUND)
+  set(SQLite3_LIBRARIES ${SQLite3_LIBRARY})
+  set(SQLite3_INCLUDE_DIRS ${SQLite3_INCLUDE_DIR})
+  if(NOT TARGET SQLite::SQLite3)
+    add_library(SQLite::SQLite3 UNKNOWN IMPORTED)
+    set_target_properties(SQLite::SQLite3 PROPERTIES
+                          INTERFACE_INCLUDE_DIRECTORIES "${SQLite3_INCLUDE_DIRS}"
                           IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
-                          IMPORTED_LOCATION "${SQLITE3_LIBRARY}")
-    if(SQLITE_HAS_PCRE)
-        set_property(TARGET SQLITE3::SQLITE3 APPEND PROPERTY
-                     INTERFACE_COMPILE_DEFINITIONS "SQLITE_HAS_PCRE")
+                          IMPORTED_LOCATION "${SQLite3_LIBRARY}")
+    if(SQLite_HAS_PCRE)
+        set_property(TARGET SQLite::SQLite3 APPEND PROPERTY
+                     INTERFACE_COMPILE_DEFINITIONS "SQLite_HAS_PCRE")
     endif()
-    if(SQLITE_HAS_COLUMN_METADATA)
-        set_property(TARGET SQLITE3::SQLITE3 APPEND PROPERTY
-                     INTERFACE_COMPILE_DEFINITIONS "SQLITE_HAS_COLUMN_METADATA")
+    if(SQLite_HAS_COLUMN_METADATA)
+        set_property(TARGET SQLite::SQLite3 APPEND PROPERTY
+                     INTERFACE_COMPILE_DEFINITIONS "SQLite_HAS_COLUMN_METADATA")
     endif()
   endif()
 endif()
