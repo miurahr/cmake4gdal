@@ -66,6 +66,14 @@ if (MINGW)
   if (TARGET_CPU MATCHES "x86_64")
     add_definitions(-m64)
   endif ()
+  # Workaround for export too large error - force problematic large file to be optimized to prevent string table
+  # overflow error Used -Os instead of -O2 as previous issues had mentioned, since -Os is roughly speaking -O2,
+  # excluding any optimizations that take up extra space. Given that the issue is a string table overflowing, -Os seemed
+  # appropriate.
+  if (CMAKE_BUILD_TYPE MATCHES Debug)
+    target_compile_options(gdal PRIVATE -Os)
+    target_link_options(gdal PRIVATE -Os)
+  endif ()
 endif ()
 
 # Install properties
@@ -146,6 +154,8 @@ endif ()
 add_subdirectory(gcore)
 
 # Raster/Vector drivers (built-in and plugins)
+set(GDAL_RASTER_FORMAT_SOURCE_DIR "${CMAKE_SOURCE_DIR}/gdal/frmts")
+set(GDAL_VECTOR_FORMAT_SOURCE_DIR "${CMAKE_SOURCE_DIR}/gdal/ogr/ogrsf_frmts")
 add_subdirectory(frmts)
 add_subdirectory(ogr/ogrsf_frmts)
 

@@ -2,7 +2,9 @@
 
 name: Build and test with CMake
 
-on: [push, pull_request]
+on:
+  pull_request:
+  workflow_dispatch:
 #  schedule:
 #  - cron: "48 5 * * 5"
 

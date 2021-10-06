@@ -2,8 +2,8 @@ add_gdal_driver(TARGET ogr_AmigoCloud
                 SOURCES ogr_amigocloud.h ogramigoclouddatasource.cpp ogramigoclouddriver.cpp ogramigocloudlayer.cpp
                         ogramigocloudresultlayer.cpp ogramigocloudtablelayer.cpp)
 gdal_standard_includes(ogr_AmigoCloud)
-target_include_directories(ogr_AmigoCloud PRIVATE $<TARGET_PROPERTY:ogr_PGDump,SOURCE_DIR>
-                                                  $<TARGET_PROPERTY:ogr_geojson,SOURCE_DIR>)
+target_include_directories(ogr_AmigoCloud PRIVATE ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/pgdump
+                                                  ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/geojson)
 if (GDAL_USE_LIBJSONC_INTERNAL)
   target_include_directories(ogr_AmigoCloud PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)
 else ()

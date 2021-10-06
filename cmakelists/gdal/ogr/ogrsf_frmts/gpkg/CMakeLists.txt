@@ -15,8 +15,8 @@ add_gdal_driver(
   BUILTIN)
 gdal_standard_includes(ogr_GeoPackage)
 target_include_directories(
-  ogr_GeoPackage PRIVATE $<TARGET_PROPERTY:alg,SOURCE_DIR> $<TARGET_PROPERTY:gdal_MEM,SOURCE_DIR>
-                         $<TARGET_PROPERTY:ogr_SQLite,SOURCE_DIR>)
+  ogr_GeoPackage PRIVATE $<TARGET_PROPERTY:alg,SOURCE_DIR> ${GDAL_RASTER_FORMAT_SOURCE_DIR}/mem
+                         ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/sqlite)
 if (HAVE_SQLITE3)
   gdal_target_link_libraries(TARGET ogr_GeoPackage PRIVATE LIBRARIES SQLITE3::SQLITE3)
   if (SQLITE_HAS_COLUMN_METADATA)

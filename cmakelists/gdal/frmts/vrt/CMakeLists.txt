@@ -16,7 +16,7 @@ add_gdal_driver(
           vrtpansharpened.cpp
           vrtmultidim.cpp)
 gdal_standard_includes(gdal_vrt)
-target_include_directories(gdal_vrt PRIVATE $<TARGET_PROPERTY:gdal_raw,SOURCE_DIR>)
+target_include_directories(gdal_vrt PRIVATE ${GDAL_RASTER_FORMAT_SOURCE_DIR}/raw)
 
 if (HAVE_GEOS)
   target_include_directories(gdal_vrt PRIVATE ${GEOS_INCLUDE_DIRS})
