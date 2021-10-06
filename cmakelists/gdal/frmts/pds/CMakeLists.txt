@@ -18,7 +18,7 @@ target_include_directories(
   gdal_PDS
   PRIVATE $<TARGET_PROPERTY:ogrsf_generic,SOURCE_DIR> ${GDAL_RASTER_FORMAT_SOURCE_DIR}/raw
           ${GDAL_RASTER_FORMAT_SOURCE_DIR}/vrt ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/geojson
-          ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/vrt)
+          ${GDAL_VECTOR_FORMAT_SOURCE_DIR}/vrt ${GDAL_RASTER_FORMAT_SOURCE_DIR}/gtiff)
 if (GDAL_USE_LIBJSONC_INTERNAL)
   target_include_directories(gdal_PDS PRIVATE $<TARGET_PROPERTY:libjson,SOURCE_DIR>)
 else ()
