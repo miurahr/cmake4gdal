@@ -100,7 +100,7 @@ jobs:
         env:
           MSYSTEM: MINGW64
       - name: Configure
-        run: cmake -G "${env:generator}" -C "${env:CONFIGURATION}" "-DCMAKE_C_COMPILER_LAUNCHER=c:\tools\msys64\mingw64\bin\ccache.exe" "-DCMAKE_CXX_COMPILER_LAUNCHER=c:\tools\msys64\mingw64\bin\ccache.exe" "-DCMAKE_PREFIX_PATH=C:\tools\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:CMAKE_UNITY_BUILD}" -S "gdal" -B "build"
+        run: cmake -DCMAKE_BUILD_TYPE=release -G "${env:generator}" -C "${env:CONFIGURATION}" "-DCMAKE_C_COMPILER_LAUNCHER=c:\tools\msys64\mingw64\bin\ccache.exe" "-DCMAKE_CXX_COMPILER_LAUNCHER=c:\tools\msys64\mingw64\bin\ccache.exe" "-DCMAKE_PREFIX_PATH=C:\tools\msys64\mingw64" "-DCMAKE_UNITY_BUILD=${env:CMAKE_UNITY_BUILD}" -S "gdal" -B "build"
         working-directory: ${{ github.workspace }}
       - name: Build
         run: cmake --build build
