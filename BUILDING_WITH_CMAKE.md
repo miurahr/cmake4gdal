@@ -51,15 +51,16 @@ Requirements for building with CMake
 CMake versions and limitations
 ------------------------------
 
-- 3.5.0: Ubuntu 14.04(LTS) has `cmake3` package.
-  Minimum for GDAL project.
-
-- 3.7.1: Minimum for android build.
-
-- 3.9.2: Minimum for android SDK r16+.
+- 3.10.0: Ubuntu 18.04(LTS)  Minimum for GDAL project.
 
 - 3.12.0: Introduce `<package>_ROOT` variable and environment
   variables to configure 3rd-party libraries.
+
+- 3.14.0: VisualStudio 16 2019 support.
+ 
+- 3.19.2: Apple Silicon support.
+
+- 3.21.0: Visual Studio 17 2022 support.
 
 
 Using CMake
