@@ -118,6 +118,7 @@ if(HAVE_BIGTIFF)
 endif()
 gdal_check_package(ZSTD "ZSTD compression library")
 gdal_check_package(SFCGAL "gdal core supports ISO 19107:2013 and OGC Simple Features Access 1.2 for 3D operations")
+gdal_check_package(GMP "GNU MP library.")
 cmake_dependent_option(GDAL_USE_SFCGAL "Set ON to use SFCGAL" ON "SFCGAL_FOUND" OFF)
 
 gdal_check_package(GeoTIFF "")

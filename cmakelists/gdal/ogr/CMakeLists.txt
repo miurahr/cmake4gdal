@@ -128,6 +128,11 @@ else ()
   endif ()
 endif ()
 
+if (HAVE_GMP)
+  target_include_directories(ogr PRIVATE ${GMP_INCLUDE_DIRS})
+  target_link_libraries(GDAL_LINK_LIBRARY INTERFACE GMP::GMP)
+endif ()
+
 include(TargetPublicHeader)
 target_public_header(
   TARGET
