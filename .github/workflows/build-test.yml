@@ -141,7 +141,7 @@ jobs:
             libnetcdf openjpeg poppler libtiff libpng xerces-c expat libxml2 kealib json-c \
             cfitsio freexl geotiff jpeg libpq libspatialite libtiff libwebp-base \
             pcre postgresql sqlite tiledb zstd charls cryptopp cgal jasper \
-            doxygen
+            doxygen librttopo
         python -m pip install -U pip wheel setuptools numpy
         python -m pip install -r gdal/autotest/requirements.txt
         python $GITHUB_WORKSPACE/gdal/cmake4gdal/deploy.py
@@ -179,7 +179,7 @@ jobs:
         brew update
         brew outdated
         brew install postgresql || brew link --overwrite postgresql
-        brew install freexl libxml2 libspatialite geos proj openjpeg giflib szip postgis poppler doxygen unixodbc
+        brew install freexl libxml2 libspatialite geos proj openjpeg giflib szip postgis poppler doxygen unixodbc libdap
         brew install ccache swig
         # gdal is automatically installed as a dependency for postgis
         brew uninstall --ignore-dependencies gdal
