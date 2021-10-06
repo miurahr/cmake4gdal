@@ -1,22 +1,41 @@
 # Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
 # file Copyright.txt or https://cmake.org/licensing for details.
 
-#.rst:
-# Find DAP - Data Access Protocol library
-# ~~~~~~~~~
-#
-# Copyright (c) 2017-2018, Hiroshi Miura <miurahr@linux.com>
-#
-# ::
-#
-# If it's found it sets DAP_FOUND to TRUE
-# and following variables are set:
-#    DAP_INCLUDE_DIR
-#    DAP_LIBRARY
-#    DAP_CLIENT_LIBRARY
-#    DAP_SERVER_LIBRARY
-#    DAP_VERSION
-#
+#[=======================================================================[.rst:
+FindDAP
+----------
+
+Find DAP - Data Access Protocol library
+
+IMPORTED Targets
+^^^^^^^^^^^^^^^^
+
+``DAP::DAP``
+  This module defines :prop_tgt:`IMPORTED` target ``DAP::DAP``, if found.
+``DAP::CLIENT``
+  This module defines client library target, if found.
+``DAP::SERVER``
+  This module defines server library target, if found.
+
+Result Variables
+^^^^^^^^^^^^^^^^
+
+This module defines the following variables:
+
+   ``DAP_FOUND``
+     If false, do not try to use DAP.
+   ``DAP_INCLUDE_DIRS``
+     where to find DapObj.h, etc.
+   ``DAP_LIBRARIES``
+     the libraries needed to use libDAP.
+   ``DAP_CLIENT_LIBRARY``
+     the client library need to use DAP.
+   ``DAP_SERVER_LIBRARY``
+     the server library need to provide DAP.
+   ``DAP_VERSION``
+     the library version.
+
+#]=======================================================================]
 
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
@@ -42,7 +61,16 @@ if(DAP_INCLUDE_DIR AND DAP_LIBRARY)
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(DAP DEFAULT_MSG DAP_LIBRARY DAP_CLIENT_LIBRARY DAP_SERVER_LIBRARY DAP_INCLUDE_DIR)
+find_package_handle_standard_args(DAP
+                                  FOUND_VAR DAP_FOUND
+                                  REQUIRED_VARS DAP_LIBRARY DAP_CLIENT_LIBRARY DAP_SERVER_LIBRARY DAP_INCLUDE_DIR
+                                  VERSION_VAR DAP_VERSION)
+mark_as_advanced(DAP_LIBRARY DAP_CLIENT_LIBRARY DAP_SERVER_LIBRARY DAP_INCLUDE_DIR DAP_VERSION)
+
+include(FeatureSummary)
+set_package_properties(DAP PROPERTIES
+                       DESCRIPTION "Data Access Protocol Library."
+                       )
 
 if(DAP_FOUND)
     set(DAP_INCLUDE_DIRS ${DAP_INCLUDE_DIR})
