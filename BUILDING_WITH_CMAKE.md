@@ -57,7 +57,9 @@ CMake versions and limitations
   variables to configure 3rd-party libraries.
 
 - 3.14.0: VisualStudio 16 2019 support.
- 
+
+- 3.16.0: Unity build
+
 - 3.19.2: Apple Silicon support.
 
 - 3.21.0: Visual Studio 17 2022 support.
