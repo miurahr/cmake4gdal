@@ -11,14 +11,14 @@ CMake for GDAL
    :target: https://dev.azure.com/miurahr/github/_build/latest?definitionId=15&branchName=master
 
 
-================== =================
-Jobs               Status
------------------- -----------------
+================== ======================
+Jobs               Azure CI build Status
+------------------ ----------------------
 Mac                |macos|
 Ubuntu18.04(gcc)   |ubuntu1804gcc|
 Ubuntu18.04(clang) |ubuntu1804clang|
 Windows            |windows64|
-================== =================
+================== ======================
 
 Cmake script set for GDAL developer, who can use modern IDEs such as CLion, VS, VSCode and XCode.
 
