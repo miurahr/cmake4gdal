@@ -8,4 +8,4 @@ gdal_standard_includes(ogr_PGeo)
 target_include_directories(ogr_PGeo PRIVATE $<TARGET_PROPERTY:ogr_OpenFileGDB,SOURCE_DIR>)
 
 target_include_directories(ogr_PGeo PRIVATE ${ODBC_INCLUDE_DIRS})
-target_link_libraries(ogr_PGeo PRIVATE ODBC::ODBC ODBC::ODBCINST)
+gdal_target_link_libraries(TARGET ogr_PGeo LIBRARIES ODBC::ODBC ODBC::ODBCINST)
