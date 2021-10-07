@@ -49,3 +49,7 @@ if (GDAL_USE_LIBLERC_INTERNAL)
   target_include_directories(gdal_MRF PRIVATE $<TARGET_PROPERTY:liblerc,SOURCE_DIR> $<TARGET_PROPERTY:lerc,SOURCE_DIR>)
   target_compile_definitions(gdal_MRF PRIVATE -DLERC)
 endif ()
+
+if (HAVE_ZSTD)
+  target_compile_definitions(gdal_MRF PRIVATE -DZSTD_SUPPORT)
+endif()

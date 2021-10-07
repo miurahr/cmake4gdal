@@ -317,3 +317,7 @@ if (CRYPTOPP_USE_ONLY_CRYPTODLL_ALG AND NOT BULID_SHARED_LIBS)
   # When linking against the static lib: CRYPTOPP_LIB = c:/install-cryptopp-x64/lib/cryptlib.lib
   target_compile_definitions(cpl PRIVATE -DUSE_ONLY_CRYPTODLL_ALG)
 endif ()
+
+if (HAVE_ZSTD)
+  target_compile_definitions(cpl PRIVATE -DHAVE_ZSTD)
+endif()
