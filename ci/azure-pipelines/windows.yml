@@ -43,8 +43,8 @@ steps:
     cmake --build $(Build.BinariesDirectory)/build --config Release --target quicktest
   workingDirectory: '$(Build.BinariesDirectory)/build'
   displayName: run quicktest
-- script: |
-    call activate myEnvironment
-    cmake --build $(Build.BinariesDirectory)/build --config Release --target autotest
-  workingDirectory: '$(Build.BinariesDirectory)/build'
-  displayName: run autotest
+#- script: |
+#    call activate myEnvironment
+#    cmake --build $(Build.BinariesDirectory)/build --config Release --target autotest
+#  workingDirectory: '$(Build.BinariesDirectory)/build'
+#  displayName: run autotest

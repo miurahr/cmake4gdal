@@ -24,7 +24,7 @@ steps:
   displayName: run quicktest
   inputs:
     cmakeArgs: --build $(Build.BinariesDirectory)/build --target quicktest
-- task: CMake@1
-  displayName: run autotest
-  inputs:
-    cmakeArgs: --build $(Build.BinariesDirectory)/build --target autotest
+#- task: CMake@1
+#  displayName: run autotest
+#  inputs:
+#    cmakeArgs: --build $(Build.BinariesDirectory)/build --target autotest
