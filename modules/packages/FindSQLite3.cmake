@@ -55,12 +55,12 @@ if(SQLite3_INCLUDE_DIR)
 endif()
 
 if(SQLite3_INCLUDE_DIR AND SQLite3_LIBRARY)
-    get_filename_component(SQLITE3_LIBRARY_DIR ${SQLITE3_LIBRARY} DIRECTORY)
+    get_filename_component(SQLite3_LIBRARY_DIR ${SQLite3_LIBRARY} DIRECTORY)
     find_path(SQLite3_PCRE_LIBRARY
               NAMES pcre.${CMAKE_SHARED_LIBRARY_SUFFIX}
               SUFFIX_PATHS sqlite3
               PATHS /usr/lib
-              HINTS ${SQLITE3_LIBRARY_DIR})
+              HINTS ${SQLite3_LIBRARY_DIR})
     if(EXISTS ${SQLite3_PCRE_LIBRARY})
         set(SQLite_HAS_PCRE ON)
     else()
