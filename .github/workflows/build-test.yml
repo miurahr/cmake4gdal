@@ -13,7 +13,7 @@ env:
 
 jobs:
 
-  build-linux-20.04:
+  build-linux-ubuntu-focal:
     runs-on: ubuntu-20.04
     env:
       CONFIGURATION: gdal/cmake4gdal/configurations/full_drivers.cmake
