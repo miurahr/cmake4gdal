@@ -25,7 +25,7 @@ add_gdal_driver(
 gdal_standard_includes(ogr_SQLite)
 
 target_compile_definitions(ogr_SQLite PRIVATE -DHAVE_SQLITE)
-gdal_target_link_libraries(TARGET ogr_SQLite LIBRARIES SQLITE3::SQLITE3)
+gdal_target_link_libraries(TARGET ogr_SQLite LIBRARIES SQLite::SQLite3)
 gdal_target_link_libraries(TARGET ogr_SQLite LIBRARIES PROJ::PROJ)
 
 if (SQLITE_HAS_PCRE AND HAVE_PCRE)
@@ -50,7 +50,7 @@ endif ()
 # Test utility
 add_executable(test_load_virtual_ogr EXCLUDE_FROM_ALL test_load_virtual_ogr.c)
 gdal_standard_includes(test_load_virtual_ogr)
-target_link_libraries(test_load_virtual_ogr PRIVATE SQLITE3::SQLITE3)
+target_link_libraries(test_load_virtual_ogr PRIVATE SQLite::SQLite3)
 if (HAVE_SPATIALITE)
   target_include_directories(test_load_virtual_ogr PRIVATE ${SPATIALITE_INCLUDE_DIRS})
   target_compile_definitions(test_load_virtual_ogr PRIVATE -DHAVE_SPATIALITE)

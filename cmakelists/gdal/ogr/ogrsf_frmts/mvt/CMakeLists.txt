@@ -11,9 +11,9 @@ if (HAVE_GEOS)
 endif ()
 
 if (HAVE_SQLITE3)
-  target_include_directories(ogr_MVT PRIVATE ${SQLITE3_INCLUDE_DIRS})
+  target_include_directories(ogr_MVT PRIVATE ${SQLite3_INCLUDE_DIRS})
   target_compile_definitions(ogr_MVT PRIVATE -DHAVE_SQLITE)
-  gdal_target_link_libraries(TARGET ogr_MVT LIBRARIES SQLITE3::SQLITE3)
+  gdal_target_link_libraries(TARGET ogr_MVT LIBRARIES SQLite::SQLite3)
 endif ()
 
 add_executable(mvt_tile_test EXCLUDE_FROM_ALL mvt_tile_test.cpp)

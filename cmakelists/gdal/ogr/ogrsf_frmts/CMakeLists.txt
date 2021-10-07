@@ -72,15 +72,15 @@ ogr_optional_driver(idrisi IDRISI)
 
 ogr_dependent_driver(pds "Planetary Data Systems TABLE" "GDAL_ENABLE_FRMT_PDS")
 
-ogr_dependent_driver(sqlite "SQLite3 / Spatialite RDBMS" "SQLITE3_FOUND")
+ogr_dependent_driver(sqlite "SQLite3 / Spatialite RDBMS" "SQLite3_FOUND")
 # GeoPacage is a part of sqlite driver. when enable sqlite, automatically add a gpkg
 if (OGR_ENABLE_SQLITE)
   add_subdirectory(gpkg)
 endif ()
 add_feature_info(ogr_GPKG OGR_ENABLE_SQLITE "GeoPackage")
 ogr_dependent_driver(osm "OpenStreetMap XML and PBF" "OGR_ENABLE_SQLITE")
-ogr_dependent_driver(vfk "Czech Cadastral Exchange Data Format" "SQLITE3_FOUND")
-ogr_dependent_driver(mvt "MVT" "SQLITE3_FOUND;OGR_ENABLE_OSM")
+ogr_dependent_driver(vfk "Czech Cadastral Exchange Data Format" "SQLite3_FOUND")
+ogr_dependent_driver(mvt "MVT" "SQLite3_FOUND;OGR_ENABLE_OSM")
 
 # ODBC/POSTGRES/MYSQL/INGRESS/COUCHDB
 ogr_dependent_driver(amigocloud AMIGOCLOUD "CURL_FOUND;OGR_ENABLE_PGDUMP")

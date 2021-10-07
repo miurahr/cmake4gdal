@@ -188,7 +188,7 @@ endif()
 # 3rd party libraries
 gdal_check_package(PCRE "Enable PCRE support for sqlite3")
 find_package(SQLite3)
-if(SQLITE3_FOUND)
+if(SQLite3_FOUND)
     set(HAVE_SQLITE3 ON)
 endif()
 set_package_properties(SQLite3 PROPERTIES PURPOSE "Spatialite/rasterlite support")
