@@ -71,8 +71,7 @@ if (MINGW)
   # excluding any optimizations that take up extra space. Given that the issue is a string table overflowing, -Os seemed
   # appropriate.
   if (CMAKE_BUILD_TYPE MATCHES Debug)
-    target_compile_options(gdal PRIVATE -Os)
-    target_link_options(gdal PRIVATE -Os)
+    set_compile_options(-Os)
   endif ()
 endif ()
 
