@@ -11,6 +11,7 @@ Zstandard C/C++ library is built with CMake. So this find module
 should be removed when ZStandard library export cmake config files
 as distribution. Unfortunately ZStandard does not export it,
 we need to prepare find module.
+see. https://gitlab.kitware.com/cmake/cmake/-/issues/19405
 
 IMPORTED targets
 ^^^^^^^^^^^^^^^^
