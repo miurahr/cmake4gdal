@@ -52,4 +52,4 @@ endif ()
 
 if (HAVE_ZSTD)
   target_compile_definitions(gdal_MRF PRIVATE -DZSTD_SUPPORT)
-endif()
+endif ()

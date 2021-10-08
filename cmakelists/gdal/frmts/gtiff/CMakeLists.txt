@@ -78,4 +78,4 @@ endif ()
 
 if (HAVE_ZSTD)
   target_compile_definitions(gdal_GTIFF PRIVATE -DZSTD_SUPPORT)
-endif()
+endif ()

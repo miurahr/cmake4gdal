@@ -320,4 +320,4 @@ endif ()
 
 if (HAVE_ZSTD)
   target_compile_definitions(cpl PRIVATE -DHAVE_ZSTD)
-endif()
+endif ()
