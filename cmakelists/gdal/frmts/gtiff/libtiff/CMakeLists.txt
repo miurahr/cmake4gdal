@@ -80,6 +80,7 @@ if (HAVE_LIBLZMA)
 endif ()
 
 if (HAVE_ZSTD)
+  target_include_directories(libtiff PRIVATE ${ZSTD_INCLUDE_DIRS})
   target_compile_definitions(libtiff PRIVATE -DZSTD_SUPPORT)
   target_link_libraries(libtiff PRIVATE ZSTD::ZSTD)
 endif ()
