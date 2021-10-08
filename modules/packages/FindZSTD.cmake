@@ -29,7 +29,6 @@ This module will set the following variables if found:
 
 ::
 
-  ``ZSTD_VERSION_STRING`` - The version of zstd found (x.y.z)
   ``ZSTD_VERSION_MAJOR``  - The major version of zstd
   ``ZSTD_VERSION_MINOR``  - The minor version of zstd
   ``ZSTD_VERSION_RELEASE``  - The release version of zstd
