@@ -7,6 +7,11 @@ FindZSTD
 
 Find the ZSTD library
 
+Zstandard C/C++ library is built with CMake. So this find module
+should be removed when ZStandard library export cmake config files
+as distribution. Unfortunately ZStandard does not export it,
+we need to prepare find module.
+
 IMPORTED targets
 ^^^^^^^^^^^^^^^^
 
