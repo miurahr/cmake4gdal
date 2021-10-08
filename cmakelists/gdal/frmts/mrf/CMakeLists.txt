@@ -52,4 +52,6 @@ endif ()
 
 if (HAVE_ZSTD)
   target_compile_definitions(gdal_MRF PRIVATE -DZSTD_SUPPORT)
+  target_include_directories(gdal_MRF PRIVATE ${ZSTD_INCLUDE_DIRS})
+  gdal_target_link_libraries(TARGET gdal_MRF LIBRARIES ZSTD::ZSTD)
 endif ()

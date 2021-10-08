@@ -320,4 +320,6 @@ endif ()
 
 if (HAVE_ZSTD)
   target_compile_definitions(cpl PRIVATE -DHAVE_ZSTD)
+  target_include_directories(cpl PRIVATE ${ZSTD_INCLUDE_DIRS})
+  target_link_libraries(cpl PRIVATE ZSTD::ZSTD)
 endif ()
