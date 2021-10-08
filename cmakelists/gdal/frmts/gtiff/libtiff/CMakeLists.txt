@@ -81,7 +81,8 @@ endif ()
 
 if (HAVE_ZSTD)
   target_compile_definitions(libtiff PRIVATE -DZSTD_SUPPORT)
-  target_link_libraries(libtiff PRIVATE ZSTD::ZSTD)
+  target_include_directories(libtiff PRIVATE ${ZSTD_INCLUDE_DIRS})
+  target_link_libraries(libtiff PRIVATE ZSTD::zstd)
 endif ()
 
 if (HAVE_WEBP)
