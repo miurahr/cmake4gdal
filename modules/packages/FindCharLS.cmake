@@ -69,7 +69,7 @@ if(CharLS_FOUND)
             INTERFACE_INCLUDE_DIRECTORIES ${CharLS_INCLUDE_DIR})
         endif()
         if(EXISTS "${CharLS_LIBRARY}")
-          set_target_property(CharLS::charls PROPERTIES
+          set_target_properties(CharLS::charls PROPERTIES
             IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
             IMPORTED_LOCATION ${CharLS_LIBRARY})
         endif()
