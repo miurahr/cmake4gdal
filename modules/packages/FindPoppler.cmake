@@ -99,7 +99,7 @@ if(NOT POPPLER_VERSION_STRING)
            "${_poppler_version_header_contents}"
            )
     string(REGEX REPLACE
-           "^.*[ \t]+POPPLER_VERSION_MINOR[ \t]+0?([0-9]+).*$"
+           "^.*[ \t]+POPPLER_VERSION_MINOR[ \t]+([0-9]+).*$"
            "\\1"
            POPPLER_VERSION_MINOR
            "${_poppler_version_header_contents}"
